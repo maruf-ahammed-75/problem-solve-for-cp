@@ -9,38 +9,30 @@ using namespace std;
 void I_Am_Here(){
     int n,d,k;
     cin>>n>>d>>k;
-    vector<ll>start(100004,0),end(100004,0);
-    for(int i=0 ; i<n ; i++){
+    vector<ll>start(n+1,0),end(n+1,0);
+    for(int i=0 ; i<k ; i++){
         int x,y;
         cin>>x>>y;
         start[x]++;
-        end[y+1]++;
+        end[y]++;
     }
-    ll temp=0;
-    ll bro=-1,mother=INT_MAX;
-    ll bros=-1,mothers=-1;
-    vector<ll>ans(100005,0);
-    for(int i=1 ; i<=100000 ; i++){
-        // if(d<=i){
-        //     ans[i]+=start[i]+ans[i-1];
-        //     //brother
-        //     if(ans[i]>bro){
-        //         bro=ans[i];
-        //         bros=i;
-        //     }
-        //     ans[i]-=end[i];
-        //     continue;
-        // }
-        // temp+=ans[i-d];
-        // ans[i]+=start[i]+ans[i-1]-temp;
-        // //brother
-        // if(ans[i]>bro){
-        //     bro=ans[i];
-        //     bros=i;
-        // }
-        // ans[i]-=end[i];
-        
+    for(int i=0 ; i<n ; i++){
+        start[i+1]+=start[i];
+        end[i+1]+=end[i];
     }
+    ll bro=-1,mom=INT_MAX,broi=0,momi=0;
+    for(int i=d ; i<n ;i++){
+        ll cur = start[i]-end[i-d];
+        if(cur>bro){
+            bro = cur;
+            broi=i;
+        }
+        if(cur<mom){
+            mom = cur;
+            momi=i;
+        }
+    }
+    cout<<broi-d+1<<' '<<momi-d+1<<endl;
     
 }
 int main(){
