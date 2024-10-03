@@ -21,7 +21,7 @@ using namespace std;
 ll n,m;
 vector<ll>a(10000000);
 
-bool isWood(ll h){
+bool isWood(int h){
     ll wood=0;
     for(int i=0 ; i<n ; i++){
         if(a[i]>=h){

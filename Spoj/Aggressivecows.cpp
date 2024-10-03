@@ -12,7 +12,7 @@ bool canPlaceCow(ll minimumDistance,vector<ll>&a){////monotonic function return 
     for(int i=0 ; i<n ; i++){
         if(a[i]-lastcowPos>=minimumDistance ||lastcowPos==-1){
             cows_count--;
-            lastcowPos=i;
+            lastcowPos=a[i];
         }
         if(cows_count==0){
             break;
@@ -32,7 +32,7 @@ void I_Am_Here(){
     while(high-low>1){
         mid = (high+low)/2;
         ///mid jokhon ans hote pare tokhon mid+1/mid-1 kora jabe nah
-        if(canPlaceCow(mid , a)){
+        if(canPlaceCow(mid,a)){
             low = mid;
         }
         else{

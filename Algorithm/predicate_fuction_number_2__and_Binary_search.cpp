@@ -5,14 +5,14 @@
 #define ll long long 
 using namespace std;
 ll n,cow;
-vector<ll>a(10000000);
-bool canPlaceCow(ll minimumDistance){////monotonic function return korbe T or F
+
+bool canPlaceCow(ll minimumDistance,vector<ll>&a){////monotonic function return korbe T or F
     ll lastcowPos = -1;
     ll cows_count = cow;
     for(int i=0 ; i<n ; i++){
         if(a[i]-lastcowPos>=minimumDistance ||lastcowPos==-1){
             cows_count--;
-            lastcowPos=i;
+            lastcowPos=a[i];
         }
         if(cows_count==0){
             break;
@@ -23,6 +23,7 @@ bool canPlaceCow(ll minimumDistance){////monotonic function return korbe T or F
 }
 void I_Am_Here(){
     cin>>n>>cow;
+    vector<ll>a(n);
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
     }
@@ -31,14 +32,14 @@ void I_Am_Here(){
     while(high-low>1){
         mid = (high+low)/2;
         ///mid jokhon ans hote pare tokhon mid+1/mid-1 kora jabe nah
-        if(canPlaceCow(mid)){
+        if(canPlaceCow(mid,a)){
             low = mid;
         }
         else{
             high = mid-1;
         }
     }
-    if(canPlaceCow(high)){
+    if(canPlaceCow(high,a)){
         cout<<high<<endl;
     }
     else{
