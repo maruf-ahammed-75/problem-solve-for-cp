@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "limits": "cpp",
+        "valarray": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "ostream": "cpp"
     }
 }
