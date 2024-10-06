@@ -9,18 +9,36 @@ const ll mod=1e4 + 7;
 void I_Am_Here(){
     ll n;
     cin>>n;
-    vector<ll>a(n);
-    for(int i=0 ; i<n ; i++){
-        cin>>a[i];
-        // cout<<a[i]<<' ';
+    string s = "";
+    while(s.size()<n){
+        int c;
+        cout<<"? "<<s+"0"<<endl;
+        cin>>c;
+        if(c){
+            s+="0";
+            continue;
+        }
+        cout<<"? "<<s+"1"<<endl;
+        cin>>c;
+        if(c){
+            s+="1";
+            continue;
+        }
+        break;
     }
-    // cout<<endl;
-    ll ans=0;
-    for(int i=n-3 ; i>=0 ; i--){
-        a[i]=a[i+1]-a[i];
-        // cout<<i<<' '<<a[i]<<endl;
+    while(s.size()<n){
+        int c;
+        cout<<"? "<<"0"+s<<endl;
+        cin>>c;
+        if(c){
+            s = "0"+s;
+            continue;
+        }
+        s = "1"+s;
     }
-    cout<<a[n-1]-a[0]<<endl;
+    cout<<"! "<<s<<endl;
+
+
 
 }
 int main(){

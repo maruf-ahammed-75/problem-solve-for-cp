@@ -1,62 +1,57 @@
-//maximise the minimum sum or
-// minimise the maximum sum
-// ay rokom  kono kotha thakle sure 100%%
-// binary search hobe
-
-
-//predicate function amon ak function ja true or false return kore
-//TTTTTFFFFFF
-//FFFFFFFFFTTTTTTTTTTTT
-//monotonic function amon ak function ja kono array or vector -
-// ar first True or False kothay sas hosse sayta return kore
-
-
-
-//=================================================================================
-
-
+//predicate function is a funtion which return true or false
+//TTTTFFFFF
+//FFFFFTTTTTT
+// monotonic predicate function amon akta function ja kisu point por true or flase kothay last end hoyse sayta return kore
 #include<bits/stdc++.h>
 #define ll long long
 using namespace std;
-ll n,m;
-vector<ll>a(10000000);
-
-bool isWood(ll h){
-    ll wood=0;
+ll n;
+ll m;//requird amount of wood
+vector<ll>a(1000009);
+///T T T T T T T F F F F 
+bool isWoodMila(ll h){// ay function bolbe h hight a katle ami Need full fill hobe ki nah
+                       // hoyle true r nah hoyle false
+    ll Woodmila=0;
     for(int i=0 ; i<n ; i++){
         if(a[i]>=h){
-            wood+=abs(a[i]-h);
+            Woodmila+=(a[i]-h);
         }
     }
-
-    return wood>=m;
-
-    // if(wood>=m){
-    //     return true;
-    // }
+    // if(Woodmila>=h)return true;
     // else return false;
+    // ay kaj tay akhan a hosse
+    return Woodmila>=m;
 }
 int main(){
     cin>>n>>m;
+    
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
     }
-
-    ll high = 2000000000, low=0,mid;
+    ll low =0,high = 1000000000;
+    ll mid;
+    /////akhan a hight a binary search cholbe
+    ///T T T T T T T F F F F 
     while(high-low>1){
-        mid = (high-low)/2;
-        if(isWood(mid)){
+        mid = (high+low)/2;
+        if(isWoodMila(mid)){
             low = mid;
         }
+        
         else{
-            high = mid-1;
+            high = mid - 1;
         }
-
     }
-    if(isWood(high)){
+    if(isWoodMila(high)){
         cout<<high<<endl;
     }
+    // else if(isWoodMila(low)){
+    //     ata true hole low print kora lagbe nah hole -1 print kora lagto
+    //     but ay case kokhno asbay nah ans always thakbe
+    // }
     else{
         cout<<low<<endl;
     }
+    
+
 }
