@@ -47,7 +47,27 @@ const ll Mod=1000000007;
 //    return true;
 //}
 void I_Am_Here(){
-    
+    int b = 0;
+    string str; cin >> str;
+    for(int i = 0; i < str.size(); i++){
+        if( (str[i] >= '0' &&  str[i] <= '6')|| str[i] == 'O') b++;
+    }
+    int ov = b / 6;
+    int rem = b % 6;
+    int chk = 0;
+    if( ov != 0){
+        cout << ov << " ";
+        if(ov > 1) cout << "OVERS\n";
+        else cout << "OVER\n";
+        chk = 1;
+    }
+    if(rem != 0){
+        cout << rem << " ";
+        if(rem > 1) cout << "BALLS\n";
+        else cout << "BALL\n";
+        chk = 1;
+        //return;
+    }
 }
 int main(){
     // ios_base::sync_with_stdio(false);
