@@ -1,42 +1,73 @@
-#include <bits/stdc++.h>
+/*************************************************************************************************************************
+**                                            Maruf Ahammed                                            *
+**                                            CSE, University of Asia Pacific                                            *
+**************************************************************************************************************************/
+#include<bits/stdc++.h>
+#define ll long long
 using namespace std;
-
-#define ll long long int
-
-const ll MOD = 1e9+7;
-
-#define NEED_FOR_SPEED ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-
-void solve(){
-    ll n; cin >> n;
-    if(n == 1){
-        cout << 2 << '\n';
-    }   
+const ll mod=1e4 + 7;
+void I_Am_Here(){
+    int n;
+    cin>>n;
+    vector<int>a(n+1);
+    int  mn = INT_MAX;
+    int mx = -1;
+    for(int j=1 ; j<=n ; j++){
+        int i;
+        cin>>i;
+        a[j]=i;
+        mx = max(mx,i);
+        mn = min(mn,i);
+    }
+    // vector<int>maxx;
+    // vector<int>minn;
+    if(mx==mn){
+        cout<<0<<endl;
+    }
     else{
-
-        if(n == 2){
-            cout << 3 << '\n';
+        int numberofmin=0,numberofmax=0;
+        ll totalmin=0;
+        ll totalmax=0;
+        for(int i=1 ; i<=n ; i++){
+            if(mx == a[i]){
+                numberofmax++;
+                totalmax+=i;
+            }
+            if(mn==a[i]){
+                numberofmin++;
+                totalmin+=i;
+            }
         }
-        else{
-
-            ll x = n - 2;
-            x *= 2;
-            x += 4;
-
-            cout << x % MOD << '\n';
+        // cout<<mx<<' '<<mn<<endl;
+        // cout<<numberofmin<<' '<<totalmin<<endl;
+        // cout<<numberofmax<<' '<<totalmax<<endl;
+        
+        if((numberofmax+numberofmin)==n){
+            cout<<0<<endl;
         }
+        // else{
+        //     sort(a.begin(),a.end());
+        //     if(numberofmin==1){
+        //         cout<<abs(a[2]-a[n]);
+                
+        //     }
+        //     else if(numberofmax==1){
+        //         cout<<a[n-1]-a[1];
+        //     }
+        //     else{
+        //         cout<<a[n]-a[1];
+        //     }
+        // }
+        // cout<<endl;
+
+
     }
-    return;
+    
 }
-
-int32_t main()
-{
-    NEED_FOR_SPEED;
-    int t = 1;
-    // cin >> t;
-
-    while(t--){
-        solve();
+int main(){
+    int ts=1;
+    cin>>ts;
+    for(int xyz=1 ; xyz<=ts ; xyz++){
+        I_Am_Here();
     }
-    return 0;
 }
