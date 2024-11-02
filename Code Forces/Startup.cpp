@@ -16,30 +16,20 @@ using namespace std;
 
 
 void I_Am_Here(){
-    int n;
-    cin>>n;
-    int k;
-    cin>>k;
-    map<ll,ll>m;
+    int n,k;
+    cin>>n>>k;
+    vector<ll>a(k+1,0);
     for(int i=0 ; i<k ; i++){
         int x,y;
-        cin>>x;
-        cin>>y;
-        m[x]+=y;
+        cin>>x>>y;
+        a[x]+=y;
     }
     ll sum=0;
-    for(auto i:m){
-        sum+=i.ss;
-        n--;
-        if(n==0)break;
+    sort(a.rbegin(),a.rend());
+    for(int i=0 ; i<min(n,k) ; i++){
+        sum+=a[i];
     }
     cout<<sum<<endl;
-    // 
-    // sort(a.rbegin(),a.rend());
-    // for(int i=0 ; i<n ; i++){
-    //     sum+=a[i];
-    // }
-    // cout<<sum<<endl;
 }
 int main(){
 

@@ -16,30 +16,27 @@ using namespace std;
 
 
 void I_Am_Here(){
-    int n;
-    cin>>n;
-    int k;
-    cin>>k;
-    map<ll,ll>m;
-    for(int i=0 ; i<k ; i++){
-        int x,y;
-        cin>>x;
-        cin>>y;
-        m[x]+=y;
+    string a;
+    cin>>a;
+    a = "000"+a;
+    bool f=0;
+    map<int,int>m;
+    for(int i=0 ; i<a.size() ; i++){
+        string s = "";
+        s = a[i]+a[i+1]+a[i+2]+a[i+3];
+        if(s == "1100"){
+            f=1;
+            m[i]=1;
+        }
     }
-    ll sum=0;
     for(auto i:m){
-        sum+=i.ss;
-        n--;
-        if(n==0)break;
+        cout<<i.ff<<' '<<i.ss<<endl;
     }
-    cout<<sum<<endl;
-    // 
-    // sort(a.rbegin(),a.rend());
-    // for(int i=0 ; i<n ; i++){
-    //     sum+=a[i];
-    // }
-    // cout<<sum<<endl;
+    int q;
+    cin>>q;
+    while(q--){
+
+    }
 }
 int main(){
 
