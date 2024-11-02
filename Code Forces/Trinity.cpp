@@ -16,19 +16,36 @@ using namespace std;
 
 
 void I_Am_Here(){
-    ll n;
+    int n;
     cin>>n;
     vector<int> a(n);
     for (int i = 0; i < n; i++)cin >> a[i];
 
     sort(a.begin(), a.end());
+    // for(auto i:a)cout<<i<<' ';
+    // cout<<endl;
 
-    int ans = INT_MAX;
-    for (int i = 0; i < n - 2; i++){
-        int x = a.end() - lower_bound(a.begin(), a.end(), a[i] + a[i + 1]);
-        ans = min(ans, x + i);
+    int answer = INT_MAX;
+    for(int i = 0; i  < n-1 ; i++) {
+        int left = i + 1, right = n - 1, index = i + 1;
+
+        while(left <= right) {
+            int mid = (left + right) / 2;
+            if(a[i] + a[i + 1] > a[mid]) {
+                index = mid;
+                left = mid + 1;
+            }
+            else right = mid - 1;
+        }
+
+        answer = min(answer, n - (index - i + 1));
     }
-    cout << ans << endl;
+
+    cout << answer << "\n";
+
+
+
+
 }
 int main(){
 
