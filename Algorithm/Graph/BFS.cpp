@@ -4,7 +4,7 @@ using namespace std;
 const int M = 10000;
 vector<vector<int>>a(M);
 vector<int>dis(M);
-int n;
+int n; 
 
 // Initially mark all the vertices as not visited
 // When we push a vertex into the q, we mark it as 

@@ -1,56 +1,66 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Function to calculate the square of the distance at a given time t
-double calculateDistanceSquared(double t, int Ax, int Ay, int Bx, int By, int Cx, int Cy, int Dx, int Dy) {
-    double x1 = Ax + t * (Bx - Ax);
-    double y1 = Ay + t * (By - Ay);
-    double x2 = Cx + t * (Dx - Cx);
-    double y2 = Cy + t * (Dy - Cy);
-    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+const int N = 1000; // max grid size
+int dx[] = {0, 0, -1, 1}; // movement in x direction
+int dy[] = {-1, 1, 0, 0}; // movement in y direction
+
+vector<vector<int>> grid(N, vector<int>(N, 0)); // grid to store values (if needed)
+vector<vector<int>> dist(N, vector<int>(N, 1e9)); // distance grid
+vector<vector<bool>> vis(N, vector<bool>(N, false)); // visited grid
+
+int n, m; // grid dimensions (n x m)
+
+// Check if the position (x, y) is within the grid boundaries
+bool isInsideGrid(int x, int y) {
+    return x >= 0 && x < n && y >= 0 && y < m;
 }
 
-// Function to find the minimum distance between paths using the closed-form approach
-double findMinimumDistance(int Ax, int Ay, int Bx, int By, int Cx, int Cy, int Dx, int Dy) {
-    // Calculate constants for the quadratic function
-    int a = Ax - Cx;
-    int b = (Bx - Ax) - (Dx - Cx);
-    int c = Ay - Cy;
-    int d = (By - Ay) - (Dy - Cy);
+// BFS traversal on the grid starting from (startX, startY)
+void bfs(int startX, int startY) {
+    queue<pair<int, int>> q;
+    dist[startX][startY] = 0;
+    vis[startX][startY] = true;
+    q.push({startX, startY});
 
-    // Coefficients of the quadratic function f(t) = At^2 + Bt + C
-    double A = b * b + d * d;
-    double B = 2 * (a * b + c * d);
-    double C = a * a + c * c;
+    while (!q.empty()) {
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
 
-    // Calculate distances at t = 0 and t = 1
-    double distAt0 = calculateDistanceSquared(0, Ax, Ay, Bx, By, Cx, Cy, Dx, Dy);
-    double distAt1 = calculateDistanceSquared(1, Ax, Ay, Bx, By, Cx, Cy, Dx, Dy);
-    double minDistanceSquared = min(distAt0, distAt1);
+        for (int k = 0; k < 4; k++) {
+            int nx = x + dx[k];
+            int ny = y + dy[k];
 
-    // Calculate the critical point t = -B / (2A) if A is not zero
-    if (A != 0) {
-        double tCritical = -B / (2 * A);
-        if (tCritical >= 0 && tCritical <= 1) {
-            double distAtCritical = calculateDistanceSquared(tCritical, Ax, Ay, Bx, By, Cx, Cy, Dx, Dy);
-            minDistanceSquared = min(minDistanceSquared, distAtCritical);
+            if (isInsideGrid(nx, ny) && !vis[nx][ny]) {
+                dist[nx][ny] = dist[x][y] + 1;
+                vis[nx][ny] = true;
+                q.push({nx, ny});
+            }
         }
     }
-
-    // Return the square root of the minimum distance squared
-    return sqrt(minDistanceSquared);
 }
 
 int main() {
-    int T;
-    cin >> T;
-    for (int caseNo = 1; caseNo <= T; ++caseNo) {
-        int Ax, Ay, Bx, By, Cx, Cy, Dx, Dy;
-        cin >> Ax >> Ay >> Bx >> By >> Cx >> Cy >> Dx >> Dy;
-        
-        double minDistance = findMinimumDistance(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy);
-        cout << fixed << setprecision(10);
-        cout << "Case " << caseNo << ": " << minDistance << endl;
+    // Define grid dimensions
+    cout << "Enter grid dimensions (n rows and m columns): ";
+    cin >> n >> m;
+
+    // Starting BFS from a particular cell (for example, top-left cell)
+    int startX, startY;
+    cout << "Enter starting cell coordinates (x, y): ";
+    cin >> startX >> startY;
+
+    bfs(startX, startY);
+
+    // Print distance from start cell to each cell in the grid
+    cout << "Distances from starting cell (" << startX << ", " << startY << "):\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << dist[i][j] << " ";
+        }
+        cout << endl;
     }
+
     return 0;
 }
