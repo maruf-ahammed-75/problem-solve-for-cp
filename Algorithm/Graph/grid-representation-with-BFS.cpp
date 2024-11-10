@@ -13,10 +13,7 @@ int n, m; // grid dimensions (n x m)
 
 
 bool isInSideGrid(int x,int y){
-    if(x>=0 && x<n && y>=0 && y<m){
-        return true;
-    }
-    return false;
+    return x>=0 && x<n && y>=0 && y<m;
 }
 void bfs(int s1,int s2){
     queue<pair<int,int> >q;
@@ -32,7 +29,7 @@ void bfs(int s1,int s2){
         //traverse
         for(int k=0 ; k<4 ; k++){
             int nx = x + dx[k];
-            int ny = y + dx[k];
+            int ny = y + dy[k];
 
             if(isInSideGrid(nx,ny) && !vis[nx][ny]){
                 // cout<<"( "<<nx<<','<<ny<<")";
