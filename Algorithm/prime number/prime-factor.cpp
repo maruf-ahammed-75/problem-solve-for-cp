@@ -18,13 +18,12 @@ vector<int> primeFactor(int n){
     if (n > 2) {
         factor.push_back(n);
     }
-
     return factor;
 }
 int main(){
     cin>>n;
-    vector<int> a = primeFactor(n);
-    for(auto i:a){
+    vector<int> factor = primeFactor(n);
+    for(auto i:factor){
         cout<<i<<' ';
     }
     cout<<endl;
