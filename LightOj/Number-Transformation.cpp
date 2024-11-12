@@ -4,11 +4,30 @@
 using namespace std;
 const int N = 1001;
 
-int n,m;
+int S,T;
 vector<int>prime_factor[N];
 
 int bfs(int s){
-
+    int dist[1001];
+    memset(dist, -1, sizeof(dist));
+    dist[S] = 0;
+    queue < int > q;
+    q.push(S);
+    int from, to;
+    
+    while( !q.empty() ){
+        from = q.front();
+        q.pop();
+        for(int i : prime_factor[from] ){
+            to = from + i;
+            if( to <= T && dist[to] == -1 ) {
+                q.push(to);
+                dist[to] = dist[from] + 1;
+                if( to  == T) return dist[T];
+            }
+        }
+    }
+    return dist[T];
 }
 
 
@@ -42,10 +61,9 @@ void primeFactor(int n){
 
 }
 void I_Am_Here(){
-    int n,m;
-    cin>>n>>m;
+    cin>>S>>T;
    
-    cout<< bfs(n)<<endl;
+    cout<< bfs(S)<<endl;
 }
 
 
