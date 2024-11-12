@@ -1,31 +1,75 @@
-#include<bits/stdc++.h>
+#include <string.h>
+#include <cstdio>
+#include <climits>
+#include <cstdlib>
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <bitset>
+#include <list>
+#include <stack>
+#include <queue>
+#include <algorithm>
+#include <numeric>
+#include <sstream>
+ 
 using namespace std;
-int n;
-vector<int> primeFactor(int n){
-    vector<int>factor;
-    while(n%2==0){
-        factor.push_back(2);
-        n/=2;
+int S, T;
+vector < int > pf[1001];
+void primefactor( int n){
+    int ind = n;
+    int div = 2;
+    int add = 0 ;
+    while(n > 1){
+        add = 0;
+        while( n % div == 0 ){
+            add = div;
+            n /= div;
+        }
+        div += 1;
+        if( add ) pf[ind].push_back(add);
     }
-
-    for(int i=3 ; i*i<=n ; i+=2){
-        while(n%3==0){
-            factor.push_back(i);
-            n/=3;
+    if( add == ind ) pf[ind].clear();
+}
+int bfs( ){
+    int dist[1001];
+    memset(dist, -1, sizeof(dist));
+    dist[S] = 0;
+    queue < int > q;
+    q.push(S);
+    int from, to;
+    
+    while( !q.empty() ){
+        from = q.front();
+        q.pop();
+        for( int i = 0; i < (int) pf[from].size(); i++ ){
+            to = from + pf[from][i];
+            if( to <= T && dist[to] == -1 ) {
+                q.push(to);
+                dist[to] = dist[from] + 1;
+                if( to  == T) return dist[T];
+            }
         }
     }
-    // If n is still greater than 2, then n is a prime factor
-    if (n > 2) {
-        factor.push_back(n);
-    }
-
-    return factor;
+    return dist[T];
 }
 int main(){
-    cin>>n;
-    vector<int> a = primeFactor(n);
-    for(auto i:a){
-        cout<<i<<' ';
+ 
+    int test;
+    int cs = 1;
+   //freopen("input.txt", "r", stdin);
+   for( int i = 2; i <= 1000; i++ ) primefactor(i);
+   scanf("%d", &test);
+    while( test-- ){
+        scanf("%d %d", &S, &T);
+        printf("Case %d: %d\n", cs++, bfs());
     }
-    cout<<endl;
+ 
+ 
+ 
+ 
+    return 0;
 }
