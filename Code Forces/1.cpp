@@ -1,75 +1,48 @@
-#include <string.h>
-#include <cstdio>
-#include <climits>
-#include <cstdlib>
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <set>
-#include <bitset>
-#include <list>
-#include <stack>
-#include <queue>
-#include <algorithm>
-#include <numeric>
-#include <sstream>
- 
+#include <bits/stdc++.h>
+#define ll long long
 using namespace std;
-int S, T;
-vector < int > pf[1001];
-void primefactor( int n){
-    int ind = n;
-    int div = 2;
-    int add = 0 ;
-    while(n > 1){
-        add = 0;
-        while( n % div == 0 ){
-            add = div;
-            n /= div;
-        }
-        div += 1;
-        if( add ) pf[ind].push_back(add);
+
+void I_Am_Here() {
+    string s;
+    cin >> s;
+    int n = s.size();
+    vector<int> freq(10, 0);
+    for (char c : s) {
+        freq[c - '0']++;
     }
-    if( add == ind ) pf[ind].clear();
-}
-int bfs( ){
-    int dist[1001];
-    memset(dist, -1, sizeof(dist));
-    dist[S] = 0;
-    queue < int > q;
-    q.push(S);
-    int from, to;
-    
-    while( !q.empty() ){
-        from = q.front();
-        q.pop();
-        for( int i = 0; i < (int) pf[from].size(); i++ ){
-            to = from + pf[from][i];
-            if( to <= T && dist[to] == -1 ) {
-                q.push(to);
-                dist[to] = dist[from] + 1;
-                if( to  == T) return dist[T];
+
+    int max_single = *max_element(freq.begin(), freq.end());
+
+    // Check alternating pairs
+    int max_alternating = 0;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (i == j) continue;
+            int count = 0;
+            bool expect_i = true;
+            for (char c : s) {
+                if (expect_i && c - '0' == i) {
+                    count++;
+                    expect_i = false;
+                } else if (!expect_i && c - '0' == j) {
+                    count++;
+                    expect_i = true;
+                }
             }
+            max_alternating = max(max_alternating, count / 2 * 2); // Only even-length pairs
         }
     }
-    return dist[T];
+
+    // Compute the result
+    int max_len = max(max_single, max_alternating);
+    cout << n - max_len << endl;
 }
-int main(){
- 
-    int test;
-    int cs = 1;
-   //freopen("input.txt", "r", stdin);
-   for( int i = 2; i <= 1000; i++ ) primefactor(i);
-   scanf("%d", &test);
-    while( test-- ){
-        scanf("%d %d", &S, &T);
-        printf("Case %d: %d\n", cs++, bfs());
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        I_Am_Here();
     }
- 
- 
- 
- 
     return 0;
 }

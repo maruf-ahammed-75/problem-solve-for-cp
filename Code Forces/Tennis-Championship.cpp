@@ -15,7 +15,6 @@ void I_Am_Here() {
         
     }
     cout<<i-1<<endl;
-
 }
 
 int main() {
