@@ -5,6 +5,7 @@ using namespace std;
 void I_Am_Here() {
     ll n,x;
     cin>>n>>x;
+    /*------------------first solution-------------------
     vector<int>a(n);
     for(auto &i:a)cin>>i;
     map<ll,ll>m;
@@ -17,6 +18,28 @@ void I_Am_Here() {
         if(m[(sum-x)])ans++;
     }
     cout<<ans<<endl;
+    */
+
+
+    /////------------------second soutioin-------------
+    vector<int>a(n);
+    for(auto &i:a)cin>>i;
+    ll sum=0,ans=0;
+    int l=0;
+    for(int i=0 ; i<n ; i++){
+        sum+=a[i];
+        // cout<<sum<<endl;
+        while(sum>x){
+            // cout<<"while :";
+            sum-=a[l];
+            // cout<<sum<<endl;
+            l++;
+        }
+        if(sum==x)ans++;
+        // cout<<"ans = "<<ans<<endl;
+    }
+    cout<<ans<<endl;
+    
 }
 
 int main() {
