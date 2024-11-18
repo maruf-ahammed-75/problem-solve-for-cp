@@ -57,6 +57,7 @@ void I_Am_Here(int xyz){
 
 int main(){
      freopen("hps.in", "r", stdin);
+    
      freopen("hps.out", "w", stdout);
     int ts=1;
     // cin>>ts;
