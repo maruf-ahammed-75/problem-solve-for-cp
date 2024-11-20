@@ -20,6 +20,7 @@ void preprocess(int n) {
         m[i][0] = a[i]; // Initialize with the array values
     }
 
+    // Build the sparse table
     for (int k = 1; k <= bin_log[n]; k++) {
         for (int i = 0; i + (1 << k) <= n; i++) {
             m[i][k] = min(m[i][k - 1], m[i + (1 << (k - 1))][k - 1]);
