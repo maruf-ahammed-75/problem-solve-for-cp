@@ -16,7 +16,7 @@ const ll MOD = 1e10+7;
 //     }
 // }->this code is fine
 // but recursive is solwer than iterative
-ll Binary_Exponentiation(ll a, ll b) {
+ll Binary_Exponentiation(ll a, ll b) {//use this in programming
     ll result = 1;
     while (b > 0) {
         if (b & 1) { // If b is odd
