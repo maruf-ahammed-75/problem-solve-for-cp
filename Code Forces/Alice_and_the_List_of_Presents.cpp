@@ -2,7 +2,7 @@
 #define ll long long
 using namespace std;
 const ll MOD = 1e9+7;
-calculate a to the power b
+// calculate a to the power b
 ll Binary_Exponentiation(ll a, ll b) {
     if(b==0) return 1;
     if(b%2==1) {
