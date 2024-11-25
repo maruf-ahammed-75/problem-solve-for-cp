@@ -12,7 +12,7 @@ void I_Am_Here() {
     }
     ll ans=0;
     for(auto i:m){
-        ans+=i.second-1;
+        ans+=i.second/2;
     }
     cout<<ans<<endl;
     

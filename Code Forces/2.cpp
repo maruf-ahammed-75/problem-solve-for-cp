@@ -1,49 +1,51 @@
-/*************************************************************************************************************************
-**                                            Maruf Ahammed                                            *
-**                                            CSE, University of Asia Pacific                                            *
-**************************************************************************************************************************/
 #include<bits/stdc++.h>
-#define ff first
-#define ss second
-#define ll long long
-//#define pb push_back
-//#define mp make_pair
-#define Y cout << "YES\n"
-#define N cout << "NO\n"
-#define full(x) x.begin(), x.end()
-
 using namespace std;
 
+const int N = int(2e5) + 99;
+const int INF = int(1e9) + 99;
 
-void I_Am_Here(){
-    string a;
-    cin>>a;
-    a = "000"+a;
-    bool f=0;
-    map<int,int>m;
-    for(int i=0 ; i<a.size() ; i++){
-        string s = "";
-        s = a[i]+a[i+1]+a[i+2]+a[i+3];
-        if(s == "1100"){
-            f=1;
-            m[i]=1;
+int tc;
+string s, t;
+int nxt[N][26];
+
+int main() {
+    cin >> tc;
+    while(tc--){
+        cin >> s >> t;
+        for(int i = 0; i < s.size() + 5; ++i)
+            for(int j = 0; j < 26; ++j)
+                nxt[i][j] = -1;
+    	
+        for(int i = int(s.size()) - 1; i >= 0; --i){
+            for(int j = 0; j < 26; ++j)
+                nxt[i][j] = nxt[i + 1][j];
+            nxt[i][s[i] - 'a'] = i;
         }
+        for(int i=0 ; i<s.size() ; i++){
+            for(int j = 0; j < 26; ++j)cout<<nxt[i][j]<<' ';
+            cout<<endl;
+        }    
+    
+        int res = 1, pos = 0;
+        for(int i = 0; i < t.size(); ++i){
+            if(pos == s.size()){
+                pos = 0;
+                ++res;
+            }
+            if(nxt[pos][t[i] - 'a'] == INF){
+                pos = 0; 
+                ++res;
+    		}
+    		if(nxt[pos][t[i] - 'a'] == INF && pos == 0){
+                res = INF;
+                break;
+            }    
+            pos = nxt[pos][t[i] - 'a'] + 1;
+            
+        }
+    
+        if(res >= INF) cout << -1 << endl;
+        else cout << res << endl;
     }
-    for(auto i:m){
-        cout<<i.ff<<' '<<i.ss<<endl;
-    }
-    int q;
-    cin>>q;
-    while(q--){
-
-    }
-}
-int main(){
-
-    int ts=1;
-    cin >> ts;
-    for(int xyz=1 ; xyz<=ts ; xyz++){
-        I_Am_Here();
-        // cout<<endl;
-    }
+    return 0;
 }
