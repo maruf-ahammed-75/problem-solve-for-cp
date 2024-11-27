@@ -24,7 +24,6 @@ void minize_String(string &s,int i){
         if(mask[j]){
             char c1 = 'a'+j;
             c+=c1;
-            
         }
     }
     a[i]=c;
