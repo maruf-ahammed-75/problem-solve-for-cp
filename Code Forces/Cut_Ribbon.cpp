@@ -27,11 +27,14 @@ void I_Am_Here() {
 
     //-----------------------using dp----------------------
 
-    vector<int>dp(n+1,-1);
+    vector<int>dp(n+1);
     int ans;
     int x,y,z;
+    dp[0]=0;
     for(int i=1 ; i<=n ; i++){
-        x=-1;y=-1;z=-1;
+        x=INT_MIN;
+        y=INT_MIN;
+        z=INT_MIN;
         if(i>=a){
             x=dp[i-a];
         }
