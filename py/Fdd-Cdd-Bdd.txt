@@ -1,0 +1,14 @@
+fdd
+->(f(x+h)-f(x))/h
+
+bdd->
+->f(x)-f(x-h)/h
+
+cdd
+->f(x+h)-f(x-h)/h
+
+approximate value = (f(x+h)-f(x))/h
+
+true error = true value - approximate value
+
+realative ture error = true error /true value
