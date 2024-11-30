@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
-#define ll long long
+#define int long long
 #define ff first
 #define ss second
-#define full(a) a.begin(),a.end()
+#define fuint(a) a.begin(),a.end()
 using namespace std;
 void I_Am_Here() {
     int n;
@@ -11,25 +11,42 @@ void I_Am_Here() {
     //----------------------using math----------------
     // n = xa+yb+zc
     // => xa = n - (yb+zc) find x,y,z
+    // int ans=0;
+    // for(int y=0 ; y*b <=n ; y++){
+    //     for(int z=0 ; z*c<= n ; z++){
+    //         int cal = n - (y*b+ z*c);
+    //         if(cal>=0){
+    //             if(cal%a==0){
+    //                 ans=max(ans,(y+z+(cal/a)));
+    //             }
+    //         }
+    //     }
+    // }
+    // cout<<ans<<endl;
 
-    int ans=0;
-    for(int y=0 ; y*b <=n ; y++){
-        for(int z=0 ; z*c<= n ; z++){
-            int cal = n - (y*b+ z*c);
-            if(cal>=0){
-                if(cal%a==0){
-                    ans=max(ans,(y+z+(cal/a)));
-                }
-            }
+
+    //-----------------------using dp----------------------
+
+    vector<int>dp(n+1,-1);
+    int ans;
+    int x,y,z;
+    for(int i=1 ; i<=n ; i++){
+        x=-1;y=-1;z=-1;
+        if(i>=a){
+            x=dp[i-a];
         }
+        if(i>=b){
+            y=dp[i-b];
+        }
+        if(i>=c){
+            z=dp[i-c];
+        }
+        dp[i]=max(x,max(y,z))+1;
     }
-    cout<<ans<<endl;
-
-
-    
+    cout<<dp[n]<<endl;
 }
 
-int main() {
+signed main() {
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
