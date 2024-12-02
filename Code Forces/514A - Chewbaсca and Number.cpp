@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define int long long
+#define ll long long
 #define ff first
 #define ss second
 #define full(a) a.begin(),a.end()
@@ -25,7 +25,7 @@ void I_Am_Here() {
     cout<<endl;
 }
 
-signed main() {
+int main() {
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
