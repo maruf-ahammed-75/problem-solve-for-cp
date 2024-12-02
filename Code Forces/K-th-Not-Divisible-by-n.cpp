@@ -4,8 +4,7 @@
 #define ss second
 #define full(a) a.begin(),a.end()
 using namespace std;
-ll dp[100000+9999]={0};
-ll dp2[100000+9999];
+
 //--------using recursion it's right but get tle-------------
 // ll Boredom(ll n){
 //     if(n==0)return 0;
@@ -13,26 +12,18 @@ ll dp2[100000+9999];
 //     ll a = Boredom(n-1);
 //     return max(a,Boredom(n-2) + dp[n]*n);
 // }
+
 void I_Am_Here() {
-    ll n;
-    cin>>n;
-    ll mx = INT_MIN;
-    for(int i=0 ; i<n ; i++){
-        ll x;
-        cin>>x;
-        dp[x]++;
-        mx=max(mx,x);
+    //-----my math formula-----------
+    ll n,k;
+    cin>>n>>k;
+    ll ans=k;
+    while(k/n){
+        ans+=k/n;
+        k = (k/n) + (k - (k/n)*n);
+        // cout<<k/n<<' '<<(k/n)*n<<' '<<k<<endl;
     }
-    dp2[0]=0;
-    dp2[1]=dp[1];
-    for(int i=2 ; i<=mx ; i++){
-        ll a = dp2[i-1];
-        dp2[i] = max(a,dp2[i-2] + dp[i]*i);
-    }
-    // for(int i=1 ; i<=mx ; i++){
-    //     cout<<i<<" = "<<dp2[i]<<endl;
-    // }
-    cout<<dp2[mx]<<endl;
+    cout<<ans<<endl;
 }
 
 int main() {
@@ -42,7 +33,7 @@ int main() {
     #endif
     
     int t=1;
-    // cin>>t;
+    cin>>t;
     while (t--) {
         I_Am_Here();
     }
