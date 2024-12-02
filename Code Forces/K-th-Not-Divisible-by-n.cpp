@@ -17,13 +17,38 @@ void I_Am_Here() {
     //-----my math formula-----------
     ll n,k;
     cin>>n>>k;
-    ll ans=k;
-    while(k/n){
-        ans+=k/n;
-        k = (k/n) + (k - (k/n)*n);
-        // cout<<k/n<<' '<<(k/n)*n<<' '<<k<<endl;
+    // ll ans=k;
+    // while(k/n){
+    //     ans+=k/n;
+    //     k = (k/n) + (k - (k/n)*n);
+    //     // cout<<k/n<<' '<<(k/n)*n<<' '<<k<<endl;
+    // }
+    // cout<<ans<<endl;
+
+    //---------chat gpt formula---------
+    // cout<<k+(k-1)/(n-1)<<endl;
+
+
+
+    //------------using binary search---------
+
+
+    ll left = 1, right = 1e18;
+    ll ans = 0; 
+    while (left <= right) {
+        ll mid = (left + right) / 2;
+        ll non_div = mid - (mid / n); 
+        if(non_div==k){
+            ans = mid;
+        }
+        if (non_div >= k) {
+             
+            right = mid - 1; 
+        } else {
+            left = mid + 1; 
+        }
     }
-    cout<<ans<<endl;
+    cout << ans << endl;
 }
 
 int main() {
