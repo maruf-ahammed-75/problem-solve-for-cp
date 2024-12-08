@@ -3,8 +3,8 @@
 #define ff first
 #define ss second
 #define full(a) a.begin(),a.end()
-#define Y cout<<"YES/n"
-#define N cout<<"NO/n"
+#define Y cout<<"YES\n"
+#define N cout<<"NO\n"
 using namespace std;
 void I_Am_Here() {
     ll n;
@@ -15,11 +15,31 @@ void I_Am_Here() {
         cin>>a[i];
         sum+=a[i];
     }
-    if((sum/n)*n == n)Y:
+    if((sum/n)*n == sum){
+        for(int i=0 ; i<n ; i++){
+            a[i]-=sum/n;
+        }
+        ll add=0;
+        for(int i=0 ; i<n ; i+=2){
+            add+=a[i];
+        }
+        if(add){
+            N;
+            return;
+        }
+        for(int i=1 ; i<n ; i+=2){
+            add+=a[i];
+        }
+        if(add){
+            N;
+            return;
+        }
+        Y;
+    }
     else N;
 }
 
-int main() {
+int main() {    
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
