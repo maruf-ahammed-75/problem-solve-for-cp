@@ -1,4 +1,21 @@
-4
-1 2 3 4
-4
-10 11 12 13
+5
+3 1
+a
+b
+c
+2 9
+alpha
+beta
+4 12
+hello
+world
+and
+codeforces
+3 2
+ab
+c
+d
+3 2
+abc
+ab
+a

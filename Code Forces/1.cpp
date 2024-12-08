@@ -1,41 +1,42 @@
-// playlist 
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #define ll long long
+#define ff first
+#define ss second
+#define full(a) a.begin(),a.end()
 using namespace std;
 void I_Am_Here() {
-    int n,k;
-    cin >> n >> k;
-    vector<pair<int,int>>a(n);
+    ll n;
+    cin>>n;
+    ll m;
+    cin>>m;
+    vector<int>a(n);
     for(int i=0 ; i<n ; i++){
-        cin>>a[i].second>>a[i].first;
+        string s;cin>>s;
+        a[i] = s.size();
     }
-    sort(a.begin(),a.end());
-    // cout<<endl;
-    // for(int i=0 ; i<n ; i++){
-    //     cout<<a[i].first<<' '<<a[i].second<<endl;
-    // }
-    ll ans = -1;
-    priority_queue<int, vector<int>, greater<int>> q;
-    // cout<<"working\n";
-    ll sum=0;
-    for(int i=n-1 ; i>=0 ; i--){
-        if(q.size()==k){
-            sum-=q.top();
-            q.pop();
-        }
-        sum+=a[i].second;
-        q.push(a[i].second);
-        ans = max(ans,(sum*a[i].first));
+    int i=0;
+    ll sum=0,ans=0,count=0;
+    while(sum<=m){
+        sum+=a[i];
+        i++;
     }
-    cout<<ans<<endl;
-
+    if(sum<=m){
+        cout<<i<<endl;
+    }
+    else {
+        cout<<i-1<<endl;
+    }
 }
 
 int main() {
-    int ts = 1;
-    // cin >> ts;
-    for (int xyz = 1; xyz <= ts; xyz++) {
-        // cout << "Case " << xyz << ": ";
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
+    
+    int t=1;
+    cin>>t;
+    while (t--) {
         I_Am_Here();
     }
     return 0;

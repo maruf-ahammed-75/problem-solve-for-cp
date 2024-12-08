@@ -1,5 +1,3 @@
-import numpy as np
-
 def non_liner_equation(x):
     return x**3 + 3*x**2 + 5*x + 7
 
