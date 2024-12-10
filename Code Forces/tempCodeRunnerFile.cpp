@@ -30,7 +30,7 @@ void I_Am_Here() {
         ind=0;
         ll mx = INT_MIN;
         bool f=0;
-        for(int i=0 ; i<=9 ; i++){
+        for(int i=2 ; i<=9 ; i++){
             if(!a[i].empty()){
                 // cout<<i<<" = ";
                 int move = a[i][0]-j;
@@ -53,20 +53,28 @@ void I_Am_Here() {
         }
         // cout<<"max ind = "<<mx<<' '<<ind<<endl;
         
-        for(int k=0 ; k<10 ; k++){
-            if(!a[k].empty() && f && index>a[k][0]){
-                a[k][0]+=1;
+        if(f){
+            for(int k=0 ; k<10 ; k++){
+                
+                for(auto &y:a[k] ){
+                        if(!a[k].empty() && index>y){
+                            y++;
+                        }   
+                        else break;
+                }       
             }
         }
         if(!a[ind].empty() && f){
+            
             b+=(mx+'0');
             a[ind].erase(a[ind].begin());
         }
         else{
-            for(int i=0 ; i<10 ; i++){
-                if(a[i][0]==j){
-                    a[i].erase(a[i].begin());
-                    b+=(i+'0');
+           
+            for(int x=0 ; x<10 ; x++){
+                if(!a[x].empty())if(a[x][0]==j ){
+                    a[x].erase(a[x].begin());
+                    b+=(x+'0');
                     break;
                 }
             }
@@ -79,7 +87,7 @@ void I_Am_Here() {
         //             cout<<l<<' ';
         //         }
         //         cout<<endl;
-        //     }
+        //      }
         // }
     }
     for(int i=0 ; i<10 ; i++){
