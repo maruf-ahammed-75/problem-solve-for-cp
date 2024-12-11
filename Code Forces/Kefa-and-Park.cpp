@@ -9,44 +9,69 @@ using namespace std;
 vector<vector<ll>>a(100000+2324);
 vector<bool>vis(a.size(),false);
 vector<int>b(1000000);
-int bfs(ll s,ll m){
+//------------------using bfs-----------------
+// int bfs(ll s,ll m){
 
-    queue<pair<ll,ll>>q;
+//     queue<pair<ll,ll>>q;
+//     vis[s]=1;
+//     q.push({s,b[s]});
+//     ll ans=0;
+
+//     while(!q.empty()){
+        
+//         ll node = q.front().ff;
+//         ll cat = q.front().ss;
+        
+//         q.pop();
+//         // cout<<cat<<' '<<node<<endl;
+//         if(cat>m){
+//             // cout<<' '<<"continue"<<endl;
+//             continue;
+//         }
+//         bool f=1;
+        
+//         for(ll x :a[node]){
+//             if(!vis[x]){
+//                 vis[x] = true;
+//                 f=0;
+//                 ll Ncat = (b[x]==1 ? cat+1:0);
+//                 q.push({x,Ncat});
+//                 // cout<<"x = "<<x<<' '<<"cat = "<<Ncat<<endl;
+//             }
+//         }
+//         // cout<<endl;
+
+//         if(node!=1 && f)ans++;
+//         // cout<<"ans = "<<ans<<endl;
+//     }
+//     return ans;
+// }
+
+
+// -------------using dfs--------------
+
+ll m;
+ll ans=0;
+void dfs(ll s,ll count){
     vis[s]=1;
-    q.push({s,b[s]});
-    ll ans=0;
-
-    while(!q.empty()){
-        
-        ll node = q.front().ff;
-        ll cat = q.front().ss;
-        
-        q.pop();
-        // cout<<cat<<' '<<node<<endl;
-        if(cat>m){
-            // cout<<' '<<"continue"<<endl;
-            continue;
-        }
-        bool f=1;
-        
-        for(ll x :a[node]){
-            if(!vis[x]){
-                vis[x] = true;
-                f=0;
-                ll Ncat = (b[x]==1 ? cat+1:0);
-                q.push({x,Ncat});
-                // cout<<"x = "<<x<<' '<<"cat = "<<Ncat<<endl;
-            }
-        }
-        // cout<<endl;
-
-        if(node!=1 && f)ans++;
-        // cout<<"ans = "<<ans<<endl;
+    if(b[s]){
+        count++;
     }
-    return ans;
+    else{
+        count=0;
+    }
+    if(count>m){return;}
+    bool f=1;
+    for(ll x:a[s]){
+        if(!vis[x]){
+            f=0;
+            dfs(x,count);
+        }
+    }
+    if(f)ans++;
 }
 void I_Am_Here() {
-    ll n,m;
+    ll n;
     cin>>n>>m;
     for(int i=1 ; i<=n ; i++){
         cin>>b[i];
@@ -57,9 +82,8 @@ void I_Am_Here() {
         a[x].push_back(y);
         a[y].push_back(x);
     }
-    cout<<bfs(1,m)<<endl;
-    
-    
+    dfs(1,0);
+    cout<<ans<<endl;
 }
 
 int main() {    

@@ -1,83 +1,62 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 using namespace std;
 
-typedef long long ll;
+const int MAXN = 100005;
+vector<int> adj[MAXN];  // Adjacency list
+int cats[MAXN];         // Whether a node contains a cat (1 or 0)
+bool visited[MAXN];     // Visited array
+int n, m, validLeaves = 0;
 
-const int MAXN = 1e5 + 5;
-vector<int> a[MAXN]; // Adjacency list
-int b[MAXN];         // Cat presence (1 if cat, 0 if not)
-bool vis[MAXN];      // Visited array
+void dfs(int node, int consecutiveCats) {
+    visited[node] = true;
 
-ll bfs(ll s, ll m) {
-    queue<pair<ll, ll>> q; // Pair: {current node, consecutive cats count}
-    vis[s] = true;
-    q.push({s, b[s]}); // Start with root node
-    ll ans = 0;
-
-    while (!q.empty()) {
-        auto cur = q.front();
-        q.pop();
-
-        ll node = cur.first;
-        ll cat = cur.second;
-
-        cout<<node<<' '<<cat<<endl;
-
-        if (cat > m){
-            cout<<"conti"<<endl;
-            continue;
-        } // Skip this path if it exceeds the allowed consecutive cats
-
-        bool isLeaf = true;
-
-        for (ll x : a[node]) {
-            if (!vis[x]) {
-                vis[x] = true;
-                isLeaf = false;
-                ll newCat = (b[x] == 1 ? cat + 1 : 0);
-                q.push({x, newCat});
-                cout<<"x = "<<x<<' '<<"cat = "<<newCat<<endl;
-            }
-        }
-        cout<<endl;
-
-        // If it's a leaf and not the root
-        if (isLeaf && node != 1) {
-            ans++;
-        }
-        cout<<ans<<endl;
+    if (cats[node] == 1) {
+        consecutiveCats++;
+    } else {
+        consecutiveCats = 0;
     }
 
-    return ans;
+    if (consecutiveCats > m) {
+        return;
+    }
+
+    bool isLeaf = true;  // Assume it's a leaf
+
+    for (int neighbor : adj[node]) {
+        if (!visited[neighbor]) {
+            isLeaf = false;  // Not a leaf if it has unvisited children
+            dfs(neighbor, consecutiveCats);
+        }
+    }
+
+    // If it's a leaf and satisfies the condition, count it as valid
+    if (isLeaf) {
+        validLeaves++;
+    }
 }
 
 int main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-
-    ll n, m;
     cin >> n >> m;
-
-    // Read whether vertices have cats
-    for (ll i = 1; i <= n; i++) {
-        cin >> b[i];
+    
+    // Input cat information
+    for (int i = 1; i <= n; ++i) {
+        cin >> cats[i];
     }
 
-    // Read the edges of the tree
-    for (ll i = 0; i < n - 1; i++) {
-        ll x, y;
+    // Input tree edges
+    for (int i = 0; i < n - 1; ++i) {
+        int x, y;
         cin >> x >> y;
-        a[x].push_back(y);
-        a[y].push_back(x);
+        adj[x].push_back(y);
+        adj[y].push_back(x);
     }
 
-    // Start BFS from the root (vertex 1)
-    ll result = bfs(1, m);
+    // Start DFS from root (vertex 1) with initial consecutive cat count as 0
+    dfs(1, 0);
 
-    cout << result << endl;
+    // Output the number of valid leaves
+    cout << validLeaves << endl;
+
     return 0;
 }
