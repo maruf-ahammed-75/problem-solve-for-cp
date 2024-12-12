@@ -11,36 +11,53 @@ void I_Am_Here() {
     vector<ll>a(n);
     ll sum=0;
     ll ind=0;
-    ll ans=0;
+    ll ans=INT_MIN;
     ll n1=0;
+    ll count = 0;
+    // for(int i=0 ; i<n ; i++){
+    //     cin>>a[i];
+    //     // cout<<a[i]<<" = ";
+    //     if(a[i])n1++;
+    //     if(a[i] && sum){
+    //         sum--;
+    //     }
+    //     if(!a[i]){
+    //         sum++;
+    //         if(ans<sum){
+    //             ans=sum;
+    //             ind=i;
+    //         }
+    //     }
+    //     // cout<<sum<<' '<<ans<<' '<<ind<<endl;
+    // }
+    // for(int i=ind ; i>=0 ; i--){
+    //     if(a[i]){
+    //         n1--;
+    //         ans++;
+    //     }
+    //     if(!a[i]){
+    //         n1++;
+    //         ans--;
+    //     }
+    //     if(ans==0)break;
+    // }
+    // cout<<n1<<endl;
+    //----------------another formula--------
+
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
-        // cout<<a[i]<<" = ";
-        if(a[i])n1++;
-        if(a[i] && sum){
+        if(a[i]){
+            n1++;
             sum--;
         }
-        if(!a[i]){
+        else{
             sum++;
-            if(ans<sum){
-                ans=sum;
-                ind=i;
-            }
         }
-        // cout<<sum<<' '<<ans<<' '<<ind<<endl;
+        ans=max(ans,sum);
+        if(sum<0)sum=0;
+        
     }
-    for(int i=ind ; i>=0 ; i--){
-        if(a[i]){
-            n1--;
-            ans++;
-        }
-        if(!a[i]){
-            n1++;
-            ans--;
-        }
-        if(ans==0)break;
-    }
-    cout<<n1<<endl;
+    cout<<ans+n1<<endl;
 
 }
 
