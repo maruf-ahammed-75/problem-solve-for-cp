@@ -24,7 +24,7 @@ void I_Am_Here() {
             a0.push_back(a[i]);
         }
     }
-    if(is_sorted(full(a1)) || is_sorted(full(a0))){
+    if(is_sorted(full(a)) || (!a1.empty() && !a0.empty())){
         Y;
     }
     else{
