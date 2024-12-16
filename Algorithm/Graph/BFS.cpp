@@ -40,7 +40,6 @@ void bfs(int s){
         int curr = q.front();
         q.pop();
         // cout << curr << " ";
-
         // Get all adjacent vertices of the dequeued 
         // vertex curr If an adjacent has not been 
         // visited, mark it visited and enqueue it
