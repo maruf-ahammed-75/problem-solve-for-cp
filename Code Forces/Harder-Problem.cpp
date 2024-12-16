@@ -12,13 +12,13 @@ void I_Am_Here() {
     vector<ll>a(n);
     for(int i=0 ; i<n ; i++)cin>>a[i];
     vector<ll>b(n+1,0);
+    ll j=1;
     for(int i=0 ; i<n ; i++){
         if(b[a[i]]==0){
             b[a[i]]=1;
             cout<<a[i]<<' ';
         }
         else{
-            ll j=a[i];
             while(b[j]){
                 j++;
             }
