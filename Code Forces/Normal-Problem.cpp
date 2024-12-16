@@ -7,25 +7,14 @@
 #define N cout<<"NO\n"
 using namespace std;
 void I_Am_Here() {
-    ll n , k;
-    cin>>n>>k;
-    k-=3;
-    while(k){
-        cout<<1<<' ';
-        n-=1;
-        k--;
+    string s;
+    cin>>s;
+    for(int i=s.size()-1 ; i>=0 ; i--){
+        if( s[i]=='p')s[i]='q';
+        else if(s[i]=='q')s[i]='p';
+        cout<<s[i];
     }
-    if(n%2){
-        cout<<1<<' '<<n/2<<' '<<n/2<<endl;
-    }
-    else{
-        if((n/2)%2==0){
-            cout<<n/2<<' '<<n/4<<' '<<n/4<<endl;
-        }
-        else{
-            cout<<2<<' '<<(n-2)/2<<' '<<(n-2)/2<<endl;
-        }
-    }
+    cout<<endl;
      
 }
 
