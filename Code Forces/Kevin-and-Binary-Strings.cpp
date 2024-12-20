@@ -25,10 +25,10 @@ void I_Am_Here() {
         else ct0++;
     }
  
-    // ll v1 = max(1LL, ct1 + 1 - ct0);//move backward
-    // ll v2 = min(ct0, ct1);//min used
+    ll v1 = max(1LL, ct1 + 1 - ct0);//move backward
+    ll v2 = min(ct0, ct1);//min used
  
-    // cout<< 1 << ' ' << n << ' ' << v1 << ' ' << n - v2 <<endl;
+    cout<< 1 << ' ' << n << ' ' << v1 << ' ' << n - v2 <<endl;
 
 }
 
