@@ -6,37 +6,31 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-long long binaryToDecimal(const string& binaryString) {
-    long long decimalValue = 0;
-    for (char bit : binaryString) {
-        decimalValue = decimalValue * 2 + (bit - '0');
-    }
-    return decimalValue;
-}
 void I_Am_Here() {
-    string s;
-    cin>>s;
+    string s;cin>>s;
     ll n = s.size();
-    ll total=binaryToDecimal(s);
-    ll x=1;
-    ll mx = INT_MIN;
-    ll l=0,r=0;
-    for(int i=n-1 ; i>=0 ; i--){
-        x=1;
-        string c  = "";
-        for(int j=i ; j>=0 ; j--){
-            c=s[j]+c;
-            ll ans = total^(binaryToDecimal(c));
-            // cout<<j<<" = "<<cal<<' '<<ans<<endl;
-            if(mx<ans){
-                // Y;
-                mx = ans;
-                l=i;
-                r=j;
-            }
-        }
+    ll z = count(s.begin(),s.end(),'0');
+    if(z == 0){
+        cout<< 1 << ' ' << n << ' ' << 1 << ' ' << 1 <<endl;
+        return;
     }
-    cout<<1<<' '<<n<<' '<<r+1<<' '<<l+1<<endl;}
+    ll ct1 = 0, ct0 = 0;
+    for(ll i=0;i<n;i++){
+        if(s[i]=='1')ct1++;
+        else break;
+    }
+ 
+    for(ll i=ct1;i<n;i++){
+        if(s[i]=='1')break;
+        else ct0++;
+    }
+ 
+    // ll v1 = max(1LL, ct1 + 1 - ct0);//move backward
+    // ll v2 = min(ct0, ct1);//min used
+ 
+    // cout<< 1 << ' ' << n << ' ' << v1 << ' ' << n - v2 <<endl;
+
+}
 
 int main() {
     #ifndef ONLINE_JUDGE
@@ -44,7 +38,7 @@ int main() {
     freopen("output.txt", "w", stdout);
     #endif
     
-    int t=1;
+    ll t=1;
     cin>>t;
     while (t--) {
         I_Am_Here();
