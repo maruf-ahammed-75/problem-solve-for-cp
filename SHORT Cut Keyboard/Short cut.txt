@@ -1,6 +1,7 @@
 Ctrl + tab = cycle open file
 Ctrl + Shift + Tab = cycle reverse  
-
-
-
 Ctrl + 1/2/3 = group Shift
+
+
+in vs code change word 1 by one (Ctrl+h)
+in vs code change word at a time (Ctrl+shift+l)
