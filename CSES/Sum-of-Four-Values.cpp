@@ -33,12 +33,14 @@ void I_Am_Here() {
     }
     cout<<"IMPOSSIBLE\n";
 }
+// g++ Sum-of-Four-Values.cpp -o Sum-of-Four-Values
+// .\Sum-of-Four-Values
 
 int main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
     
     ll t=1;
     // cin>>t;
