@@ -9,21 +9,39 @@ using namespace std;
 vector<ll>a(1000000);
 ll n, x;
 vector<vector<bool>>dp(1000,vector<bool>(100000,false));
-bool Check(){
-    for(int i=0 ; i<n ; i++){
-        dp[i][0]=1;
+
+//iterative way
+// bool Check(){
+//     for(int i=0 ; i<n ; i++){
+//         dp[i][0]=1;
+//     }
+//     for(int i=1; i<=n ; i++){
+//         for(int j=1 ; j<=x ; j++){
+//             if(j<a[i-1]){
+//                 dp[i][j]=dp[i-1][j];
+//             }
+//             else{
+//                 dp[i][j]=dp[i-1][j]||dp[i-1][j-a[i-1]];
+//             }
+//         }
+//     }
+//     return dp[n][x];
+// }
+
+
+
+/// Recursion way
+bool check(ll n,ll x){
+    if(x==0)return true;
+    if(n<=0)return false;
+    if(dp[n][x]!=-1)return dp[n][x];
+    if(a[n-1]>x){
+        return dp[n][x]=check(n-1,x);
     }
-    for(int i=1; i<=n ; i++){
-        for(int j=1 ; j<=x ; j++){
-            if(j<a[i-1]){
-                dp[i][j]=dp[i-1][j];
-            }
-            else{
-                dp[i][j]=dp[i-1][j]||dp[i-1][j-a[i-1]];
-            }
-        }
+    else {
+        return dp[n][x]=check(n-1,x)||check(n-1,x-a[n-1]);
     }
-    return dp[n][x];
+
 }
 void I_Am_Here() {
     
@@ -32,7 +50,7 @@ void I_Am_Here() {
     for(int i=0 ; i<n ;i++){
         cin>>a[i];
     }
-    cout<<(Check()?"YES":"NO")<<endl;
+    cout<<(check(n, x)?"YES":"NO")<<endl;
 }
 
 int main() {
