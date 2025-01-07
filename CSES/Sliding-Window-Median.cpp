@@ -22,7 +22,29 @@ void I_Am_Here() {
     for(int i=0 ; i<k ;i++){
         s.insert({a[i],i});
     }
-    cout<<s.find_by_order((k-1)/2)
+    // 
+    // for(auto i:s)cout<<i.ff<< ' '<<i.ss<<endl;
+    // cout<<"ans = ";
+    cout<<s.find_by_order((k-1)/2)->first<<' ';
+    // cout<<endl;
+    s.erase({a[0],0});
+    
+    for(int i=1 ; i<n-k+1 ; i++){
+        // cout<<"index = "<<i-1 <<' '<<k+i-1<<endl;
+        s.insert({a[k+i-1],k+i-1});
+        
+        // for(auto i:s)cout<<i.ff<< ' '<<i.ss<<endl;
+        
+        // cout<<"ans = ";
+        cout<<s.find_by_order((k-1)/2)->first<<' ';
+        // cout<<endl;
+        
+        s.erase({a[i],i});
+        
+    }
+    cout<<endl;
+    
+    // for(auto i:s)cout<<i.ff<<' '<<i.ss<<endl;
 }
 
 int32_t main() {
