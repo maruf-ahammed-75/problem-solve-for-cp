@@ -49,6 +49,7 @@ void I_Am_Here() {
     
     for(int i=0 ; i<n ;i++){
         cin>>a[i];
+        
     }
     cout<<(check(n, x)?"YES":"NO")<<endl;
 }
