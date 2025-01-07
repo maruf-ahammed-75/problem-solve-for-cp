@@ -5,14 +5,16 @@
 #define full(a) a.begin(),a.end()
 using namespace std;
 void I_Am_Here() {
-    ll n;
-    cin>>n;
-    vector<ll>a(n);                           
-    for(int i=0 ;i<n ; i++)cin>>a[i];                                  
-    sort(full(a));
-    ll sum=0;
-    for(int i=0 ; i<n ; i++)sum+=abs(a[i]-a[n/2]);
-    cout<<sum<<endl;
+    ll n,k;
+    cin>>n>>k;
+    vector<ll>a(n);
+    for(int i=0 ; i<n ; i++){
+        cin>>a[i];
+    }
+    set<pair<ll,ll>>s;
+    for(int i=0 ; i<k ;i++){
+        
+    }
 }
 
 int32_t main() {
