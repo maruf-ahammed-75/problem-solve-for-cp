@@ -3,8 +3,12 @@
 #define ff first
 #define ss second
 #define full(a) a.begin(),a.end()
+#include <ext/pb_ds/assoc_container.hpp>//additional line
+#include <ext/pb_ds/tree_policy.hpp>//additional line 
+
 using namespace std;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+using namespace __gnu_pbds;//additional line
+typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 
 void I_Am_Here() {
     ll n,k;

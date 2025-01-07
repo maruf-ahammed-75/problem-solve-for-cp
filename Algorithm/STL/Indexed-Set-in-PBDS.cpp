@@ -7,6 +7,7 @@ using namespace __gnu_pbds;//additional line
 
 // Define an indexed set
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+// typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 
 int main() {
 
