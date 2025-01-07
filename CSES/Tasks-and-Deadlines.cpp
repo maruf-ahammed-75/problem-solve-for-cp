@@ -6,8 +6,9 @@
 using namespace std;
 void I_Am_Here() {
     int n;
-    cin>>n;
+    cin>>n;4
     ll ans=0;
+    
     ll sum=0;
     vector<pair<ll,ll>>a;
     vector<pair<ll,ll>>b;
