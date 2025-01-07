@@ -17,17 +17,19 @@ void I_Am_Here() {
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
     }
-    set<pair<ll,ll>>s;
-    for(int i=0 ; i<k ;i++){
+    indexed_set s;
 
+    for(int i=0 ; i<k ;i++){
+        s.insert({a[i],i});
     }
+    cout<<s.find_by_order((k-1)/2)
 }
 
 int32_t main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
     
     int t=1;
     // cin>>t;

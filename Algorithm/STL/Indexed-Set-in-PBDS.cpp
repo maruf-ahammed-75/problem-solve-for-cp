@@ -8,7 +8,9 @@ using namespace __gnu_pbds;//additional line
 // Define an indexed set
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 // typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
-
+// s.find_by_order(1)->first
+// s.order_of_key(make_pair(20, 2))
+// s.erase(make_pair(15, 3));
 int main() {
 
     // Find by Order (find_by_order) ->O(lon(n));
