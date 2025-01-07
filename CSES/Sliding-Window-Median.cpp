@@ -4,6 +4,8 @@
 #define ss second
 #define full(a) a.begin(),a.end()
 using namespace std;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+
 void I_Am_Here() {
     ll n,k;
     cin>>n>>k;
@@ -13,7 +15,7 @@ void I_Am_Here() {
     }
     set<pair<ll,ll>>s;
     for(int i=0 ; i<k ;i++){
-        
+
     }
 }
 

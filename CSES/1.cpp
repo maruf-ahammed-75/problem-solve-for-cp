@@ -1,49 +1,36 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp> // PBDS header
+#include <ext/pb_ds/tree_policy.hpp>    // PBDS header
+
 using namespace std;
+using namespace __gnu_pbds; // PBDS namespace
 
-// Function to determine if the exact amount X can be paid
-string canPayExactly(int N, int X, vector<pair<int, int>>& coins) {
-    // DP table
-    vector<vector<bool>> dp(N + 1, vector<bool>(X + 1, false));
-    dp[0][0] = true; // Base case: 0 yen can be achieved with no coins
-
-    // Process each coin type
-    for (int i = 1; i <= N; ++i) {
-        int A = coins[i - 1].first;  // Value of the coin
-        int B = coins[i - 1].second; // Maximum number of coins available
-
-        for (int j = 0; j <= X; ++j) {
-            // If we don't use the current coin type
-            dp[i][j] = dp[i - 1][j];
-
-            // Try using 1 to B coins of this type
-            for (int k = 1; k <= B && j >= k * A; ++k) {
-                if (dp[i - 1][j - k * A]) {
-                    dp[i][j] = true;
-                }
-            }
-        }
-    }
-    for(int i=0 ; i<=N ; i++){
-        for(int j=0 ;j<=X ; j++)cout<<dp[i][j]<<' ';
-        cout<<endl;
-    }
-
-    // Check if we can achieve exactly X yen
-    return dp[N][X] ? "Yes" : "No";
-}
+// Define an indexed set
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 
 int main() {
-    int N, X;
-    cin >> N >> X;
+    indexed_set s;
 
-    vector<pair<int, int>> coins(N);
-    for (int i = 0; i < N; ++i) {
-        cin >> coins[i].first >> coins[i].second; // Read A and B
+    // Insert elements
+    s.insert(10);
+    s.insert(20);
+    s.insert(15);
+    s.insert(25);
+
+    // Find the 2nd smallest element (0-based indexing)
+    cout << "2nd smallest: " << *s.find_by_order(1) << "\n"; // Output: 15
+
+    // Find the number of elements less than 20
+    cout << "Number of elements < 20: " << s.order_of_key(20) << "\n"; // Output: 2
+
+    // Check if an element exists
+    if (s.find(15) != s.end()) {
+        cout << "15 is present in the set.\n";
     }
 
-    cout << canPayExactly(N, X, coins) << endl;
+    // Erase an element
+    s.erase(15);
+    cout << "Number of elements < 20 after erasing 15: " << s.order_of_key(20) << "\n"; // Output: 1
 
     return 0;
 }
