@@ -14,12 +14,31 @@ void I_Am_Here() {
     for(int i=0 ; i<n ;i++){
         cin>>a[i].first>>a[i].second;
     }
-
-    vector<bool>dp(x+1,0);
-    v[0]=1;
-    for(int i=0 ; i<n ; i++){
+    vector<vector<bool>> dp(n+1, vector<bool>(x+1, false));
+    
+    for(int i=0 ; i<=n ; i++){
+        dp[i][0]=true;
+     }
+    for(int i=1 ; i<=n ; i++){
+        ll A = a[i-1].ff;
+        ll B = a[i-1].ss;
         
+        for(int j=0 ; j<=x ; j++){
+            dp[i][j]=dp[i-1][j];
+
+            for(ll k=1 ; k<=B && j>=k*A ; k++){
+                dp[i][j] = dp[i][j] || dp[i-1][j-k*A];
+            }
+        }
     }
+    
+    // for(int i=0 ; i<=n ; i++){
+    //     for(int j=0 ; j<=x ; j++){
+    //         cout<<dp[i][j]<<' ';
+    //     }
+    //     cout<<endl;
+    // }
+    cout<<(dp[n][x] ? "Yes":"No")<<endl;
 
 }
 
