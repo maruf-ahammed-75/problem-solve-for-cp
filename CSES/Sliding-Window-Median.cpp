@@ -48,16 +48,17 @@ void I_Am_Here() {
     //normal Data structer
 
     if(k==1){
-        for(auto i:a)cout<<a[i]<<' ';
+        for(auto i:a)cout<<i<<' ';
         cout<<endl;
-        return 0;
+        return;
     }
     if(k==2){
         for(int i=1 ; i<n ; i++){
             cout<<min(a[i],a[i-1])<<' ';
-            cout<<endl;
-            return 0;
+            
         }
+        cout<<endl;
+            return;
     }
 
     vector<pair<ll,ll>>b(k);
