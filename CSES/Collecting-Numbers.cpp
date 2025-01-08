@@ -11,15 +11,28 @@ void I_Am_Here(){
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
     }
-    map<ll,ll>m;
-    ll ans=0;
+    // map<ll,ll>m;
+    // ll ans=0;
+    // for(int i=0 ; i<n ; i++){
+    //     if(!m[a[i]-1]){
+    //         ans++;
+    //         m[a[i]]=1;
+    //         continue;
+    //     }
+    //     m[a[i]]=1;
+    // }
+    // cout<<ans<<endl;
+
+    // new solution
+
+    vector<ll>b(n+1,0);
     for(int i=0 ; i<n ; i++){
-        if(!m[a[i]-1]){
-            ans++;
-            m[a[i]]=1;
-            continue;
-        }
-        m[a[i]]=1;
+        b[a[i]]=i;
+    }
+    ll ans=1;
+    for(int i=2 ; i<=n ; i++){
+        if(b[i-1]>b[i])ans++;
+        // cout<<ans<<' '<<b[i-1]<< ' '<<b[i]<<endl;
     }
     cout<<ans<<endl;
 
