@@ -18,7 +18,7 @@ void I_Am_Here(){
             s.insert(a[i]);
         }
         else{
-            s.erase(it);
+            s.erase(x);
             s.insert(a[i]);
         }
     }
