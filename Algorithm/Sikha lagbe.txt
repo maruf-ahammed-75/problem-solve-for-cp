@@ -1,1 +1,5 @@
 Mos algorithm
+
+
+
+segemnt tree problem = Missing Coin Sum CSES
