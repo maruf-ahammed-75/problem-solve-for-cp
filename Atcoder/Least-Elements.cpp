@@ -1,93 +1,117 @@
-
-#include<bits/stdc++.h>
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+#include <bits/stdc++.h>
+#define ll long long
+#define ff first
+#define ss second
+#define full(a) a.begin(),a.end()
 using namespace std;
-#define int long long
-#define endl "\n"
-
-void inthe_code(){
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt","r",stdin);
-    freopen("output.txt","w",stdout);
-    #endif
-}
-
-
-int32_t main(){
-    inthe_code();
-    int n,m,k;
-    cin>>n>>m>>k;
-    std::vector<int> v(n);
-    for(int i=0;i<n;i++){
-        cin>>v[i];
+void I_Am_Here(){
+    ll n,m,k;cin>>n>>m>>k;
+    vector<ll>a(n);
+    for(auto &i:a){
+        cin>>i;
     }
-    // if(k==m){
-        
+
+    // if(m==1){
+    //     for(auto i:a){
+    //         cout<<i<<' ' ;
+    //     }
+    //     cout<<endl;
+    //     return;
     // }
-    vector<int>d;
-    for(int i=0;i<m;i++){
-        d.push_back(v[i]);
+
+    vector<pair<ll,ll>>b(m);
+    for(int i=0 ; i<m ; i++)b[i]={a[i],i};
+
+    sort(full(b));
+    set<pair<ll,ll>>sl,sr;
+    ll sum=0;
+
+    for(int i=0 ; i<k ; i++){
+        sl.insert({b[i].ff,b[i].ss});
+        sum+=b[i].ff;
     }
-    multiset<int>s1,s2;
-    sort(d.begin(),d.end());
-    int sum=0;
-    for(int i=0;i<k;i++){
-        sum+=d[i];
-        s1.insert(d[i]);
+    for(int i=k ; i<m ; i++){
+        sr.insert({b[i].ff,b[i].ss});
     }
-    for(int i=k;i<m;i++){
-        s2.insert(d[i]);
-    }
-    cout<<sum<<" ";
-    if(k==m){
-        for(int i=1;i<n-m+1;i++){
-            // s1.erase(s1.find(v[i-1]));
-            sum-=v[i-1];
-            sum+=v[i+m-1];
-            cout<<sum<<" ";
+    // cout<<"sl = ";
+    // for(auto i:sl)cout<<i.ff<<' '<<i.ss<<endl;
+    // cout<<endl;
+    // cout<<"sr = ";
+    // for(auto i:sr)cout<<i.ff<<' '<<i.ss<<endl;
+    // cout<<endl;
+    // cout<<"sum  = ";
+    cout<<sum<<' ';
+    if(k==1){
+        for(int i=1 ; i<n-m+1 ; i++){
+            auto it = sl.find({a[i-1],i-1});
+            if(it != sl.end()){
+                sum-=a[i-1];
+                sl.erase({a[i-1],i-1});
+            }
+            sl.insert({a[i-1+m],i-1+m});
+            cout<<sl.begin()->ff<<' ';
         }
-        return 0;
+        return;
     }
-    for(int i=1;i<n-m+1;i++){
-        // v[i-1] nikalo and v[i] daalo
-        if(s2.find(v[i-1])!=s2.end()){
-            s2.erase(s2.find(v[i-1]));
-            auto it=s1.end();
-            it--;
-            if(*it<=v[i+m-1]){
-                s2.insert(v[i+m-1]);
-                cout<<sum<<" ";
-            }
-            else{
-                sum-=(*it);
-                sum+=v[i+m-1];
-                cout<<sum<<" ";
-                int num=(*it);
-                s1.erase(it);
-                s1.insert(v[i+m-1]);
-                s2.insert(num);
-            }
+    for(int i=1 ; i<n-m+1 ; i++){
+        // cout<<"a[i ] = "<<a[i-1+m]<<endl;
+        auto it = sl.find({a[i-1],i-1});
+        
+        if(it != sl.end()){
+            sum-=a[i-1];
+            sl.erase({a[i-1],i-1});
         }
         else{
-            s1.erase(s1.find(v[i-1]));
-            sum-=v[i-1];
-            auto it=s2.begin();
-            if(*it>=v[i+m-1]){
-                s1.insert(v[i+m-1]);
-                sum+=v[i+m-1];
-                cout<<sum<<" ";
-            }
-            else{
-                // *it<v[i]
-                int num=*it;
-                s1.insert(num);
-                sum+=num;
-                cout<<sum<<" ";
-                s2.erase(it);
-                s2.insert(v[i+m-1]);
-            }
+            sr.erase({a[i-1],i-1});
         }
+        // cout<<"sum1 = "<<sum<<endl;
+
+        if(sl.rbegin()->first < a[i+m-1]){
+            sr.insert({a[i-1+m],i-1+m});
+            // sum+=a[i-1+m];
+        }
+        else{
+            sum+=a[i-1+m];
+            sl.insert({a[i-1+m],i-1+m});
+        }
+        // cout<<"sum2 = "<<sum<<endl;
+
+
+        while(sl.size()<k){
+            sl.insert({sr.begin()->ff,sr.begin()->ss});
+            sum+=sr.begin()->ff;
+            sr.erase({sr.begin()->ff,sr.begin()->ss});
+        }
+        // cout<<"sum3 = "<<sum<<endl;
+
+        while(sl.size()>k){
+            sum-=sl.rbegin()->first;
+            sr.insert({sl.rbegin()->ff,sl.rbegin()->ss});
+            sl.erase({sl.rbegin()->ff,sl.rbegin()->ss});
+        }
+        // cout<<"sum4 = "<<sum<<endl;
+
+        // cout<<"sl = ";
+        // for(auto i:sl)cout<<i.ff<<' '<<i.ss<<endl;
+        // cout<<endl;
+        // cout<<"sr = ";
+        // for(auto i:sr)cout<<i.ff<<' '<<i.ss<<endl;
+        // cout<<endl;
+        // cout<<"sum  = ";
+        cout<<sum<<' ';
     }
+}
+
+int32_t main() {
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
+    
+    int t=1;
+    // cin>>t;
+    while (t--) {
+        I_Am_Here();
+    }
+    return 0;
 }
