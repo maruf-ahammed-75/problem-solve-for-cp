@@ -38,7 +38,7 @@ void I_Am_Here(){
             temp.erase(it);
         }
     }
-    cout<<ans<<endl;
+    cout<<a<<endl;
     for(auto i:b)cout<<i<<' ' ;
     cout<<endl;
    
