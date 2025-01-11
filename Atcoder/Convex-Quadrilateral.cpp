@@ -4,17 +4,19 @@
 #define ss second
 #define full(a) a.begin(),a.end()
 using namespace std;
+bool slop(ll Ax,ll Ay,ll Bx,ll By,ll Cx,ll Cy){
+    return ((By-Ay))*(Cx-Bx) - (Cy-By)*(Bx-Ax)<0;
+}
 void I_Am_Here(){
     ll ax,ay,bx,by,cx,cy,dx,dy;
     cin>>ax>>ay>>bx>>by>>cx>>cy>>dx>>dy;
-
-    ll SlopABCPoint = (by-ay)*(cx-bx) - (cy-by)*(bx-ax);
-    ll slopABDPoint = (by-ay)*(dx-bx) - (dy-by)*(bx-ax);
-    ll x = SlopABCPoint;
-    ll y = slopABDPoint;
-
-    if((x>0 && y>0) || (x<0 && y<0))cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+ 
+    if(slop(ax,ay,bx,by,cx,cy) and slop(bx,by,cx,cy,dx,dy) and slop(cx,cy,dx,dy,ax,ay) and slop(dx,dy,ax,ay,bx,by)){
+        cout<<"Yes"<<endl;
+    }
+    else{
+        cout<<"No"<<endl;
+    }
 }
 
 int32_t main() {
