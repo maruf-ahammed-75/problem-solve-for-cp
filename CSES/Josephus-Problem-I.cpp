@@ -17,7 +17,6 @@ void I_Am_Here(){
         a.push(x);
         cout<<a.front()<<' ';
         a.pop();
-        
     }
 }
 
