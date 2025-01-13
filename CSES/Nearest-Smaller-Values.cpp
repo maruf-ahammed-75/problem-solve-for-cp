@@ -7,19 +7,24 @@ using namespace std;
 void I_Am_Here(){
     ll n;
     cin>>n;
-    vector<ll>a(n);
-    for(int i=0 ; i<n ; i++){
-        cin>>a[i];
-    }
-    set<ll>s;
-    map<ll,ll>m;
-    for(int i=0 ; i<n ; i++){
-        auto it = s.lower_bound(a[i]);
-        if(it!=s.end()){
-            
+    stack<pair<ll,ll>>s;
+    for(int i=1 ; i<=n ; i++){
+        ll x;cin>>x;
+
+        // cout<<"x = "<<x<<endl;
+        while(!s.empty() && x <= s.top().ff){
+            // cout<<"pop = ";
+            // cout<<s.top().ff<<endl;
+            s.pop();
         }
+        if(!s.empty()){
+            cout<<s.top().ss<<' ';
+        }
+        else{
+            cout<<0<<' ';
+        }
+        s.push({x,i});
     }
-    
 }
 
 int32_t main() {
