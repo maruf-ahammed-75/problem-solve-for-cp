@@ -15,31 +15,32 @@ void I_Am_Here(){
         a.push_back({y+1,{-1,i+1}});
     }
     sort(full(a));
-    // for(auto i:a)cout<<i.ff<<' '<<i.ss.ff<< ' '<<i.ss.ss<<endl;
-    set<ll>s;
-    set<pair<ll,ll>>temp;
-    for(int i=1 ; i<=n ; i++)s.insert(i);
-
-    vector<ll>b;
-    ll ans = INT_MIN;
+    for(auto i:a)cout<<i.ff<<' '<<i.ss.ff<< ' '<<i.ss.ss<<endl;
     ll sum=0;
+    ll total = INT_MIN;
+    set<ll>s;
+    map<ll,ll>m;
+    for(int i=1 ; i<=n ; i++){
+        s.insert(i);
+    }
+    vector<ll>b;
     for(auto i:a){
         if(i.ss.ff==1){
             sum++;
-            ans=max(ans,sum);
+            total=max(total,sum);
+            // cout<<*s.begin()<<' ';
             b.push_back(*s.begin());
-            temp.insert({i.ss.ss,*s.begin()});
             s.erase(s.begin());
+            m[i.ss.ss]=*s.begin();
         }
         else{
             sum--;
-            auto it = temp.lower_bound({i.ss.ff,INT_MIN});
-            s.insert(it->second);
-            temp.erase(it);
+            s.insert(i.ss.ss);
+            m.erase(i.ss.ss);
         }
     }
-    cout<<a<<endl;
-    for(auto i:b)cout<<i<<' ' ;
+    cout<<total<<endl;
+    for(auto i:b)cout<<i<<' ';
     cout<<endl;
    
 }
