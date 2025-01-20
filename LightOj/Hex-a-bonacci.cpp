@@ -6,6 +6,7 @@
 #define full(a) a.begin(), a.end()
 using namespace std;
 const int M = 10000007;
+const int Mod = 10000007;
 int a, b, c, d, e, f;
 
 // int fn(int n, vector<ll> &dp) {
