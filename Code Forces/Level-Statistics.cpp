@@ -18,7 +18,15 @@ void Solve(){
         }
     }
     for(int i=1 ; i<n ; i++){
-        if(a[i].ff<a[i-1].ff || a[i].ff<a[i].ss || a[i-1].ff<a[i-1].ss || a[i].ss<a[i-1].ss){
+        if(abs(a[i].ff-a[i-1].ff)< abs(a[i].ss-a[i-1].ss)){
+            cout<<"NO\n";
+            return;
+        }
+        if(a[i].ff==a[i-1].ff && a[i].ss!=a[i-1].ss){
+            cout<<"NO\n";
+            return;
+        }
+        if(a[i].ff<a[i].ss || a[i-1].ff<a[i-1].ss || a[i].ff<a[i-1].ff || a[i].ss<a[i-1].ss){
             cout<<"NO\n";
             return;
         }

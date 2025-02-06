@@ -12,8 +12,7 @@ void Solve()
     cout<<(n+1)/2*5<<endl;
 }
 
-int32_t main()
-{
+int32_t main(){
 // #ifndef ONLINE_JUDGE
 //     freopen("input.txt", "r", stdin);
 //     freopen("output.txt", "w", stdout);
