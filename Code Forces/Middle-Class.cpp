@@ -27,9 +27,15 @@ void Solve(){
         return;
     }
     sort(a.rbegin(),a.rend());
-    for(int i=0 ; i<n ; i++){
+    // cout<<"sum = "<<sum <<"  cal = "<<cal<<endl;
+    // for(int i=0 ; i<a.size() ; i++){
+    //     cout<<a[i]<<' ';
+    // }
+    // cout<<endl;
+    for(int i=0 ; i<a.size() ; i++){
         sum+=a[i];
-        if(sum/(cal+1) >=m){
+        // cout<<sum<<endl;
+        if((sum/(cal+1)) >=m){
             cal++;
         }
         else{
