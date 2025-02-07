@@ -7,31 +7,40 @@ using namespace std;
 void Solve(){
     int n;
     cin>>n;
-    vector<pair<int,int>>a(n);
+    vector<int>a;
+    map<int,int>m;
     for(int i=0 ; i<n ; i++){
-        cin>>a[i].ff>>a[i].ss;
-    }
-    if(n==1){
-        if(a[0].ff<a[0].ss){
-            cout<<"NO\n";
-            return; 
+        int x;
+        cin>>x;
+        if(i==0 || a[a.size()-1]!=x){
+            a.push_back(x);
+            m[x]++;
         }
     }
-    for(int i=1 ; i<n ; i++){
-        if(abs(a[i].ff-a[i-1].ff)< abs(a[i].ss-a[i-1].ss)){
-            cout<<"NO\n";
-            return;
-        }
-        if(a[i].ff==a[i-1].ff && a[i].ss!=a[i-1].ss){
-            cout<<"NO\n";
-            return;
-        }
-        if(a[i].ff<a[i].ss || a[i-1].ff<a[i-1].ss || a[i].ff<a[i-1].ff || a[i].ss<a[i-1].ss){
-            cout<<"NO\n";
-            return;
-        }
+    n = a.size();
+    if( m.size()==1){
+        cout<<0<<endl;
+        return;
     }
-    cout<<"YES\n";
+    if((a[0]==a[n-1] && m[a[0]]==2) || m[a[0]]==1 || m[a[n-1]]==1){
+        cout<<1<<endl;
+        return;
+    }
+    
+    ll ans=INT_MAX;
+    for(auto i :m){
+        if(i.ff == a[0]){
+            ans = min(ans,i.ss+1-1);
+            if(i.ff==a[n-1]){
+                ans = min(ans,i.ss+1-2);
+            }
+        }
+        if(i.ff==a[n-1]){
+            ans = min(ans,i.ss+1-1);
+        }
+        ans = min(ans,i.ss+1);
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main(){
