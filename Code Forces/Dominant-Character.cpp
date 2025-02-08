@@ -10,7 +10,7 @@ void Solve(){
     cin>>n;
     string a;
     cin>>a;
-    int ans = INT_MAX;
+    int ans = 1e9;
     for(int i=0 ; i<n-1 ; i++){
         if(a[i]=='a' &&  a[i+1]=='a'){
             ans = min(ans,2LL);
@@ -30,12 +30,12 @@ void Solve(){
         }
     }
     for(int i=0 ; i<n-6 ; i++){
-        if(a[i]=='a'&&a[i+1]==a[i+2]&&a[i+3]=='a'&&a[i+4]==a[i+5]&&a[i+6]=='a'){
+        if(a[i]=='a'&&a[i+1]==a[i+2]&&a[i+3]=='a'&&a[i+4]==a[i+5]&&a[i+6]=='a' && a[i+1]!=a[i+4]){
             ans = min(ans,7LL);
             break;
         }
     }
-    if(ans==INT_MAX){
+    if(ans==1e9){
         cout<<-1<<endl;
     }
     else cout<<ans<<endl;
