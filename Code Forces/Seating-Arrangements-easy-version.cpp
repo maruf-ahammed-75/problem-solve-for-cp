@@ -15,7 +15,7 @@ void Solve(){
     ll sum =0 ;
     for(int i=0 ; i<n ; i++){
         for(int j=0 ; j<i ; j++){
-            if(a[i]>a[j] )sum++;
+            if(a[i]>=a[j] )sum++;
         }
     }
     cout<<sum<<endl;

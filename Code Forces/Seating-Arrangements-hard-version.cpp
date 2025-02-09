@@ -9,13 +9,19 @@ using namespace std;
 void Solve(){
     int n,m;
     cin>>n>>m;
-    vector<pair<int,int>>a(m*n);
-    for(int i=0 ; i<n*m ; i++){
-        cin>>a[i].ff;
-        a[i].ss=i+1;
+    
+    vector<pair<int,int>>a(n*m);
+    for(int i=0 ; i<(n*m) ; i++){
+        // cout<<"x\n";
+        cin >> a[i].ff;      
+        a[i].ss = i + 1;    
+        // cout << a[i].ff << ' ' << a[i].ss << endl;
     }
-    vector<vector<pair<int, int>>> b(m, vector<pair<int, int>>(m));
+    // cout<<"y\n";
     sort(full(a));
+
+    vector<vector<pair<int, int>>> b(n, vector<pair<int, int>>(m));
+    
     int k=0;
     for(int i=0 ; i<n ;i++){
         for(int j=0 ; j<m ; j++){
@@ -24,21 +30,31 @@ void Solve(){
             k++;
         }
     }
+    
+    
 
-    for(int i=0 ; i<n ;i++){
-        for(int j=0 ; j<m ; j++){
-           cout<<b[i][j].ff<<' '<<b[i][j].ss<<endl;
-        }
-        cout<<endl;
-    }
-
-    int ans = 0;
+    int sum = 0;
 
     for(int i=0 ; i<n ; i++){
-        sort()
+        sort(b[i].begin(), b[i].end(),
+         [](const pair<int, int>& a,
+            const pair<int, int>& b) {
+             return a.second < b.second;
+         });
+
+         for(int j=0 ; j<m ; j++){
+            for( k=0 ; k<=j ; k++ ){
+                if(b[i][j].ff>b[i][k].ff)sum++;
+            }
+         }
     }
-
-
+    cout<<sum<<endl;
+    // for(int i=0 ; i<n ;i++){
+    //     for(int j=0 ; j<m ; j++){
+    //        cout<<b[i][j].ff<<' '<<b[i][j].ss<<endl;
+    //     }
+    //     cout<<endl;
+    // }
 }
 
 int32_t main(){
