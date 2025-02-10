@@ -9,17 +9,43 @@ void Solve(){
     int n;
     cin>>n;
     vector<int>a(n);
-    for(auto &i:a)cin>>i;
-    int val = *max_element(a.begin(),a.end());
-    val/=2;
-    if(val<1){
-        val = 1;
-    }
+    int odd=0,even=0;
     for(int i=0 ; i<n ; i++){
-        cout<<val<<' ';
+        cin>>a[i];
+        if(i%2){
+            odd+=a[i];
+        }
+        else{
+            even+=a[i];
+        }
+    }
+    if(odd>even){
+        bool f=1;
+        for(int i=0 ; i<n ; i++){
+            if(f){
+                cout<<1<<' ';
+                f=0;
+            }
+            else{
+                cout<<a[i]<< ' ';
+                f=1;
+            }
+        }
+    }
+    else{
+        bool f=1;
+        for(int i=0 ; i<n ; i++){
+            if(f){
+                cout<<a[i]<<' ';
+                f=0;
+            }
+            else{
+                cout<<1<<' ' ;
+                f=1;
+            }
+        }
     }
     cout<<endl;
-
 }
 
 int32_t main(){
@@ -30,12 +56,9 @@ int32_t main(){
 
     int ts = 1;
     cin >> ts;
-    while (ts--)
-    {
+    while (ts--){
         Solve();
     }
 
     return 0;
-
-    
 }
