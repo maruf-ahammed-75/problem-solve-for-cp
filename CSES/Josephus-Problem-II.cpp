@@ -1,35 +1,42 @@
 #include <bits/stdc++.h>
 #define ll long long
-#define int long long
 #define ff first 
 #define ss second
 #define endl '\n'
+
+#include <ext/pb_ds/assoc_container.hpp>//additional line
+#include <ext/pb_ds/tree_policy.hpp>//additional line 
+
 using namespace std;
+using namespace __gnu_pbds;//additional line
+
+// Define an indexed set
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 void Solve(){
-    string s;
-    cin>>s;
-    int n= s.size();
-
-
-        ll ans=0;
-        for(int i=0 ; i<n ; i++){
-            if(s[i]==s[i+1]){
-                ans=1;
-            }
-        }
-        if(ans)cout<<1<<endl;
-        else cout<<n<<endl;
-
+    int n;
+    cin>>n;
+    int k;
+    cin>>k;
+    indexed_set s;
+    for(int i=1 ; i<=n ; i++){
+        s.insert(i);
+    }
+    while(!s.empty()){
+        n = (n+k)%s.size();
+        cout<<*s.find_by_order(n)<<' ';
+        s.erase(*s.find_by_order(n));
+    }
+    cout<<endl;
 }
 
-int32_t main(){
+int main(){
 // #ifndef ONLINE_JUDGE
 //     freopen("input.txt", "r", stdin);
 //     freopen("output.txt", "w", stdout);
 // #endif
 
     int ts = 1;
-    cin >> ts;
+    // cin >> ts;
     while (ts--){
         Solve();
     }
