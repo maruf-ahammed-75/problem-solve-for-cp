@@ -1,48 +1,55 @@
 #include <bits/stdc++.h>
 #define ll long long
+#define int long long
 #define ff first
 #define ss second
 #define full(a) a.begin(),a.end()
 using namespace std;
 void I_Am_Here(){
-    ll n;
+    int n;
     cin>>n;
-    vector<pair<ll,pair<ll,ll>>>a;
+    vector<pair<int,pair<int,int>>>a;
     for(int i=0 ; i<n ; i++){
-        ll x,y;
+        int x,y;
         cin>>x>>y;
-        a.push_back({x,{1,i+1}});
-        a.push_back({y+1,{-1,i+1}});
+        a.push_back({x,{1,i}});
+        a.push_back({y+1,{-1,i}});
     }
     sort(full(a));
-    for(auto i:a)cout<<i.ff<<' '<<i.ss.ff<< ' '<<i.ss.ss<<endl;
+    // for(auto i :a){
+    //     cout<<i.ff<<' '<<i.ss.ff<<' '<<i.ss.ss<<endl;
+    // }
+    // cout<<endl;
+
+    vector<int>ans(n);
+    vector<int>b(n);
+    set<int>s;
+    for(int i=1 ; i<=n ; i++)s.insert(i);
+    // cout<<*s.begin()<<endl;
     ll sum=0;
-    ll total = INT_MIN;
-    set<ll>s;
-    map<ll,ll>m;
-    for(int i=1 ; i<=n ; i++){
-        s.insert(i);
-    }
-    vector<ll>b;
-    for(auto i:a){
-        if(i.ss.ff==1){
+    ll mainAns = INT_MIN;
+    for(int i=0 ;i<a.size() ; i++){
+        if(a[i].ss.ff==1){
             sum++;
-            total=max(total,sum);
-            // cout<<*s.begin()<<' ';
-            b.push_back(*s.begin());
-            s.erase(s.begin());
-            m[i.ss.ss]=*s.begin();
+            mainAns = max(sum,mainAns);
+            int x = *s.begin();//set top value
+            s.erase(s.begin());//set erase top value
+            // cout<<"x = "<<x<<endl;
+            ans[a[i].ss.ss]=x;//output
+
+            b[a[i].ss.ss]=x;//which index i use;
         }
         else{
             sum--;
-            s.insert(i.ss.ss);
-            m.erase(i.ss.ss);
+            s.insert(b[a[i].ss.ss]);
+            // cout<<"insert = "<<b[a[i].ss.ss]<<endl;
         }
     }
-    cout<<total<<endl;
-    for(auto i:b)cout<<i<<' ';
+    cout<<mainAns<<endl;
+    for(int i=0 ; i<n ; i++){
+        cout<<b[i]<<' ';
+    }
     cout<<endl;
-   
 }
 
 int32_t main() {
