@@ -26,6 +26,9 @@ void I_Am_Here() {
             secondmx = max(secondmx,a[i]);
         }
     }
+    if (secondmx == -1){
+        secondmx=mx; 
+    }
     for(int i=0 ; i<n ; i++){
         if(a[i]!=mx){
             ll x = sum-a[i];
