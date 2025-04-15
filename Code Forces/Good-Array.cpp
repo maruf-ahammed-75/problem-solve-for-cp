@@ -21,14 +21,16 @@ void I_Am_Here() {
     int ans =0;
     vector<int>b;
     int secondmx = -1;
+    bool f=0;
     for(int i=0 ; i<n ; i++){
-        if(a[i]!=mx){
+        if(a[i]!=mx || f){
             secondmx = max(secondmx,a[i]);
         }
+        else{
+             f=1;
+        }
     }
-    if (secondmx == -1){
-        secondmx=mx; 
-    }
+    
     for(int i=0 ; i<n ; i++){
         if(a[i]!=mx){
             ll x = sum-a[i];
@@ -52,7 +54,7 @@ void I_Am_Here() {
     cout<<endl;
 
 
-}
+}//
 int32_t main() {
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
