@@ -13,10 +13,12 @@ int x;
 bool isok(vector<int> &a, int m){
     int cnt = 0;
     for(int i=n/2 ; i<n ; i++){
-        cnt += abs(a[i]-m);
+        if (a[i] < m) {
+            cnt += (m - a[i]); 
+        }
+        if (cnt > x) return false;
     }
-    if(cnt <= x) return false;
-    return true;
+    return cnt <= x;
 }
 void I_Am_Here() {
     cin>>n;
@@ -25,14 +27,17 @@ void I_Am_Here() {
     for(int i=0 ; i<n ; i++) cin>>a[i];
     sort(full(a));
     int ans = 0;
-    int l = 0; 
+    int l = a[n/2]; 
     int h = a[n/2]+x;
     while(l<=h){
         int mid = (l+h)/2;
-        if(!isok(a, mid)){
+        // cout<<"mid = "<<mid<<endl;
+        if(isok(a, mid)){
+            // cout<<"YES = "<<endl;
             l = mid+1;
         }
         else{
+            // cout<<"no = "<<endl;
             h = mid-1;
         }
     }
