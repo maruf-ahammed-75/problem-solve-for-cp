@@ -6,7 +6,7 @@ int main() {
     vector<int> a(n);
     vector<int> left, right;
 
-    int head = 0, total_distance = 0;
+    int head = 0;
     cin>> head;//initial head position
 
     for(int i = 0; i < n; i++) {
@@ -17,9 +17,10 @@ int main() {
             right.push_back(a[i]);//store elements greater than or equal to head in right vector
         }
     }
-    sort(left.rbegin(), left.rend());//sort left vector in descending order
+    sort(left.begin(), left.end());//sort left vector in descending order
     sort(right.begin(), right.end());//sort right vector in ascending order
     left.push_back(0);
+    right.push_back(199);//add 0 and 199 to left and right vector respectively
     cout << "Path: " << head;//print initial head position
     for(int i=0 ; i<left.size(); i++){
         total_distance += abs(left[i]-head);//calculate total distance
@@ -33,7 +34,5 @@ int main() {
     }
     cout<<endl;
 
-    cout << "Total distance: " << total_distance << endl;//print total distance
-    cout << "Average distance: " << (float)total_distance/n << endl;//print average distance
     return 0;
 }
