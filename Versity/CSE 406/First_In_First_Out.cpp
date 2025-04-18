@@ -1,49 +1,53 @@
 #include <bits/stdc++.h>
-#define ll long long
-#define int long long
-#define ff first
-#define ss second
-#define full(a) a.begin(), a.end()
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
 using namespace std;
-int n;
-
-void I_Am_Here() {
+int main() {
+    int n;
     cin>>n;
-    int l=1;
-    int h = 1e9;
-    int ans = 0;
-    while(l<=h){
-        int mid = (l+h)/2;
-        int x = (mid*(mid+1))/2;
-        if(x<=n){
-            ans = mid;
-            l = mid+1;
-        }
-        else{
-            h = mid-1;
-        }
-        // cout<<ans<<' '<<l<<' '<<h<<' '<<mid<<' '<<x<<endl;
+    vector<int> a(n);
+    for(int i=0 ; i<n; i++){
+        cin>>a[i];//input vector elements
     }
-    if(ans*(ans+1)/2 == n){
-        cout<<ans<<endl;
+    int frame = 3;
+
+    unordered_set<int> s;
+    queue<int> q;
+    int page_faults = 0;
+    for(int i=0 ; i< n; i++){
+        cout<<a[i]<<" = ";
+        
+       if(q.size()==frame){
+            if(s.find(a[i])==s.end()){
+                s.erase(q.front());//remove the first element from the queue
+                q.pop();//pop the first element from the queue
+                s.insert(a[i]);//insert the new element into the set
+                q.push(a[i]);//push the new element into the queue
+                page_faults++;
+            }
+            else{
+                cout<<"all Ready in the frame"<<endl;
+                continue;
+            }
+            queue<int> print = q;
+            while (!print.empty()){
+                cout<<print.front()<<" ";//print the queue elements
+                print.pop();//pop the first element from the queue
+            }
+            cout<<endl;
+       }
+       else{
+            q.push(a[i]);  
+            s.insert(a[i]);  
+            page_faults++;
+            queue<int> print = q;
+            while (!print.empty()){
+                cout<<print.front()<<" ";//print the queue elements
+                print.pop();//pop the first element from the queue
+            }
+            cout<<endl;
+       }
+       
     }
-    else{
-        cout<<"NAI"<<endl;
-    }
-}
-int32_t main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    
-    int t=1;
-    cin>>t;
-    for(int T=1 ; T<=t ; T++){
-        I_Am_Here();
-    }
+    cout<<"Total page faults: "<<page_faults<<endl;//print total page faults
 
     return 0;
 }
