@@ -5,7 +5,7 @@ int main() {
     cin >> n;//vector size n
     vector<int> a(n);
     vector<int> left, right;
-
+    int disk_size = 200;
     int head = 0;
     cin>> head;//initial head position
 
@@ -17,19 +17,20 @@ int main() {
             right.push_back(a[i]);//store elements greater than or equal to head in right vector
         }
     }
+    left.push_back(0);
+    right.push_back(disk_size-1);//add 0 and 199 to left and right vector respectively
+    
     sort(left.begin(), left.end());//sort left vector in descending order
     sort(right.begin(), right.end());//sort right vector in ascending order
-    left.push_back(0);
-    right.push_back(199);//add 0 and 199 to left and right vector respectively
+    
     cout << "Path: " << head;//print initial head position
-    for(int i=0 ; i<left.size(); i++){
-        total_distance += abs(left[i]-head);//calculate total distance
-        head = left[i];//update head position
+    
+    for(int i=0 ; i<right.size(); i++){
+        head = right[i];//update head position
         cout << " -> " << head;//print path
     }
-    for(int i=0 ; i<right.size(); i++){
-        total_distance += abs(right[i]-head);//calculate total distance
-        head = right[i];//update head position
+    for(int i=0 ; i<left.size(); i++){
+        head = left[i];//update head position
         cout << " -> " << head;//print path
     }
     cout<<endl;
