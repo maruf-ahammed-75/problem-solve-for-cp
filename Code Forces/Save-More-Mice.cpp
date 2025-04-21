@@ -1,56 +1,41 @@
-#include <bits/stdc++.h>
-#define ll long long
-#define int long long
+#include<bits/stdc++.h>
 #define ff first
 #define ss second
-#define full(a) a.begin(), a.end()
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
+#define ll long long
+#define pb push_back
+#define mp make_pair
+#define Y cout << "YES\n"
+#define N cout << "NO\n"
+#define pair pair<ll,ll>
+#define full(x) x.begin(), x.end()
+#define dec(x) fixed << setprecision(n)
 using namespace std;
 
-void I_Am_Here() {
-    int n ;
-    cin>>n;
-    int k;
-    cin>>k;
-    if(n==1 && k==2){
-        Y;
-        return;
-    }
-    if(k==1){
-        if(n==1){
-            N;
-            return;
-        }
-        bool f = true;
-        for(int i=2 ; i*i<=n ; i++){
-            if(n%i==0){
-                f=0;
-                break;
-            }
-        }
-        if(!f){
-            N;
-        }
-        else{
-            Y;
-        }
-    }
-    else{
-        N;
-    }
+void brainfuck(){
+    ll h,n;
+
+    cin>>h>>n;
+    ll a[n+1];
+    for(int i=1;i<=n;++i) cin>>a[i];
+	sort(a+1,a+n+1);
+
+	int pos=0;
+	int ans=0;
+	while(n>=1 && pos<a[n]){
+		ans++;
+		pos+=(h-a[n]);
+		n--;
+	}
+
+	cout<<ans<<'\n';
+	return;
 }
-int32_t main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    
-    int t=1;
-    cin>>t;
-    for(int T=1 ; T<=t ; T++){
-        I_Am_Here();
-    }
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    int t;
+    cin >> t;
+    while(t--) brainfuck();
 
     return 0;
 }
