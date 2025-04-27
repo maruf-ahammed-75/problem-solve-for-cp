@@ -10,22 +10,31 @@ using namespace std;
 vector<vector<int>>a(1e6,vector<int>());
 vector<int>vis(1e5,0);
 vector<int>level(1e5,0);
-void bfs(int s){
-    vis[s]=1;
-    level[s]=1;
-    queue<int>q;
-    q.push(s);
-    while(q.size()){
-        int cur = q.front();
-        q.pop();
-        for(auto i:a[cur]){
+// void bfs(int s){
+//     vis[s]=1;
+//     level[s]=1;
+//     queue<int>q;
+//     q.push(s);
+//     while(q.size()){
+//         int cur = q.front();
+//         q.pop();
+//         for(auto i:a[cur]){
            
-            if(!vis[i]){
-                level[i]=level[cur]+1;
-                vis[i]=1;
-                q.push(i);
-            }
+//             if(!vis[i]){
+//                 level[i]=level[cur]+1;
+//                 vis[i]=1;
+//                 q.push(i);
+//             }
             
+//         }
+//     }
+// }
+void dfs(int s){
+    vis[s]=1;
+    for(auto i:a[s]){
+        if(!vis[i]){
+            level[i]=1+level[s];
+            dfs(i);
         }
     }
 }
@@ -45,7 +54,8 @@ void I_Am_Here() {
     }
     for(auto i:root){
         if(!vis[i]){
-            bfs(i);
+            level[i]=1;
+            dfs(i);
         }
     }
     
