@@ -9,19 +9,46 @@
 using namespace std;
 
 void I_Am_Here() {
-    int n;
-    cin>> n;
-    string s;
-    cin>> s;
-    map<char,int> m;
-    for(int i=0 ; i<n ; i++){
-        m[s[i]]++;
-        if(m[s[i]]>1){
-            cout<<"NO"<<endl;
-            return;
+    int n,m;
+    cin>> n>> m;
+    vector<vector<int>>a(max(n,m),vector<int>(min(n,m)));
+    cout<<min(2 * min(n, m), max(n, m))<<endl;
+    int x= min(n,m)+1;
+    for(int i=0 ; i<max(n,m) ; i++){
+        // for(int j=0 ; j<min(n,m) ; j++){
+            if(i+1<=min(n,m)){
+                for(int j=0 ; j<=i ; j++){
+                    a[i][j]=1;
+                }
+                int t=2;
+                for(int j=i+1 ; j<min(n,m) ; j++){
+                    a[i][j]=t;
+                    t++;
+                }
+            }
+            else{
+                
+                for(int j=0 ; j<min(n,m) ; j++){
+                    a[i][j]=x;
+                }
+                x++;
+            }
+    }
+    if(n>=m)
+    for(int i=0 ; i<max(n,m) ; i++){
+        for(int j=0 ; j<min(n,m) ; j++){
+            cout<<a[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    else{
+        for(int j=0 ; j<min(n,m) ; j++){
+            for(int i=0 ; i<max(n,m) ; i++){
+                cout<<a[i][j]<<" ";
+            }
+            cout<<endl;
         }
     }
-    cout<<"YES"<<endl;
 }
 
 int32_t main() {
