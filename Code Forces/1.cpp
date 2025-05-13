@@ -13,28 +13,15 @@ void I_Am_Here() {
     cin>> n;
     string s;
     cin>> s;
-    int a=0,b=0,c=0;
+    map<char,int> m;
     for(int i=0 ; i<n ; i++){
-        if(s[i]=='A') a++;
-        else if(s[i]=='B') b++;
-        else c++;
-    }
-    if(a&&b){
-        cout<<1<<endl;
-    }
-    else{
-        // if(a==0)cout<<max(2*1LL,b)<<endl;
-        // else cout<<max(2*1LL,a)<<endl;
-        if(a){
-            cout<<a<<endl;
-        }
-        else if(b){
-            cout<<b<<endl;
-        }
-        else{
-            cout<<2<<endl;
+        m[s[i]]++;
+        if(m[s[i]]>1){
+            cout<<"NO"<<endl;
+            return;
         }
     }
+    cout<<"YES"<<endl;
 }
 
 int32_t main() {

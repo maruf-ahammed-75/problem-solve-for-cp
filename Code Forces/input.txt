@@ -1,13 +1,5 @@
-6
-5
-AAAAA
 2
-AB
-1
-S
-4
-SSBB
-4
-BASS
-5
-AAAAB
+2
+ab
+7
+abababc
