@@ -23,8 +23,17 @@ void I_Am_Here() {
         cout<<1<<endl;
     }
     else{
-        if(a==0)cout<<max(2*1LL,b)<<endl;
-        else cout<<max(2*1LL,a)<<endl;
+        // if(a==0)cout<<max(2*1LL,b)<<endl;
+        // else cout<<max(2*1LL,a)<<endl;
+        if(a){
+            cout<<a<<endl;
+        }
+        else if(b){
+            cout<<b<<endl;
+        }
+        else{
+            cout<<2<<endl;
+        }
     }
 }
 
