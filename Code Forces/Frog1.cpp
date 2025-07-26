@@ -9,22 +9,45 @@
 using namespace std;
 vector<int>a;
 int n;
-int frog(int index) {
+// only recursion
+// int frog(int index) {
 
-    if(index >= n ) return 0;
+//     if(index >= n ) return 0;
 
-    int min1 = frog(index + 1) + abs(a[index] - a[index + 1]);
-    int min2 = frog(index + 2) + abs(a[index] - a[index + 2]);
+//     int min1 = frog(index + 1) + abs(a[index] - a[index + 1]);
+//     int min2 = frog(index + 2) + abs(a[index] - a[index + 2]);
     
-    return min(min1, min2);
-}
+//     return min(min1, min2);
+// }
+
+vector<int>frog;
+
+
+
 void I_Am_Here() {
     cin>> n;
-    a = vector<int>(n+1, 0);
+    a = vector<int>(n+100, 0);
+    frog = vector<int>(n+100, 0);
     for(int i=1 ; i<=n ; i++) {
         cin >> a[i];
     }
-    cout<<frog(1)<<endl;
+
+    //convert recursion to  memoization
+    for(int index = n ; index >= 1 ; index-- ) {
+        int min1 = INT_MAX, min2 = INT_MAX;
+        if(index == n) {
+            frog[index] = 0;
+            continue;
+        }
+        if(index+1<=n) {
+            min1 = frog[index + 1] + abs(a[index] - a[index + 1]);
+        }
+        if(index+2<=n) {
+            min2 = frog[index + 2] + abs(a[index] - a[index + 2]);
+        }
+        frog[index] = min(min1, min2);
+    }
+    cout<<frog[1]<<endl;
 }
 
 int32_t main() {
