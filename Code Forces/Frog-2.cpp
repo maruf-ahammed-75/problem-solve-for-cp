@@ -11,17 +11,19 @@ vector<int>a;
 int n;
 int k;
 // only recursion
-int frog(int index) {
-    if(index >= n ) return 0;
-    int ans = INT_MAX;
-    for(int jump = 1 ; jump<= k ; jump++){
-        if(index+jump<=n){
-            int mi = frog(index + jump) + abs(a[index] - a[index + jump]);
-            ans = min(ans, mi);
-        }
-    }
-    return ans;
-}
+// int frog(int index) {
+//     if(index >= n ) return 0;
+//     int ans = INT_MAX;
+//     for(int jump = 1 ; jump<= k ; jump++){
+//         if(index+jump<=n){
+//             int mi = frog(index + jump) + abs(a[index] - a[index + jump]);
+//             ans = min(ans, mi);
+//         }
+//     }
+//     return ans;
+// }
+
+vector<int>frog;
 
 void I_Am_Here() {
     cin>> n;
@@ -30,7 +32,19 @@ void I_Am_Here() {
     for(int i=1 ; i<=n ; i++) {
         cin >> a[i];
     }
-    cout<<frog(1)<<endl;
+    frog = vector<int>(n+100, INT_MAX);
+    frog[n] = 0; // base case, no cost to reach the last stone
+    //convert recursion to  memoization
+    for(int index = n-1 ; index >= 1 ; index-- ) {
+        for(int jump = 1 ; jump<= k ; jump++){
+            if(index+jump<=n){
+                int mi = frog[index + jump] + abs(a[index] - a[index + jump]);
+                frog[index] = min(frog[index], mi);
+            }
+        }
+    }
+    cout<<frog[1]<<endl;
+
 }
 
 int32_t main() {
