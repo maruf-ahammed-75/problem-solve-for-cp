@@ -10,23 +10,25 @@ using namespace std;
 int n;
 vector<int>a,b,c;
 
+// only for recursion
+// int vacation(int index , int last){
+//     if(index > n) return 0;
 
-int vacation(int index , int last){
-    if(index > n) return 0;
+//     int ans =0 ;
 
-    int ans =0 ;
+//     if(last!=1){
+//         ans = max(ans,a[index] + vacation(index+1, 1));
+//     }
+//     if(last!=2){
+//         ans = max(ans,b[index] + vacation(index+1, 2));
+//     }
+//     if(last!=3){
+//         ans = max(ans,c[index] + vacation(index+1, 3));
+//     }
+//     return ans;
+// }
 
-    if(last!=1){
-        ans = max(ans,a[index] + vacation(index+1, 1));
-    }
-    if(last!=2){
-        ans = max(ans,b[index] + vacation(index+1, 2));
-    }
-    if(last!=3){
-        ans = max(ans,c[index] + vacation(index+1, 3));
-    }
-    return ans;
-}
+vector<vector<int>> vacation;
 
 void I_Am_Here() {
     cin>>n;
@@ -36,7 +38,28 @@ void I_Am_Here() {
     for(int i=1 ; i<=n ; i++) {
         cin >> a[i] >> b[i] >> c[i];
     }
-    cout<< vacation(1, 0) << endl;
+    // for recursion
+    // cout<< vacation(1, 0) << endl;
+
+
+    // for dp
+    vacation = vector<vector<int>>(n+100, vector<int>(4, 0));
+    for(int index=n ; index>=1 ; index--) {
+        for(int last=0 ; last<=3 ; last++) {
+            int ans =0;
+            if(last!=1){
+                ans = max(ans, a[index] + vacation[index+1][1]);
+            }
+            if(last!=2){
+                ans = max(ans, b[index] + vacation[index+1][2]);
+            }
+            if(last!=3){
+                ans = max(ans, c[index] + vacation[index+1][3]);
+            }
+            vacation[index][last] = ans;
+        }
+    }
+    cout<< vacation[1][0] << endl;
 }
 
 int32_t main() {
