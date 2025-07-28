@@ -7,32 +7,40 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-void I_Am_Here() {
-    int n;
-    cin >> n;
-    int m;
-    cin >> m;
-    vector<int> a(n+1,0);
-    int mx=INT_MIN,mi = INT_MAX;
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-        a[i]+=a[i-1];
-        mx = max(mx, a[i]);
-        mi = min(mi, a[i]); 
-    }
-    int st=0,en=0;
-    if(mx<0)st = -mi , en = m;
-    else if(mi>0)st =0 , en = m - mx;
-    else {
-        st = -mi;
-        en = m - mx;
-    }
-    if(st>en) {
-        cout << 0 << endl;
-        return;
-    }
-    cout<<en-st+1<<endl;
+int n,m;
+vector<vector<int>>adj;
+vector<bool>vis;
+vector<int>dp;
 
+
+int dfs(int s){
+
+    if(vis[s])return dp[s];
+
+    int mx = 0;
+    vis[s]=1;
+    for(auto v:adj[s]){
+        mx =max(mx,dfs(v)+1);
+    }
+    return dp[s]=mx;
+}
+void I_Am_Here() {
+    int ans=0;
+    cin>>n>>m;
+    adj = vector<vector<int>>(n+1,vector<int>());
+    for(int i=0 ; i<m ; i++){
+        int u,v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+    }
+    vis = vector<bool>(n+1,false);
+    dp = vector<int>(n+1,0);
+
+    for(int i=1 ; i<=n ; i++){
+        // cout<<i<<" = "<<dfs(i)<<endl;
+        ans = max(ans,dfs(i));
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
