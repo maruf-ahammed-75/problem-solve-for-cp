@@ -8,28 +8,48 @@
 #define N cout<<"NO\n"
 using namespace std;
 string a,b;
-string lcs(int i,int j){
-    if(i==a.size() || j==b.size())return "";
-    string s = "";
-    if(a[i] == b[j]){
-        s+=a[i]+lcs(i+1,j+1);
-    }
-    else{
-        string s1 = lcs(i+1,j);
-        string s2 = lcs(i,j+1);
-        if(s1.size()>s2.size()){
-            s+=s1;
-        }
-        else{
-            s+=s2;
-        }
-    }
-    return s;
-}
-void I_Am_Here() {
+// string lcs(int i,int j){
+//     if(i==a.size() || j==b.size())return "";
+//     string s = "";
+//     if(a[i] == b[j]){
+//         s+=a[i]+lcs(i+1,j+1);
+//     }
+//     else{
+//         string s1 = lcs(i+1,j);
+//         string s2 = lcs(i,j+1);
+//         if(s1.size()>s2.size()){
+//             s+=s1;
+//         }
+//         else{
+//             s+=s2;
+//         }
+//     }
+//     return s;
+// }
 
+void I_Am_Here() {
     cin>>a>>b;
-    cout<<lcs(0,0)<<endl;
+    // cout<<lcs(0,0)<<endl;
+    vector<vector<string>> lcs(a.size() + 1, vector<string>(b.size() + 1, ""));
+
+    for(int i=a.size()-1 ; i>=0 ; i--){
+        for(int j=b.size()-1 ; j>=0 ; j--){
+            if(a[i]==b[j]){
+                lcs[i][j] = a[i] + lcs[i+1][j+1];
+            }
+            else{
+                string s1 = lcs[i+1][j];
+                string s2 = lcs[i][j+1];
+                if(s1.size()>s2.size()){
+                    lcs[i][j]=s1;
+                }
+                else{
+                    lcs[i][j]=s2;
+                }
+            } 
+        }
+    }
+    cout<<lcs[0][0]<<endl;
 
 }
 
