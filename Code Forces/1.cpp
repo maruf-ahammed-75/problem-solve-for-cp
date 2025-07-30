@@ -1,58 +1,49 @@
 #include <bits/stdc++.h>
-#define ll long long
-#define int long long
-#define ff first
-#define ss second
-#define full(a) a.begin(), a.end()
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
 using namespace std;
-int n,m;
-vector<vector<int>>adj;
-vector<bool>vis;
-vector<int>dp;
 
+const int N = 100;
+vector<int> adj[N];
+vector<bool> visited(N, false);
+vector<int> dfs_roots;
+set<int> nodes; // all unique nodes
 
-int dfs(int s){
-
-    if(vis[s])return dp[s];
-
-    int mx = 0;
-    vis[s]=1;
-    for(auto v:adj[s]){
-        mx =max(mx,dfs(v)+1);
+void dfs(int u) {
+    visited[u] = true;
+    for (int v : adj[u]) {
+        if (!visited[v]) {
+            dfs(v);
+        }
     }
-    return dp[s]=mx;
 }
-void I_Am_Here() {
-    int ans=0;
-    cin>>n>>m;
-    adj = vector<vector<int>>(n+1,vector<int>());
-    for(int i=0 ; i<m ; i++){
-        int u,v;
-        cin>>u>>v;
+
+int main() {
+    // Graph: edges (directed)
+    vector<pair<int, int>> edges = {
+        {5, 1}, {1, 2},
+        {3, 4},
+        {9, 6}, {6, 7}, {7, 8},
+        {10, 11}, {11, 12}, {12, 10}
+    };
+
+    for (auto [u, v] : edges) {
         adj[u].push_back(v);
+        nodes.insert(u);
+        nodes.insert(v);
     }
-    vis = vector<bool>(n+1,false);
-    dp = vector<int>(n+1,0);
 
-    for(int i=1 ; i<=n ; i++){
-        // cout<<i<<" = "<<dfs(i)<<endl;
-        ans = max(ans,dfs(i));
+    for (int node : nodes) {
+        if (!visited[node]) {
+            dfs_roots.push_back(node);
+            dfs(node);
+        }
     }
-    cout<<ans<<endl;
-}
 
-int32_t main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-
-    int t = 1;
-    // cin >> t;
-    for (int T = 1; T <= t; T++) {
-        I_Am_Here();
+    // Output roots of DFS trees
+    cout << "DFS Tree Roots: ";
+    for (int root : dfs_roots) {
+        cout << root << " ";
     }
+    cout << "\n";
+
     return 0;
 }
