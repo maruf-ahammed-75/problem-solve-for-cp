@@ -7,26 +7,35 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-int n;
-vector<int>a;
+
 //recursion
-int way(int sum){
-    if(sum==0)return 1;
-    if(sum<0)return 0;
-    int ans=0;
-    for(int i=0 ; i<n ; i++){
-        ans+=way(sum-a[i]);
-    }
-    return ans;
-}
+// int way(int sum){
+//     if(sum==0)return 1;
+//     if(sum<0)return 0;
+//     int ans=0;
+//     for(int i=0 ; i<n ; i++){
+//         ans+=way(sum-a[i]);
+//     }
+//     return ans;
+// }
 void I_Am_Here() {
+    int n;
+    vector<int>a;
     int m;
     cin>>n>>m;
+    vector<int>way(m+1,0);
     a = vector<int>(n);
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
     }
-    cout<<way(m)<<endl;
+    // cout<<way(m)<<endl;
+    way[0]=1;
+    for(int sum=1 ; sum<=m ; sum++){
+        for(int i=0 ; i<n ; i++){
+            if(sum-a[i]>=0)way[sum] = (way[sum-a[i]]+way[sum])%1000000007;
+        }
+    }
+    cout<<way[m]<<endl;
 }
 
 int32_t main() {
