@@ -1,7 +1,3 @@
-
-
-
-
 #include <bits/stdc++.h>
 #define ll long long
 #define int long long
@@ -11,35 +7,35 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-int way[10][1000000 + 1];
+
 //recursion
-// int way(int sum){
-//     if(sum==0)return 1;
-//     if(sum<0)return 0;
-//     int ans=0;
-//     for(int i=0 ; i<n ; i++){
-//         ans+=way(sum-a[i]);
-//     }
-//     return ans;
-// }
+int steps(int num){
+    if(num==0) return 0;
+    if(num<0)return INT_MAX;
+
+
+    int temp = num;
+    int ans=INT_MAX;
+    while(temp){
+        int x = temp%10;
+        if(x)ans = min(ans,1+steps(num-x));
+        temp/=10;
+    }
+    return ans;
+
+}
 void I_Am_Here() {
     int n;
-    vector<int>a;
-    int m;
-    cin>>n>>m;
-    
- 
-    a = vector<int>(n);
-    
- 
+    cin>>n;
+    cout<<steps(n)<<endl;
 }
- 
+
 int32_t main() {
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
- 
+
     int t = 1;
     // cin >> t;
     for (int T = 1; T <= t; T++) {
