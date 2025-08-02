@@ -8,19 +8,17 @@
 #define N cout<<"NO\n"
 using namespace std;
 int n;
-int m;
 vector<int>a;
 
 int Combinations(int index,int sum){
 
     if(sum<0)return 0;
+    if(sum==0)return 1;
     if(index>n)return 0;
 
-    if(sum==0)return 1;
-
     int ans=0;
-    ans+=Combinations(index,sum-a[index]);
-    ans+=Combinations(index+1,sum);
+    ans+=Combinations(index,sum-a[index])
+    ans+=Combinations(index+1,sum)
 
     return ans;
 }
@@ -28,12 +26,7 @@ int Combinations(int index,int sum){
 
 void I_Am_Here() {
     
-    cin>>n>>m;
-    a = vector<int>(n+1);
-    for(int i=1 ; i<=n ; i++){
-        cin>>a[i];
-    }
-    cout<<Combinations(1,m)<<endl;
+
 }
 
 int32_t main() {
