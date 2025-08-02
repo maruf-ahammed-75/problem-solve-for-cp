@@ -13,26 +13,47 @@
 using namespace std;
 int mod = ((int)1e9 + 7);
 //recursion
-int n;
-vector<string>a;
-int count(int i,int j){
-    if(i>=n || j>=n)return 0;//out of boundry
-    if(a[i][j]=='*') return 0;//trap
-    if(i==n-1 && j==n-1)return 1;//reached goal
+// int n;
+// vector<string>a;
+// int count(int i,int j){
+//     if(i>=n || j>=n)return 0;//out of boundry
+//     if(a[i][j]=='*') return 0;//trap
+//     if(i==n-1 && j==n-1)return 1;//reached goal
 
 
-    int ans=0;
-    ans+=count(i+1,j);
-    ans+=count(i,j+1);
-    return ans;
-}
+//     int ans=0;
+//     ans+=count(i+1,j);
+//     ans+=count(i,j+1);
+//     return ans;
+// }
 void I_Am_Here() {
+    int n;
+    vector<string>a;
     cin>>n;
     a = vector<string>(n);
     for(int i=0 ; i<n ; i++){
         cin>>a[i];
     }
-    cout<<count(0,0)<<endl;
+    // cout<<count(0,0)<<endl;
+
+    vector<vector<int>>count(n+1,vector<int>(n+1,0));
+    if(a[n-1][n-1]!='*')count[n-1][n-1]=1;
+
+    for(int i=n-1 ; i>=0 ; i--){
+        for(int j=n-1 ; j>=0 ; j--){
+            if(a[i][j]=='*'){
+                continue;
+            }
+            else{
+                count[i][j]+=count[i+1][j];
+                count[i][j]%=mod;
+                count[i][j]+=count[i][j+1];
+                count[i][j]%=mod;
+            }
+        }
+    }
+    cout<<count[0][0]<<endl;
+    
 }
  
 int32_t main() {
