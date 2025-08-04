@@ -36,7 +36,7 @@ void I_Am_Here() {
     cin>>n>>m;
     dp = vector<vector<int>>(n+1,vector<int>(m+1,INT_MAX));
     cout<<Rectangle(n,m)<<endl;
-
+    vector<int>c;
 }
  
 int32_t main() {
