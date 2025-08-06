@@ -1,5 +1,3 @@
-
- 
 #include <bits/stdc++.h>
 #define ll long long
 #define int long long
@@ -15,7 +13,7 @@ set<int>s;
 vector<vector<int>>dp;
 void sums(int index,int sum) {
     if(dp[index][sum])return;
-
+ 
     if(sum)s.insert(sum);
     
     if(index==n)return;
