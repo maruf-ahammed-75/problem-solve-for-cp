@@ -31,6 +31,20 @@ int page(int i, int wt){
     }
     return dp[i][wt];
 }
+
+
+
+void generateState(int curPos, int curCap) {
+    if (curPos >= n) return;
+    int nxPos = nx_state[curPos][curCap].first;
+    int nxCap = nx_state[curPos][curCap].second;
+    // cout << curPos << " " << nxPos  << endl;
+    if (nxCap < curCap) {
+        cout << "Take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
+    }
+    generateState(nxPos, nxCap);
+}
+
 void I_Am_Here() {
     cin>>n >> m;
     a = vector<int>(n);
@@ -49,19 +63,24 @@ void I_Am_Here() {
     cout<<dp[0][m]<<endl;
 
     int curPos = 0, curCap = m;
-    while (curPos < n) {
-        int nxPos = nx_state[curPos][curCap].first;
-        int nxCap = nx_state[curPos][curCap].second;
-        // cout << curPos << " " << nxPos  << endl;
-        if (nxCap < curCap) {
-            cout << "Take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
-        }
-        // else {
-        //     cout << "Don't take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
-        // }
-        curPos = nxPos;
-        curCap = nxCap;
-    }
+    // using recursion
+    generateState(curPos, curCap);
+
+
+
+    // while (curPos < n) {
+    //     int nxPos = nx_state[curPos][curCap].first;
+    //     int nxCap = nx_state[curPos][curCap].second;
+    //     // cout << curPos << " " << nxPos  << endl;
+    //     if (nxCap < curCap) {
+    //         cout << "Take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
+    //     }
+    //     // else {
+    //     //     cout << "Don't take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
+    //     // }
+    //     curPos = nxPos;
+    //     curCap = nxCap;
+    // }
 
 
 
