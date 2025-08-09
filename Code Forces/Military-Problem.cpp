@@ -10,21 +10,21 @@ using namespace std;
 vector<bool>vis;
 vector<int>ans;
 vector<vector<int>>adj;
-vector<int>in, out;
-void dfs(int s){
-    in[s]=ans.size();
-    
-    ans.push_back(s);
-    vis[s]=true;
+vector<int>subtree;
+vector<int>pos;
 
-     sort(full(adj[s]));
+int dfs(int s){
+    int si = 1;
+    ans.push_back(s);
+    pos[s] = ans.size();
+    vis[s]=true;
     for(int v : adj[s]){
         if(!vis[v]){
-            dfs(v);
-            
+            si += dfs(v); 
         }
     }
-    out[s]=ans.size()-1;
+    subtree[s] = si;
+    return si;
 }
 void I_Am_Here() {
     int n;
@@ -32,34 +32,30 @@ void I_Am_Here() {
     cin>>n>>m;
     adj = vector<vector<int>>(n+1,vector<int>());
     vis = vector<bool>(n+1,0);
-    in = vector<int>(n+1,0);
-    out = vector<int>(n+1,0);
-    map<int,int>mp;
-    adj[1].push_back(1);
-    
+    pos = vector<int>(n+1,0);
+    ans = vector<int>();
+    subtree = vector<int>(n+1,0);
+
     for(int i=2 ;i<=n ; i++){
         int x;
         cin>>x;
-        adj[i].push_back(x);
         adj[x].push_back(i);
     }
-    ans = vector<int>();
+    
+    
     dfs(1);
-    for(int i=1 ; i<=n ; i++){
-        cout<<i<<": "<<in[i]<<" "<<out[i]<<endl;
-    }
-
-
-
-    // for(auto i : ans){
-    //     cout<<i<<" ";
-    // }
-    // cout<<endl;
+   
 
     for(int j=0 ; j<m ; j++){
         int x,y;
         cin>>x>>y;
-        
+       
+        if(subtree[x]< y ){
+            cout<<-1<<endl;
+        }
+        else{
+            cout<<ans[pos[x]-1+y-1]<<endl;
+        }
     }
 }
 
