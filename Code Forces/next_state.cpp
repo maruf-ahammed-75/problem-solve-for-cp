@@ -10,16 +10,25 @@ using namespace std;
 int n,m;
 vector<int> a,b;
 vector<vector<int>> dp;
-
+vector<vector<pair<int, int>>> nx_state; // to store next state
 int page(int i, int wt){
     if(dp[i][wt]!=-1)return dp[i][wt];
     if(i==n)return 0;
 
-    
-    if(wt-a[i]>=0)dp[i][wt] = max(dp[i][wt], page(i+1,wt-a[i])+b[i]);
+    int profit1 = 0;
+    int profit2 = 0;
+    if(wt-a[i]>=0)profit1 = page(i+1,wt-a[i])+b[i];
+    profit2 = page(i+1 , wt);
+    dp[i][wt] = max(profit1, profit2);
 
-    dp[i][wt] = max(dp[i][wt], page(i+1 , wt));
 
+    //state 
+    if(profit1>profit2){
+        nx_state[i][wt] = {i+1, wt-a[i]};
+    }
+    else{
+        nx_state[i][wt] = {i+1, wt};
+    }
     return dp[i][wt];
 }
 void I_Am_Here() {
@@ -33,10 +42,29 @@ void I_Am_Here() {
     for (int i = 0; i < n; i++) {
         cin >> b[i];
     }
+    nx_state = vector<vector<pair<int, int>>>(n + 1, vector<pair<int, int>>(m + 1, {-1, -1}));
 
     dp = vector<vector<int>>(n + 1, vector<int>(m + 1, -1));
     page(0,m);
     cout<<dp[0][m]<<endl;
+
+    int curPos = 0, curCap = m;
+    while (curPos < n) {
+        int nxPos = nx_state[curPos][curCap].first;
+        int nxCap = nx_state[curPos][curCap].second;
+        // cout << curPos << " " << nxPos  << endl;
+        if (nxCap < curCap) {
+            cout << "Take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
+        }
+        // else {
+        //     cout << "Don't take item " << curPos << " with price " << b[curPos] << " and weight " << a[curPos] << endl;
+        // }
+        curPos = nxPos;
+        curCap = nxCap;
+    }
+
+
+
 }
 
 int32_t main() {
