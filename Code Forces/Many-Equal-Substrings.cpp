@@ -8,49 +8,24 @@
 #define N cout<<"NO\n"
 using namespace std;
 void I_Am_Here() {
-    int n;
-    cin>>n;
-    vector<pair<int,int>> v(n);
-    for(int i=0 ; i<n ; i++){
-        cin>>v[i].ff>>v[i].ss;
-    }
-    sort(full(v));
-    if(n==2){
-        cout<<max(v[0].ss-v[0].ff,v[1].ss-v[1].ff);
-        return;
-    }
-    int end = INT_MAX;
-    int st = v[n-2].ff;
-    int ans = 0;
-    int inEnd=0;
-    for(int i=0 ; i<n-1 ; i++){
-        if(end>v[i].ss){
-            inEnd=i;
-            end = v[i].ss;
+
+    int n, k;
+    string t;
+    cin >> n >> k >> t;
+
+    int overlap = 0;
+    for (int len = 1; len < n; len++) {
+        if (t.substr(0, len) == t.substr(n - len)) {
+            overlap = len;
         }
     }
-    if(st>end){
-        ans=0;
-    }
-    else{
-        ans=end-st;
-    }
 
+    string ans = t;
+    string extra = t.substr(overlap); 
+    for (int i = 1; i < k; i++) ans += extra;
 
-    end = INT_MAX;
-    st = v[n-1].ff;
-
-    for(int i=0 ; i<n ; i++){
-        if(i==inEnd)continue;
-        end = min(end, v[i].ss);
-    }
-    if(end>st){
-        ans = max(ans, end-st);
-    }
-    cout<<ans<<"\n";
-
+    cout << ans << "\n";
 }
-
 int32_t main() {
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
