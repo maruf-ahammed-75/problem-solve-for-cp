@@ -1,4 +1,4 @@
-﻿#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 #define ll long long
 #define int long long
 #define ff first
@@ -40,27 +40,31 @@ void dfs(int i,int j){
     }
     
 }
+
+void bfs(int i,int j){
+    
+}
  
 void I_Am_Here() {
+
     cin>>n>>m;
     a = vector<vector<char>>(n+1,vector<char>(m+1));
     vis = vector<vector<bool>>(n+1,vector<bool>(m+1,0));
-    
+    int ii=-1,jj=-1;
+
     for(int i=0 ; i<n ; i++){
         for(int j=0 ; j<m ; j++){
             cin>>a[i][j];
-        }
-    }
-    int ans=0;
-    for(int i=0 ; i<n ; i++){
-        for(int j=0 ; j<m ; j++){
-            if(a[i][j]=='.' && !vis[i][j]){
-                dfs(i,j);
-                ans++;
+            if(a[i][j] == 'A'){
+                ii = i;
+                jj = j;
             }
         }
     }
-    cout<<ans<<endl;
+    if(ii!=-1){
+
+    }
+   
 }
  
 int32_t main() {
