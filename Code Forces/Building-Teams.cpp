@@ -14,21 +14,47 @@ vector<int>par;
 vector<bool>vis;
 bool f=0;
 vector<int>ans;
-void dfs(int i){
+// void dfs(int i){
+//     vis[i]=1;
+//     for(auto x:adj[i]){
+//         if(!vis[x]){
+//             par[x]=i;
+//             if(ans[i]==1){
+//                 ans[x]=2;
+//             }
+//             else{
+//                 ans[x]=1;
+//             }
+//             dfs(x);
+//         }
+//         else if(par[i]!=x){
+//             if(ans[x]==ans[i])f=1;
+//         }
+//     }
+// }
+
+void bfs(int i){
+    queue<int>q;
+    q.push(i);
     vis[i]=1;
-    for(auto x:adj[i]){
-        if(!vis[x]){
-            par[x]=i;
-            if(ans[i]==1){
-                ans[x]=2;
+    while(!q.empty()){
+        int cur = q.front();
+        q.pop();
+        for(auto nbr:adj[cur]){
+            if(!vis[nbr]){
+                par[nbr]=cur;
+                vis[nbr]=1;
+                if(ans[cur]==1){
+                    ans[nbr]=2;
+                }
+                else{
+                    ans[nbr]=1;
+                }
+                q.push(nbr);
             }
             else{
-                ans[x]=1;
+                if(ans[nbr]==ans[cur])f=1;
             }
-            dfs(x);
-        }
-        else if(par[i]!=x){
-            if(ans[x]==ans[i])f=1;
         }
     }
 }
@@ -47,7 +73,7 @@ void I_Am_Here() {
     for(int i=1 ; i<=n ; i++){
         if(!vis[i]){
             ans[i]=1;
-            dfs(i);
+            bfs(i);
         }
     }
     if(f){
