@@ -7,67 +7,121 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-
 int n,m;
 vector<vector<char>>a;
-vector<vector<bool>>vis;
-bool isValid(int i ,int j){
-    if(i<0 || j<0)return false;
-    if(i>=n || j>=m)return false;
-    if(a[i][j] == '#')return false;
-    
+vector<vector<bool>> vis;
+vector<vector<pair<int,pair<int,char>>>>next_state;
+bool f=0;
+int findI = -1 , findJ = -1;
+
+bool valid(int i,int j){
+    if(i<0 || j<0 || i>=n || j>=m) return false;
+    if(a[i][j]=='#')return false;
+    if(vis[i][j]) return false;
     return true;
-}
- 
-void dfs(int i,int j){
-    
-    vis[i][j]=1;
-    
-    if(isValid(i-1,j) && !vis[i-1][j]){//up
-        dfs(i-1,j);
-    }
-    
-    if(isValid(i+1,j) && !vis[i+1][j]){//down
-        dfs(i+1,j);
-    }
-    
-    if(isValid(i,j+1) && !vis[i][j+1] ){//right
-        dfs(i,j+1);
-    }
-    
-    if(isValid(i,j-1) && !vis[i][j-1]){//left
-        dfs(i,j-1);
-    }
-    
 }
 
 void bfs(int i,int j){
-    
+    vis[i][j]=1;
+
+    queue<pair<int,int>>q;
+    q.push({i,j});
+    int x=i,y=j;
+
+    while(!q.empty()){
+        pair<int,int> curr = q.front();
+        q.pop();
+
+        x = curr.ff;
+        y = curr.ss;
+
+        if(a[x][y]=='B'){
+            f=1;
+            findI = x;
+            findJ = y;
+            return;
+        }
+
+
+        //right 
+        if(valid(x,y+1)){
+            q.push({x,y+1});
+            vis[x][y+1] = 1;
+            next_state[x][y+1] = {x,{y,'R'}};
+        }
+
+        //left
+        if(valid(x,y-1)){
+            q.push({x,y-1});
+            vis[x][y-1] = 1;
+            next_state[x][y-1] = {x,{y,'L'}};
+        }
+
+
+
+         //up
+        if(valid(x-1,y)){
+            q.push({x-1,y});
+            vis[x-1][y] = 1;
+            next_state[x-1][y] = {x,{y,'U'}};
+        }
+
+        //down
+        if(valid(x+1,y)){
+            q.push({x+1,y});
+            vis[x+1][y] = 1;
+            next_state[x+1][y] = {x,{y,'D'}};
+        }
+
+
+       
+    }
 }
- 
+
+
 void I_Am_Here() {
-
     cin>>n>>m;
-    a = vector<vector<char>>(n+1,vector<char>(m+1));
-    vis = vector<vector<bool>>(n+1,vector<bool>(m+1,0));
-    int ii=-1,jj=-1;
+    a = vector<vector<char>>(n, vector<char>(m));
+    vis = vector<vector<bool>>(n, vector<bool>(m, false));
+    next_state = vector<vector<pair<int,pair<int,char>>>>(n, vector<pair<int,pair<int,char>>>(m));
 
-    for(int i=0 ; i<n ; i++){
-        for(int j=0 ; j<m ; j++){
+    int inI =-1 , inJ=-1;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
             cin>>a[i][j];
-            if(a[i][j] == 'A'){
-                ii = i;
-                jj = j;
+            if(a[i][j]=='A'){
+                inI = i;
+                inJ = j;
             }
         }
     }
-    if(ii!=-1){
 
+    bfs(inI,inJ);
+    if(!f){
+        N;
+        return;
     }
-   
+
+   Y;
+   int ans=0;
+   string path = "";
+
+   while(findI != inI || findJ != inJ){
+       path += next_state[findI][findJ].ss.ss;
+       findI = next_state[findI][findJ].ff;
+       findJ = next_state[findI][findJ].ss.ff;
+   }
+   reverse(full(path));
+   cout<<path.size()<<"\n"<<path;
 }
  
 int32_t main() {
+
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+
     int t = 1;
     // cin >> t;
     for (int T = 1; T <= t; T++) {
