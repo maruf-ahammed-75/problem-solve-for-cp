@@ -11,7 +11,8 @@ using namespace std;
 void I_Am_Here(){
     int k,x;
     cin>>k>>x;
-    cout<<pow(2,k)*x<<"\n";
+    for(int i=1 ; i<=k ; i++)x*=2;
+    cout<<x<<"\n";
 }
  
 int32_t main() {
