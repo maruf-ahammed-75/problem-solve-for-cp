@@ -40,6 +40,7 @@ void I_Am_Here() {
         int x,y,z;
         cin>>x>>y>>z;
         a[x].push_back({y,z});
+        a[y].push_back({x,z});
     }
     
     dijkstra(1);
