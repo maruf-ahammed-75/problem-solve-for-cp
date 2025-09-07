@@ -13,7 +13,15 @@ void I_Am_Here(){
     cin>>n;
     vector<int> a(n);
     for(int i=0 ; i<n ; i++)cin>>a[i];
+    if(n==2){
+        if(a[0]==1)cout<<2<<' ' ;
+        else cout<<1<<' ' ;
 
+        if(a[1]==2)cout<<1<<' ' ;
+        else cout<<2<<' ' ;
+        cout<<"\n";
+        return;
+    }
     for(int i=0 ; i<n ; i++){
         cout<<n - a[i]%n<<' ' ;
     }
