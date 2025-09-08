@@ -1,49 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-const int N = 100;
-vector<int> adj[N];
-vector<bool> visited(N, false);
-vector<int> dfs_roots;
-set<int> nodes; // all unique nodes
-
-void dfs(int u) {
+ 
+vector < vector < int > > adj;
+bool isCyclic;
+vector < bool > visited;
+vector < int > parent;
+void dfs (int u) {
     visited[u] = true;
     for (int v : adj[u]) {
-        if (!visited[v]) {
+        if (visited[v] == true) {
+            if (v != parent[u]) {
+                isCyclic = true;
+            }
+        }
+        else {
+            parent[v] = u;
             dfs(v);
         }
     }
 }
-
-int main() {
-    // Graph: edges (directed)
-    vector<pair<int, int>> edges = {
-        {5, 1}, {1, 2},
-        {3, 4},
-        {9, 6}, {6, 7}, {7, 8},
-        {10, 11}, {11, 12}, {12, 10}
-    };
-
-    for (auto [u, v] : edges) {
+int main () {
+    int n, m;
+    cin >> n >> m;
+    isCyclic = false;
+    visited = vector < bool > (n + 1, false);
+    parent = vector < int > (n + 1, 0);
+    adj = vector < vector < int > >(n + 1, vector < int > ());
+    for (int i = 0, u, v; i < m; i++) {
+        cin >> u >> v;
         adj[u].push_back(v);
-        nodes.insert(u);
-        nodes.insert(v);
+        adj[v].push_back(u);
     }
-
-    for (int node : nodes) {
+    for (int node = 1; node <= n; node++) {
+        cout << node << "->";
+        for (int v : adj[node]) cout << v << " ";
+        cout << endl;
+    }
+    for (int node = 1; node <= n; node++) {
         if (!visited[node]) {
-            dfs_roots.push_back(node);
             dfs(node);
         }
     }
-
-    // Output roots of DFS trees
-    cout << "DFS Tree Roots: ";
-    for (int root : dfs_roots) {
-        cout << root << " ";
+    dfs(1);
+    if (isCyclic) {
+        cout << "Cyclic Undirected Graph" << endl;
     }
-    cout << "\n";
-
+    else cout << "Not Cyclic Undirected Graph" << endl;
+    for(int i=1 ; i<=n ; i++){
+        cout<<parent[i]<<' ';
+    }
     return 0;
 }
