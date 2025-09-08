@@ -47,5 +47,8 @@ int main () {
         cout << "Cyclic Undirected Graph" << endl;
     }
     else cout << "Not Cyclic Undirected Graph" << endl;
-return 0;
+    for(int i=1 ; i<=n ; i++){
+        cout<<parent[i]<<' ';
+    }
+    return 0;
 }
