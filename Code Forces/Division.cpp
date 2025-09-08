@@ -27,13 +27,11 @@ void I_Am_Here() {
 }
 
 int32_t main() {
-    // #ifndef ONLINE_JUDGE
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-    // #endif
-
-  
-
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+    
     int t = 1;
     cin >> t;
     for (int T = 1; T <= t; T++) {
