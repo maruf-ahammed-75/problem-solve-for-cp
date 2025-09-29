@@ -71,13 +71,6 @@ void I_Am_Here() {
         cout<<i<<' ';
     }
     cout<<endl;
-
-   
-   
-   
-
-
- 
 }
  
 int32_t main() {
@@ -85,7 +78,6 @@ int32_t main() {
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-
 
     int t = 1;
     // cin >> t;

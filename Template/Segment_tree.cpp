@@ -13,22 +13,38 @@ struct SegmentTree {
         lazy = vector < int > (4 * sz, 0);
         build(1, 0, sz - 1);
     }
-    int merge(int v1, int v2) { 
+    int merge(int v1, int v2) {
         return min(v1, v2);
     }
     int size() {
         return sz;
     }
-    void push(int u) {
-        if (lazy[u] != 0) {
-            int val = lazy[u];
-            lazy[u] = 0;
-            stree[u * 2] += val;
-            stree[u * 2 + 1] += val;
-            lazy[u * 2] += val;
-            lazy[u * 2 + 1] += val;
-        }
+    void push (int u) {
+        int val = lazy[u];
+        lazy[u] = 0;
+        stree[u * 2] += val;
+        stree[u * 2 + 1] += val;
+        lazy[u * 2] += val;
+        lazy[u * 2 + 1] += val;
     }
+
+    // Definition : lazy propagation for range update(SUM update)
+    void push(int u, int tl, int tr) {
+        if(lazy[u] == 0 || tl == tr) return; // leaf node বা কোনো lazy না থাকলে return
+
+        int mid = (tl + tr) / 2;
+
+        // বাম child এর জন্য
+        stree[u * 2] += lazy[u] * (mid - tl + 1);
+        lazy[u * 2] += lazy[u];
+
+        // ডান child এর জন্য
+        stree[u * 2 + 1] += lazy[u] * (tr - mid);
+        lazy[u * 2 + 1] += lazy[u];
+
+        lazy[u] = 0; // parent node এর lazy clear করা
+    }
+    
     void build (int u, int tl, int tr) {
         if (tl > tr) return;
         if (tl == tr) {
@@ -61,7 +77,6 @@ struct SegmentTree {
         int rc = query(u * 2 + 1, mid + 1, tr, l, r);
         return merge(lc, rc);
     }
-    
     void update (int u, int tl, int tr, int id, int val) {
         if (id < tl || id > tr) return;
         if (tl == tr) {
@@ -75,7 +90,6 @@ struct SegmentTree {
         update(u * 2 + 1, mid + 1, tr, id, val);
         stree[u] = merge(stree[u * 2], stree[u * 2 + 1]);
     }
-    //range update
     void update (int u, int tl, int tr, int l, int r, int val) {
         if (tl > tr) return;
         if (l > r) return;
@@ -92,7 +106,7 @@ struct SegmentTree {
         stree[u] = merge(stree[u * 2], stree[u * 2 + 1]);
     }
 };
-
 signed main () {
+
 return 0;
 }
