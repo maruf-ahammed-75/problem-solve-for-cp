@@ -30,19 +30,13 @@ struct SegmentTree {
 
     // Definition : lazy propagation for range update(SUM update)
     void push(int u, int tl, int tr) {
-        if(lazy[u] == 0 || tl == tr) return; // leaf node বা কোনো lazy না থাকলে return
-
+        if(lazy[u] == 0 || tl == tr) return; 
         int mid = (tl + tr) / 2;
-
-        // বাম child এর জন্য
         stree[u * 2] += lazy[u] * (mid - tl + 1);
         lazy[u * 2] += lazy[u];
-
-        // ডান child এর জন্য
         stree[u * 2 + 1] += lazy[u] * (tr - mid);
         lazy[u * 2 + 1] += lazy[u];
-
-        lazy[u] = 0; // parent node এর lazy clear করা
+        lazy[u] = 0;
     }
     
     void build (int u, int tl, int tr) {
@@ -95,7 +89,7 @@ struct SegmentTree {
         if (l > r) return;
         if (tr < l || tl > r) return;
         if (l <= tl && tr <= r) {
-            stree[u] += val;
+            stree[u] += val;//if range add -> stree[u] += (val * (tr - tl + 1));
             lazy[u] += val;
             return;
         }

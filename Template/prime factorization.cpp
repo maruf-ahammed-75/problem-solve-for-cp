@@ -32,3 +32,6 @@ int main () {
     }
 return 0;
 }
+// --------------------important-----------
+// if a number prime factor = p1^x1 * p2^x2 * p3^x3 * ...pn^xn
+// then number of divisors = (x1+1)*(x2+1)*(x3+1)*...(xn+1) 

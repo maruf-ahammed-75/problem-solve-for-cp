@@ -72,6 +72,17 @@ struct SegmentTree {
         lazy[u * 2] += val;
         lazy[u * 2 + 1] += val;
     }
+    void printTree() {
+        printTree(1, 0, sz - 1);
+    }
+    void printTree(int u, int tl, int tr) {
+        cout << "Node " << u << " -> [" << tl << ", " << tr << "] = " << stree[u] << "\n";
+        if (tl == tr) return; // leaf node
+
+        int mid = (tl + tr) / 2;
+        printTree(u * 2, tl, mid);          // left child
+        printTree(u * 2 + 1, mid + 1, tr);  // right child
+    }
 };
 void I_Am_Here() {
     int n,m;
@@ -81,6 +92,7 @@ void I_Am_Here() {
         cin>>a[i];
     }
     SegmentTree st(a);
+    // st.printTree();
     for(int i=0 , x ; i<m ; i++){
         cin>>x;
         int id = st.find_first(x);
