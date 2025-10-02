@@ -35,7 +35,7 @@ struct SegmentTree {
         stree[u] = merge(stree[u * 2], stree[u * 2 + 1]);
     }
     int find_first(int val){
-        find_first(1,0,sz-1,val);
+        return find_first(1,0,sz-1,val);
     }
     int find_first(int u,int tl ,int tr , int val){
         if(stree[u]<val) return -1;
@@ -54,7 +54,7 @@ struct SegmentTree {
     void update (int u, int tl, int tr, int id, int val) {
         if (id < tl || id > tr) return;
         if (tl == tr) {
-            stree[u] = val;
+            stree[u] -= val;
             return;
         }
         if (tl > tr) return;
@@ -89,11 +89,9 @@ void I_Am_Here() {
         }
         else{
             cout<<id+1<<' ';
-            st.update(id , a[id]-x);
+            st.update(id , x);
         }
     }
-
-
 }
 
 int32_t main() {
