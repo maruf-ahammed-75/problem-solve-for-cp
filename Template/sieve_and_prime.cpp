@@ -1,10 +1,11 @@
-ll isPrime[100000];
+int N = 100000;
+ll isPrime[N];
 void sieve() {
     isPrime[0] = 1;
     isPrime[1] = 1;
-    for(int i = 2; i * i <= 100000; i++){
+    for(int i = 2; i * i <= N; i++){
         if(!isPrime[i]){
-            for(int j = i * i; j <= 100000; j += i){
+            for(int j = i * i; j <= N; j += i){
                 isPrime[j] = 1;
             }
         } 
