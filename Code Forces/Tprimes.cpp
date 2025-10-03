@@ -7,22 +7,29 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-bool prime(int n) {
-   if(n < 2) return false;
-   if(n == 2) return true;
-   for(int i = 2; i * i <= n; i++) {
-       if(n % i == 0)
-           return false;
-   }
-   return true;
+const int M = 1000000+10;
+bool isPrime[M];
+vector<int> primes;
+void sieve() {
+    if (M < 2) return;
+    isPrime[0] = 1;
+    isPrime[1] = 1;
+    for (int i = 2; 1LL * i * i <= M; ++i) {
+        if (!isPrime[i]) {
+            for (int j = i * i * 1LL; j <= M; j += i)
+                isPrime[j] = 1;
+        }
+    }
+    
 }
 void I_Am_Here() {
+    sieve();
     int n;
     cin >> n;
     for(int i=0,x ; i<n ; i++){
         cin>>x;
         int y = sqrt(x);
-        if(y*y == x && prime(y)) cout<<"YES\n";
+        if(y*y == x && !isPrime[y]) cout<<"YES\n";
         else cout<<"NO\n";
     }
 }
