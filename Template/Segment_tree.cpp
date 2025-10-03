@@ -110,6 +110,24 @@ struct SegmentTree {
         printTree(u * 2, tl, mid);          // left child
         printTree(u * 2 + 1, mid + 1, tr);  // right child
     }
+
+    // using alive array
+    int Kth_one(int k) {
+        return Kth_one(1, 0, sz - 1, k);
+    }
+    int Kth_one(int u, int tl, int tr, int k) {
+        if(k > stree[u] || k <= 0) return -1; // not enough 1's
+        if (tl == tr) {
+            return tl;
+        }
+        // push(u);
+        int mid = (tl + tr) / 2;
+        if (stree[u * 2] >= k) {
+            return Kth_one(u * 2, tl, mid, k);
+        } else {
+            return Kth_one(u * 2 + 1, mid + 1, tr, k - stree[u * 2]);
+        }
+    }
 };
 signed main () {
 
