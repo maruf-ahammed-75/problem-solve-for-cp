@@ -7,7 +7,7 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-const int M = 100000;
+const int M = 1000000;
 bool isPrime[M+100];
 vector<int> primes;
 void sieve() {
