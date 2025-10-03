@@ -5,7 +5,7 @@ void calcFp(int n) {
     fp = vector < int > (n + 1, 1);
     for (int prime = 2; prime <= n; prime++) {
         for (int num = prime; num <= n; num += prime) {
-            if (fp[num] == 1) fp[num] = prime;
+            if (fp[num] == 1) fp[num] = prime;//stores the smallest prime number
         }
     }
 }
