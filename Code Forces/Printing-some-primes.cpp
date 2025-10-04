@@ -5,38 +5,32 @@
 #define ss second
 #define full(a) a.begin(), a.end()
 #define Y cout<<"YES\n"
-#define N cout<<"NO\n"
+// #define N cout<<"NO\n"
 using namespace std;
-vector < int > fp;
-void calcFp(int n) {
-    fp = vector < int > (n + 1, 1);
-    for (int prime = 2; prime <= n; prime++) {
-        for (int num = prime; num <= n; num += prime) {
-            if (fp[num] == 1) fp[num] = prime;//stores the smallest prime number
+// Linear Sieve for prime factorization
+//time complexity: O(n)
+//space complexity: O(n)
+const int N = 100000000;  // up to 1e8
+vector<int> lp;   // lowest prime factor
+vector<int> primes;      // list of primes
+void linear_sieve(int n) {
+    lp = vector<int>(n + 1, 0);
+    for (int i = 2; i <= n; i++) {
+        if (lp[i] == 0) {        // i is prime
+            lp[i] = i;
+            primes.push_back(i);
+        }
+        for (int p : primes) {
+            if (p > lp[i] || 1LL * i * p > n) break;
+            lp[i * p] = p;
         }
     }
 }
-void I_Am_Here() {
-    calcFp(10000000);
-    int x;
-    
-    while(cin>>x){
-        if(x==1){
-            cout<<1<<endl;
-            continue;
-        }
 
-        vector<int> factors;
-        while (x > 1) {
-            int p = fp[x];
-            factors.push_back(p);
-            x /= p;
-        }
-        cout << 1;
-        for (int p : factors) {
-            cout << " x " << p;
-        }
-        cout << "\n";
+void I_Am_Here() {
+    linear_sieve(N);
+    for(int i=0 ; i<primes.size() ; i+=100){
+        cout<<primes[i]<<"\n";
     }
 }
 
