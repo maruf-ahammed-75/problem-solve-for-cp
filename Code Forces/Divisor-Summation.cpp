@@ -6,6 +6,7 @@
 #define full(a) a.begin(), a.end()
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
+#define i128 __int128_t
 using namespace std;
 void I_Am_Here() {
     int n;
