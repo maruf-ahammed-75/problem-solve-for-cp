@@ -9,6 +9,18 @@ void calcFp(int n) {
         }
     }
 }
+
+//chat gpt version , that one best
+// void calcFp(int n) {
+//     fp = vector < int >(n + 1, 0);
+//     for (int i = 2; i <= n; i++) {
+//         if (fp[i] == 0) { // i is prime
+//             for (int j = i; j <= n; j += i) {
+//                 if (fp[j] == 0) fp[j] = i;
+//             }
+//         }
+//     }
+// }
 int main () {
     calcFp((int)1e6);
     while (1) {
