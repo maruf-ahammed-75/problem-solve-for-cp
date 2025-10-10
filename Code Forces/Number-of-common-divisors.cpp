@@ -1,6 +1,11 @@
 #include <bits/stdc++.h>
-
-
+#define ll long long
+#define int long long
+#define ff first
+#define ss second
+#define full(a) a.begin(), a.end()
+#define Y cout<<"YES\n"
+#define N cout<<"NO\n"
 using namespace std;
 vector<int> divisor(1000001, 0);
 void I_Am_Here() {
@@ -14,7 +19,10 @@ int32_t main() {
     cin.tie(nullptr);
 
 
-   
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
     
 
     for(int i=1 ; i<=1000000 ; i++){

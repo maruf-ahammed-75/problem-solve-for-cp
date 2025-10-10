@@ -1,53 +1,39 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
 using namespace std;
- 
-vector < vector < int > > adj;
-bool isCyclic;
-vector < bool > visited;
-vector < int > parent;
-void dfs (int u) {
-    visited[u] = true;
-    for (int v : adj[u]) {
-        if (visited[v] == true) {
-            if (v != parent[u]) {
-                isCyclic = true;
+
+int min_operations(const string& s) {
+    int n = s.size();
+    string target;
+    for (int i = 0; i < n; ++i)
+        target += (i % 2 == 0) ? '0' : '1';
+
+    string temp = s;
+    int res = 0;
+    for (int i = 1; i < n - 1; ++i) {
+        if (temp[i - 1] != target[i - 1]) {
+            for (int d = -1; d <= 1; ++d) {
+                int idx = i + d;
+                if (idx >= 0 && idx < n)
+                    temp[idx] = (temp[idx] == '0') ? '1' : '0';
             }
-        }
-        else {
-            parent[v] = u;
-            dfs(v);
+            ++res;
         }
     }
+    if (temp == target)
+        return res;
+    else
+        return -1;
 }
-int main () {
-    int n, m;
-    cin >> n >> m;
-    isCyclic = false;
-    visited = vector < bool > (n + 1, false);
-    parent = vector < int > (n + 1, 0);
-    adj = vector < vector < int > >(n + 1, vector < int > ());
-    for (int i = 0, u, v; i < m; i++) {
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    for (int node = 1; node <= n; node++) {
-        cout << node << "->";
-        for (int v : adj[node]) cout << v << " ";
-        cout << endl;
-    }
-    for (int node = 1; node <= n; node++) {
-        if (!visited[node]) {
-            dfs(node);
-        }
-    }
-    dfs(1);
-    if (isCyclic) {
-        cout << "Cyclic Undirected Graph" << endl;
-    }
-    else cout << "Not Cyclic Undirected Graph" << endl;
-    for(int i=1 ; i<=n ; i++){
-        cout<<parent[i]<<' ';
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        string s;
+        cin >> n >> s;
+        cout << min_operations(s) << endl;
     }
     return 0;
 }

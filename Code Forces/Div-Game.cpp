@@ -7,28 +7,9 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
+vector<int> div(1000001, 0);
 void I_Am_Here() {
-    int n;
-    cin>>n;
-    int ans=0;
-    for(int i=2 ; i*i<=n ; i++){
-        int count=0;
-        // cout<<i;
-        while(n%i==0){
-            n/=i;
-            count++;
-        }
-        // cout<<' '<<count<<' '<<n<<endl;
-        int j=1;
-        while(count>=j){
-            ans++;
-            count-=j;
-            j++;
-        }
-        // cout<<n<<' '<<i<<' '<<ans<<endl;
-    }
-    if(n>1)ans++;
-    cout<<ans<<endl;
+    
 }
 
 int32_t main() {
@@ -38,7 +19,13 @@ int32_t main() {
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    
+
+    for(int i=1 ; i<=1000000 ; i++){|
+        for(int j=i ; j<=1000000 ; j+=i){
+            div[j]++;
+        }
+    }
+
     int t = 1;
     // cin >> t;
     for (int T = 1; T <= t; T++) {
