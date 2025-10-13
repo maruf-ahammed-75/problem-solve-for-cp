@@ -1,0 +1,36 @@
+string s = "abcdef";
+
+//Substring
+string sub = s.substr(0, 5+1); 
+
+//Find substring or character
+int pos = s.find("cd");   //  -1 if not found
+int posChar = s.find('e'); 
+
+// Compare strings
+bool eq = (s1 == s2); 
+bool lt = (s1 < s2);// lexicographical comparison
+
+// Convert int <-> string
+string numStr = to_string(45);
+int x = stoi("123");  
+long long y = stoll("123456789"); // string to long long
+
+// Convert float <-> string
+double d = 3.14;
+string ds = to_string(d);
+double dd = stod("2.718");
+
+//  Uppercase / Lowercase
+string t = "AbCd";
+transform(t.begin(), t.end(), t.begin(), ::toupper); 
+transform(t.begin(), t.end(), t.begin(), ::tolower); 
+
+//Reverse string
+reverse(rev.begin(), rev.end()); 
+
+//Remove spaces
+string str = "a b c d";
+str.erase(remove(str.begin(), str.end(), ' '), str.end()); 
+
+
