@@ -18,39 +18,7 @@ int cal(int k,int n){
     return ans;
 }
 void I_Am_Here() {
-    int s,k;
-    cin>>s>>k;
-    vector<int> a;
-    a.push_back(1);
-    a.push_back(1);
-    int sum=2;
     
-    for(int i=1 ; i<k && sum<s ; i++){
-        a.push_back(sum);
-        sum+=a.back();
-    }
-    sum-=a[0];
-    int j=1;
-    while(sum<s){
-        int x = sum;
-        // cout<<x<< ' ';
-        a.push_back(x);
-        sum+=x-a[j];
-        // cout<<sum<<' '<<a[j]<<endl;
-        j++;
-    }
-    vector<int> b;
-    for(int i=a.size()-1 ; i>=0 ; i--){
-        if(s>=a[i]){
-            s-=a[i];
-            b.push_back(a[i]);
-        }
-    }
-    if(b.size()==1)b.push_back(0);
-    cout<<b.size()<<endl;
-    reverse(full(b));
-    for(auto i :b)cout<<i<<' ';
-    cout<<endl;
 }
 
 int32_t main() {
