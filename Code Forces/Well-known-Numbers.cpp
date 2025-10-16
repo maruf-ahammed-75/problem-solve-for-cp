@@ -39,6 +39,7 @@ void I_Am_Here() {
         int x = sum-a[j];
         a.push_back(x);
         sum += x-a[j];
+        
         j++;
         // cout<<x<<' ';
     }
