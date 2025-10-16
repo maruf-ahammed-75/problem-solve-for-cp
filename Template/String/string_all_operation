@@ -33,4 +33,8 @@ reverse(rev.begin(), rev.end());
 string str = "a b c d";
 str.erase(remove(str.begin(), str.end(), ' '), str.end()); 
 
-
+// Subsequence check
+string small = "ace";
+int i = 0;
+for (char c : s) if (i < small.size() && small[i] == c) i++;
+bool isSubseq = (i == small.size());
