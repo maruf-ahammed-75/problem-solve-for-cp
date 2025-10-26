@@ -20,7 +20,16 @@ void I_Am_Here() {
     }
     sum+=m;
     sort(full(a));
-    cout<<(sum/n)+(sum%n!=0? 1:0)<<' '<<a[n-1]+m<<"\n";
+    int mx = a[n-1]+m;
+    int sit = (sum+n-1)/n;
+    for(int i=0 ; i<n ; i++){
+        if(a[i]<sit && m>0){
+            a[i]=sit;
+            m-=(sit - a[i]);
+        }
+    }
+    sort(full(a));
+    cout<<a[n-1]<<" "<<mx<<"\n";
 
 }
 
