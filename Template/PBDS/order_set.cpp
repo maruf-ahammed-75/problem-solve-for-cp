@@ -7,7 +7,8 @@ using namespace __gnu_pbds;//additional line
 
 // Define an indexed set
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
-
+//greater(x ar the koto gula boro value ache)
+//greater_equal(for multiset)
 // typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 //for multiset or same value count
 
