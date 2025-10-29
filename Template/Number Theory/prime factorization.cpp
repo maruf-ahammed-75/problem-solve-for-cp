@@ -49,3 +49,13 @@ return 0;
 // then number of divisors = (x1+1)*(x2+1)*(x3+1)*...(xn+1) 
 // total divisor sum = (p1^(x1+1)-1/p1-1) * (p2^(x2+1)-1/p2-1) * (p3^(x3+1)-1/p3-1) * ... * (pn^(xn+1)-1/pn-1)
 // --------------sum = sum-N
+//prodect of divisor = n^(number of divisors/2)
+// b/a = b*a^(-1);
+// a^(−1)≡a^(MOD−2)%MOD
+
+
+
+// product of divisor
+int div_prod = expo(div_prod, k[i] + 1) *
+		           expo(expo(p[i], (k[i] * (k[i] + 1) / 2)), div_cnt2) % MOD;
+int div_cnt2 = div_cnt2 * (k[i] + 1) % (MOD - 1);
