@@ -11,16 +11,17 @@ void calcFp(int n) {
 }
 
 //chat gpt version , that one best
-// void calcFp(int n) {
-//     fp = vector < int >(n + 1, 0);
-//     for (int i = 2; i <= n; i++) {
-//         if (fp[i] == 0) { // i is prime
-//             for (int j = i; j <= n; j += i) {
-//                 if (fp[j] == 0) fp[j] = i;
-//             }
-//         }
-//     }
-// }
+
+void calcFp(int n) {
+    fp = vector < int >(n + 1, 0);
+    for (int i = 2; i <= n; i++) {
+        if (fp[i] == 0) { // i is prime
+            for (int j = i; j <= n; j += i) {
+                if (fp[j] == 0) fp[j] = i;
+            }
+        }
+    }
+}
 int main () {
     calcFp((int)1e6);
     while (1) {
@@ -44,6 +45,7 @@ int main () {
     }
 return 0;
 }
+
 // --------------------important-----------
 // if a number prime factor = p1^x1 * p2^x2 * p3^x3 * ...pn^xn
 // then number of divisors = (x1+1)*(x2+1)*(x3+1)*...(xn+1) 

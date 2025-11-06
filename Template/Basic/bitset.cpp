@@ -1,5 +1,3 @@
-// BITSET UTILITIES
-
 // Declaration with size N
 bitset<100005> bs;   // all bits 0 initially
 
