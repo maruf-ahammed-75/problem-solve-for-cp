@@ -1,0 +1,3350 @@
+\documentclass[10pt,a4paper,landscape]{article}
+
+% === PACKAGES ===
+\usepackage[margin=0.5in]{geometry}  % Small margins
+\usepackage{multicol}                % For multi-column layout
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{courier}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{enumitem}
+
+% === PAGE STYLE ===
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+
+% === COLUMN SETTINGS ===
+\setlength{\columnsep}{5pt}         % Space between columns
+\setlength{\columnseprule}{0.4pt}    % <-- Vertical line between columns
+
+% === SMALL FONT & COMPACTNESS ===
+\renewcommand{\baselinestretch}{0.9}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{0pt}
+\small
+
+% === SECTION FORMATTING ===
+\titleformat{\section}
+  {\bfseries\Large\filcenter}
+  {\thesection.}{0.3em}{}
+  [\titlerule]                      % <-- Horizontal line after section title
+\titleformat{\subsection}
+  {\bfseries\normalsize}
+  {\thesubsection.}{0.3em}{}
+  [\vspace{0.3em}\hrule\vspace{0.3em}] % <-- Horizontal line under subsection
+
+% === CODE STYLE ===
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=none,
+  numbers=none,
+  showstringspaces=false,
+  tabsize=2,
+  keywordstyle=\color{blue!60!black}\bfseries,
+  commentstyle=\color{green!70!black}\itshape,
+  stringstyle=\color{teal!70!black},
+  columns=flexible
+}
+
+% === DOCUMENT BEGIN ===
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{Competitive Programming Reference}}\\
+    {\small University of Asia Pacific}\\
+    \vspace{0.3em}
+    {\footnotesize Last Updated: \today}
+    \vspace{0.5em}
+    \hrule
+\end{center}
+
+% === MULTICOLUMN LAYOUT ===
+\begin{multicols}{3}
+
+\tableofcontents
+
+% \section{Basic}
+% \subsection{i128\_Bit}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% #define ll long long
+% #define i128 __int128_t
+% using namespace std;
+% int32_t main() {
+%     i128 x = 1; int y = (int)(x+1); cout<<y<<endl;
+%     return 0; }
+% //i128can store not print,range -2^127-2^127-1 
+% \end{lstlisting}
+
+\section{Data Structure}
+\subsection{BIT}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 3e5 + 9;
+struct BIT{ // 1-indexed
+    int n;
+    vector<int> t;
+    BIT() {}
+    BIT(int _n){
+        n = _n;
+        t.assign(n + 5, 0);
+    }
+    int qry(int i){
+        int ans = 0;
+        for (; i >= 1; i -= (i & -i))
+            ans += t[i];
+        return ans;
+    }
+    void upd(int i, int val){
+        if (i <= 0)
+            return;
+        for (; i <= n; i += (i & -i))
+            t[i] += val;
+    }
+    void upd(int l, int r, int val){
+        upd(l, val);
+        upd(r + 1, -val);
+    }
+    int qry(int l, int r)
+    {
+        return qry(r) - qry(l - 1);
+    }};
+int32_t main(){
+    int n, q;
+    cin >> n >> q;
+    BIT bit(n);
+    bit.upd(x, 1); // demo
+    bit.query(10); // dsemo, change this
+    return 0;}
+\end{lstlisting}
+
+\subsection{BST}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 3e5 + 9;
+
+// the code returns a BST which will create if we add the valuesone by one
+// here nodes are indicated by values and every node must be distinct
+set<int> se;
+map<int, int> l, r; // l contains the left child of the node, rcontains right child of the node 
+int main() {
+    int n;
+    cin >> n;
+    int k;
+    cin >> k; // root of the tree
+    se.insert(k);
+    for (int i = 1; i < n; i++) {
+        int k;
+        cin >> k;
+        auto it = se.upper_bound(k);
+        if (it != se.end() && l.find(*it) == l.end())
+            l[*it] = k;
+        else
+            --it, r[*it] = k;
+        se.insert(k);
+    }
+    for (int i = 1; i <= n; i++)
+        cout << l[i] << ' ' << r[i] << '\n';
+    return 0;}
+\end{lstlisting}
+
+\subsection{Bit Binary Search}
+\begin{lstlisting}[language=C++]
+// --- Bit Binary Search in o(log(n)) ---
+const int M = 20 const int N = 1 << M int lower_bound(int val){int ans = 0, sum = 0;
+    for (int i = M - 1; i >= 0; i--){
+        int x = ans + (1 << i);
+        if (sum + bit[x] < val)ans = x, sum += bit[x]; }return ans + 1; }
+\end{lstlisting}
+
+\subsection{DSU}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 3e5 + 9;
+struct DSU {
+    vector<int> par, rnk, sz;
+    int c;
+    
+    DSU(int n) : par(n + 1), rnk(n + 1, 0), sz(n + 1, 1), c(n) {
+        for (int i = 1; i <= n; ++i)
+            par[i] = i;
+    }
+    int find(int i) {
+        return (par[i] == i ? i : (par[i] = find(par[i])));
+    }
+    bool same(int i, int j) {
+        return find(i) == find(j);
+    }
+    int get_size(int i) {
+        return sz[find(i)];
+    }
+    int count() {
+        return c; // connected components
+    }
+    int merge(int i, int j) {
+        if ((i = find(i)) == (j = find(j)))
+            return -1;
+        else
+            --c;
+        if (rnk[i] > rnk[j])
+            swap(i, j);
+        par[i] = j;
+        sz[j] += sz[i];
+        if (rnk[i] == rnk[j])
+            rnk[j]++;
+        return j;
+    }};
+
+\end{lstlisting}
+
+% \subsection{GP Hash Table}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std;
+% #include <ext/pb_ds/assoc_container.hpp>
+% #include <ext/pb_ds/tree_policy.hpp>
+% using namespace __gnu_pbds;
+% struct custom_hash{
+%     static uint64_t splitmix64(uint64_t x){
+%         x += 0x9e3779b97f4a7c15;
+%         x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+%         x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+%         return x ^ (x >> 31);}
+%     size_t operator()(uint64_t x) const{
+%         static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+%         return splitmix64(x + FIXED_RANDOM); } };
+% gp_hash_table<int, int, custom_hash> mp;
+% int32_t main(){ ios_base::sync_with_stdio(0); cin.tie(0); int n, x; cin >> n >> x; int a[n + 1];
+%     for (int i = 1; i <= n; i++) { cin >> a[i]; }
+%     for (int i = 1; i <= n; i++){
+%         if (mp[x - a[i]]){
+%             cout << mp[x - a[i]] << ' ' << i << '\n';
+%             return 0; }
+%         mp[a[i]] = i; }
+%     cout << "IMPOSSIBLE\n"; return 0; }
+% // https://cses.fi/problemset/task/1640
+% \end{lstlisting}
+
+% \subsection{MO_sAlgorithm}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std;const int N = 1e6 + 9, B = 440;
+% struct query{int l, r, id;
+%     bool operator<(const query &x) const{
+%         if (l / B == x.l / B)
+%             return ((l / B) & 1) ? r > x.r : r < x.r;
+%         return l / B < x.l / B; } } Q[N];
+% int cnt[N], a[N]; long long sum;
+% inline void add_left(int i){ int x = a[i];
+%     sum += 1LL*(cnt[x] + cnt[x] + 1)*x; ++cnt[x]; }
+% inline void add_right(int i){int x = a[i];
+%     sum += 1LL*(cnt[x] + cnt[x] + 1)*x; ++cnt[x]; }
+% inline void rem_left(int i){int x = a[i];
+%     sum -= 1LL*(cnt[x] + cnt[x] - 1)*x; --cnt[x]; }
+% inline void rem_right(int i){int x = a[i];
+%     sum -= 1LL*(cnt[x] + cnt[x] - 1)*x; --cnt[x]; }
+% long long ans[N];
+% int32_t main(){ios_base::sync_with_stdio(0);cin.tie(0);int n, q;cin >> n >> q;
+%     for (int i = 1; i <= n; i++)cin >> a[i];
+%     for (int i = 1; i <= q; i++){cin >> Q[i].l >> Q[i].r; Q[i].id = i;}
+%     sort(Q + 1, Q + q + 1); int l = 1, r = 0;
+%     for(int i=1;i<=q;i++){ int L =Q[i].l,R=Q[i].r;
+%         if (R<l){
+%             while (l > L)add_left(--l);
+%             while (l < L)rem_left(l++);
+%             while (r < R)add_right(++r);
+%             while (r > R)rem_right(r--);}
+%         else{
+%             while (r < R)add_right(++r);
+%             while (r > R)rem_right(r--);
+%             while (l > L)add_left(--l);
+%             while (l < L)rem_left(l++);}
+%         ans[Q[i].id] = sum;}
+%     for (int i=1;i<=q;i++)cout<<ans[i]<<’\n’;
+%     return 0;}
+% \end{lstlisting}
+
+\subsection{Merge Sort Tree}
+\begin{lstlisting}[language=C++]
+// Mergesort Tree - Time <O(nlogn), O(log^2n)> - Memory O(nlogn>
+// Mergesort Tree is a segment tree that stores the sorted subarray
+// on each node.
+
+vi st[4 * N];
+void build(int p, int l, int r) {
+    if (l == r) {
+        st[p].pb(s[l]);
+        return;
+    }
+    build(2 * p, l, (l + r) / 2);
+    build(2 * p + 1, (l + r) / 2 + 1, r);
+    st[p].resize(r - l + 1);
+    merge(st[2 * p].begin(), st[2 * p].end(),
+          st[2 * p + 1].begin(), st[2 * p + 1].end(),
+          st[p].begin());
+}
+
+int query(int p, int l, int r, int i, int j, int a, int b) {
+    if (j < l or i > r)
+        return 0;
+    if (i <= l and j >= r)
+        return upper_bound(st[p].begin(), st[p].end(), b) -
+               lower_bound(st[p].begin(), st[p].end(), a);
+    return query(2 * p, l, (l + r) / 2, i, j, a, b) +
+           query(2 * p + 1, (l + r) / 2 + 1, r, i, j, a, b);
+}
+
+\end{lstlisting}
+
+\subsection{Monotonous Queue}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 3e5 + 9;
+struct monotonous_queue { // max, stores strictly decreasing sequence of the current queue
+    int a[N + 10], b[N + 10], l = 0, r = -1;
+
+    void push(int val) {
+        int cnt = 0;
+        while (l <= r && a[r] <= val) {
+            cnt += b[r] + 1;
+            r--;
+        }
+        a[++r] = val;
+        b[r] = cnt;
+    }
+    int top() {
+        return a[l];
+    }
+
+    void pop() {
+        if (l > r)
+            return;
+        if (b[l] > 0) {
+            b[l]--;
+            return;
+        }
+        l++;
+    }};
+
+\end{lstlisting}
+
+\subsection{Ordered Set}
+\begin{lstlisting}[language=C++]
+// Find by Order (find_by_order) ->O(log(n));
+// Order of Key (order_of_key)->O(log(n));
+// Deletion (erase)->O(log(n));
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;//additional line
+
+// Define an indexed set
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+
+//greater(x ar the koto gula boro value ache)
+//greater_equal(for multiset)
+// typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+
+//for multiset or same value count
+// typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+
+// s.find_by_order(1)->first
+// s.order_of_key(make_pair(20, 2))
+
+int main() {
+    indexed_set s;
+    // Insert elements
+    s.insert(10);
+
+    // Find the 2nd smallest element (0-based indexing)
+    cout << "2nd smallest: " << *s.find_by_order(1) << "\n"; 
+
+    // Find the number of elements less than 20
+    cout << "Number of elements < 20: " << s.order_of_key(20) << "\n";
+
+    // Check if an element exists
+    if (s.find(15) != s.end()) {
+        cout <<"15 is present in the set.\n";
+    }
+
+    // Erase an element
+    s.erase(15);
+    return 0;
+}
+
+\end{lstlisting}
+
+% \subsection{Segment Tree Lazy}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std; const int N = 5e5 + 9; int a[N];
+% struct ST{ #define lc (n << 1)
+% #define rc ((n << 1) + 1)
+%     long long t[4 * N], lazy[4 * N];
+%     ST(){memset(t, 0, sizeof t); memset(lazy, 0, sizeof lazy); }
+%     inline void push(int n, int b, int e){ // change this
+%         if (lazy[n] == 0) return;
+%         t[n] = t[n] + lazy[n] * (e - b + 1);
+%         if (b != e){lazy[lc]=lazy[lc]+lazy[n]; lazy[rc]=lazy[rc]+lazy[n]; } lazy[n]=0; }
+%     inline long long combine(long long a, long long b){ // change this 
+%         return a + b; }
+%     inline void pull(int n){ // change this
+%         t[n] = t[lc] + t[rc];}
+%     void build(int n,int b,int e){
+%         lazy[n] = 0;//change this
+%         if (b == e){t[n] = a[b]; return;}
+%         int mid=(b+e)>>1; build(lc,b,mid); build(rc, mid+1,e); pull(n);}
+%     void upd(int n, int b, int e, int i, int j, long long v){push(n, b, e);
+%         if (j < b || e < i)return;
+%         if (i <= b && e <= j){lazy[n] = v; // set lazy
+%             push(n, b, e); return; }
+%         int mid=(b+e)>>1; upd(lc,b,mid,i,j,v); upd(rc,mid + 1, e, i, j, v); pull(n); }
+%     long long query(int n, int b, int e, int i, int j){ push(n, b, e);
+%         if (i > e || b > j)return 0; // return null
+%         if (i <= b && e <= j) return t[n];
+%         int mid = (b + e) >> 1; return combine(query(lc,b,mid,i,j),query(rc,mid+1,e, i,j)); } } t;
+% int32_t main(){int n = 5;
+%     for (int i = 1; i <= n; i++)a[i] = i;
+%     t.build(1, 1, n);// building the segment tree
+%     t.upd(1, 1, n, 2, 3, 10);// adding 10 to the segment [2, 3]
+%     cout << t.query(1, 1, n, 1, 5) << '\n'; // range sum query on the segment[1, 5] 
+%     return 0; }
+% \end{lstlisting}
+
+% \subsection{Segment Tree Marge Function}
+% \begin{lstlisting}[language=C++]
+% // SUM
+% int t[4 * N]; int marge(int x, int y){return x + y;}
+% // MIN
+% int t[4*N];int marge(int x,int y){return min(x, y);}
+% // NUMBER OF MINIMUMS
+% struct node{int mn, count;};
+% node t[4 * N];
+% node merge(node l, node r){node ans = {inf, 0};
+%     ans.mn = min(l.mn, r.mn);
+%     if (l.mn==ans.mn)ans.count+=l.count;
+%     if (r.mn==ans.mn)ans.count+=r.count;return ans;}
+% // NUMBER OF MAXIMUM
+% struct node{int mx, count;};
+% node t[4 * N];
+% node merge(node l,node r){node ans={inf,0};
+%     ans.mx = max(l.mx, r.mx);
+%     if(l.mx==ans.mx)ans.count+=l.count;
+%     if(r.mx==ans.mx)ans.count+=r.count;return ans;}
+% // Segemet with maximum sum
+% struct node{int mx, sum, pref, suf;};
+% node t[4 * N];
+% node marge(node a, node b){
+%     int curr_max = max({a.mx, b.mx, a.suf + b.pref});
+%     int curr_pref = max(a.pref, a.sum + b.pref);
+%     int curr_suf = max(b.suf, b.sum + a.suf);
+%     int curr_sum = a.sum + b.sum;
+%     return {curr_max,curr_sum,curr_pref,curr_suf};}
+% \end{lstlisting}
+
+\subsection{Segment Tree All}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+const long long inf = 1e18;
+struct SegmentTree {
+    vector < int > stree, lazy;
+    int sz;
+    vector < int > v;
+     SegmentTree (vector < int > &ara) {
+        v = ara;
+        sz = ara.size();
+        stree = vector < int > (4 * sz, inf);
+        lazy = vector < int > (4 * sz, 0);
+        build(1, 0, sz - 1);
+    }
+    int merge(int v1, int v2) {
+        return min(v1, v2);
+    }
+    int size() {
+        return sz;
+    }
+    void push (int u) {
+        int val = lazy[u];
+        lazy[u] = 0;
+        stree[u * 2] += val;
+        stree[u * 2 + 1] += val;
+        lazy[u * 2] += val;
+        lazy[u * 2 + 1] += val;
+    }
+
+    // Definition : lazy propagation for range update(SUM update)
+    void push(int u, int tl, int tr) {
+        if(lazy[u] == 0 || tl == tr) return; 
+        int mid = (tl + tr) / 2;
+        stree[u * 2] += lazy[u] * (mid - tl + 1);
+        lazy[u * 2] += lazy[u];
+        stree[u * 2 + 1] += lazy[u] * (tr - mid);
+        lazy[u * 2 + 1] += lazy[u];
+        lazy[u] = 0;
+    }
+    
+    void build (int u, int tl, int tr) {
+        if (tl > tr) return;
+        if (tl == tr) {
+            if (tl < v.size()) stree[u] = v[tl];
+            return;
+        }
+        int mid = (tl + tr) / 2;
+        build(u * 2, tl, mid);
+        build(u * 2 + 1, mid + 1, tr);
+        stree[u] = merge(stree[u * 2], stree[u * 2 + 1]);
+    }
+    int query(int l, int r) {
+        return query(1, 0, sz - 1, l, r);
+    }
+    void update(int l, int r, int val) {
+        update(1, 0, sz - 1, l, r, val);
+    }
+    void update (int id, int val) {
+        update(1, 0, sz - 1, id, val);
+    }
+    // Definition : return minimum of the range that overlaps with l, r
+    int query(int u, int tl, int tr, int l, int r) {
+        if (tl > tr) return inf;
+        if (l > r) return inf;
+        if (tr < l || tl > r) return inf;
+        if (tl >= l && tr <= r) return stree[u];
+        int mid = (tl + tr) / 2;
+        push(u);
+        int lc = query(u * 2, tl, mid, l, r);
+        int rc = query(u * 2 + 1, mid + 1, tr, l, r);
+        return merge(lc, rc);
+    }
+    void update (int u, int tl, int tr, int id, int val) {
+        if (id < tl || id > tr) return;
+        if (tl == tr) {
+            stree[u] = val;
+            return;
+        }
+        if (tl > tr) return;
+        int mid = (tl + tr) / 2;
+        push(u);
+        update(u * 2, tl, mid, id, val);
+        update(u * 2 + 1, mid + 1, tr, id, val);
+        stree[u] = merge(stree[u * 2], stree[u * 2 + 1]);
+    }
+    void update (int u, int tl, int tr, int l, int r, int val) {
+        if (tl > tr) return;
+        if (l > r) return;
+        if (tr < l || tl > r) return;
+        if (l <= tl && tr <= r) {
+            stree[u] += val;//if range add -> stree[u] += (val * (tr - tl + 1));
+            lazy[u] += val;
+            return;
+        }
+        int mid = (tl + tr) / 2;
+        push(u);
+        update(u * 2, tl, mid, l, r, val);
+        update(u * 2 + 1, mid + 1, tr, l, r, val);
+        stree[u] = merge(stree[u * 2], stree[u * 2 + 1]);
+    }
+    void printTree() {
+        printTree(1, 0, sz - 1);
+    }
+    void printTree(int u, int tl, int tr) {
+        cout << "Node " << u << " -> [" << tl << ", " << tr << "] = " << stree[u] << "\n";
+        if (tl == tr) return; // leaf node
+
+        int mid = (tl + tr) / 2;
+        printTree(u * 2, tl, mid);          // left child
+        printTree(u * 2 + 1, mid + 1, tr);  // right child
+    }
+
+    // using alive array
+    int Kth_one(int k) {
+        return Kth_one(1, 0, sz - 1, k);
+    }
+    int Kth_one(int u, int tl, int tr, int k) {
+        if(k > stree[u] || k <= 0) return -1; // not enough 1's
+        if (tl == tr) {
+            return tl;
+        }
+        // push(u);
+        int mid = (tl + tr) / 2;
+        if (stree[u * 2] >= k) {
+            return Kth_one(u * 2, tl, mid, k);
+        } else {
+            return Kth_one(u * 2 + 1, mid + 1, tr, k - stree[u * 2]);
+        }
+    }
+};
+signed main () {
+
+return 0;
+}
+\end{lstlisting}
+
+\subsection{Sparse Table}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 1e5 + 9;
+int t[N][18], a[N];
+
+void build(int n) {
+    for (int i = 1; i <= n; ++i)
+        t[i][0] = a[i];
+    for (int k = 1; k < 18; ++k) {
+        for (int i = 1; i + (1 << k) - 1 <= n; ++i) {
+            t[i][k] = min(t[i][k - 1], t[i + (1 << (k - 1))][k - 1]);
+        }
+    }
+}
+
+int query(int l, int r) {
+    int k = 31 - __builtin_clz(r - l + 1);
+    return min(t[l][k], t[r - (1 << k) + 1][k]);
+}
+
+int32_t main() {
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+        cin >> a[i];
+    build(n);
+    int q;
+    cin >> q;
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+        ++l;
+        ++r;
+        cout << query(l, r) << '\n';
+    }
+    return 0;}
+
+\end{lstlisting}
+
+% \subsection{Trie}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std;const int N = 3e5 + 9;
+% struct Trie{static const int B = 31;
+%     struct node{node *nxt[2];int sz;
+%         node(){nxt[0]=nxt[1]=NULL;sz=0;}}*root;
+%     Trie(){root = new node();}
+%     void insert(int val){node *cur = root;cur->sz++;
+%         for (int i = B - 1; i >= 0; i--){
+%             int b = val >> i & 1;
+%             if(cur->nxt[b]==NULL)cur->nxt[b]=new node();cur = cur->nxt[b];cur->sz++;}}
+%     int query(int x, int k){//number of values s.t. val ^ x < k
+%         node *cur = root;int ans = 0;
+%         for (int i = B - 1; i >= 0; i--){
+%             if (cur == NULL)break;
+%             int b1 = x >> i & 1, b2 = k >> i & 1;
+%             if (b2 == 1){
+%                 if (cur->nxt[b1])ans += cur->nxt[b1]->sz;
+%                 cur = cur->nxt[!b1];}
+%             else cur = cur->nxt[b1];} return ans;}
+%     int get_max(int x){ // returns maximum of val ^ x
+%         node *cur = root;int ans = 0;
+%         for (int i=B-1;i>=0;i--){intk= x >> i & 1;
+%             if(cur->nxt[!k])cur=cur->nxt[!k],ans <<= 1,ans++;
+%            else cur=cur->nxt[k],ans<<=1;}return ans;}
+%     int get_min(int x){ // returns minimum of val ^ x
+%         node *cur = root;int ans = 0;
+%         for (int i=B-1; i>=0; i--){int k=x>>i&1;
+%             if(cur->nxt[k])cur=cur->nxt[k],ans<<=1;
+%             else cur=cur->nxt[!k],ans<<=1,ans++;}
+%         return ans;}
+%     void del(node *cur){for(int i=0;i<2;i++)if(cur >nxt[i]) del(cur->nxt[i]);delete (cur);} } t;
+% int32_t main(){ios_base::sync_with_stdio(0); cin.tie(0);int n, k;cin >> n >> k;int cur = 0;
+%     long long ans=1LL*n*(n+1)/2;t.insert(cur);
+%     for (int i = 0; i < n; i++){intx;cin>>x;cur^=x; ans -= t.query(cur, k);t.insert(cur); }
+%     cout << ans << '\n'; return 0; }
+% \end{lstlisting}
+
+\section{Dynamic Programming}
+
+\subsection{Longest Common Subsequence print using next state}
+\begin{lstlisting}[language=C++]
+// Longest Common Subsequence print using next state
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+int n, m;
+vector<int> a,b;
+vector<vector<int>> dp;
+vector<vector<pair<int , int>>> next_state;
+
+int lcs(int i,int j){
+    if(dp[i][j]!= -1) return dp[i][j];
+    if(i==n || j==m) return 0;
+    if(a[i]==b[j]){
+        next_state[i][j] = {i + 1, j + 1};
+        dp[i][j] = 1 + lcs(i+1,j+1);
+    }
+    else{
+        int x = lcs(i+1,j);
+        int y = lcs(i,j+1);
+        if(x>y){
+            next_state[i][j] = {i + 1, j};
+        }
+        else{
+            next_state[i][j] = {i, j + 1};
+        }
+        dp[i][j] = max(dp[i][j],x);
+        dp[i][j] = max(dp[i][j],y);
+    }
+    return dp[i][j];
+}
+
+void I_Am_Here() {
+    cin >> n >> m;
+    a = vector<int>(n);
+    b = vector<int>(m);
+    dp = vector<vector<int>>(n + 1, vector<int>(m + 1, -1));
+    next_state = vector<vector<pair<int, int>>>(n + 1, vector<pair<int, int>>(m + 1, {0, 0}));
+ 
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    for (int i = 0; i < m; i++) {
+        cin >> b[i];
+    }
+    cout << lcs(0,0) << endl;
+ 
+    int i=0 , j=0;
+    while(i<n && j<m){
+        int nxPosI=next_state[i][j].ff;
+        int nxPosJ=next_state[i][j].ss;
+        if(a[i]==b[j] && nxPosI==i+1 && nxPosJ==j+1){
+            cout << a[i] << " ";
+        }
+        i = nxPosI;
+        j = nxPosJ;
+    }
+    cout << endl;
+}
+ 
+int32_t main() {
+    I_Am_Here();
+}
+\end{lstlisting}
+
+
+\subsection{Longest Increasing Subsequence  Print}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+
+int lengthOfLIS(vector<int>& arr) {
+    vector<int> lis;
+    for(int x : arr) {
+        auto it = lower_bound(lis.begin(), lis.end(), x);
+        if(it == lis.end()) lis.push_back(x);
+        else *it = x;
+    }
+    return lis.size();
+}
+
+int main() {
+    vector<int> arr = {10, 22, 9, 33, 21, 50, 41, 60};
+    cout << lengthOfLIS(arr) << "\n";
+    return 0;
+}
+
+\end{lstlisting}
+
+
+\section{Graphs}
+
+\subsection{BFS}
+\begin{lstlisting}[language=C++]
+const int N = 1e5 + 10; // Maximum num of nodes
+int dist[N], par[N];
+vector<int> adj[N];
+queue<int> q;
+void bfs(int s) {
+    memset(dist, 63, sizeof(dist));
+    dist[s] = 0;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        for (auto v : adj[u])
+            if (dist[v] > dist[u] + 1) {
+                par[v] = u;
+                dist[v] = dist[u] + 1;
+                q.push(v);
+            }
+    }
+}
+
+\end{lstlisting}
+
+\subsection{Bellman Ford}
+\begin{lstlisting}[language=C++]
+const int N = 3e5 + 9;
+struct st {
+    int a, b, cost;
+} e[N];
+const int INF = 2e9;
+int32_t main() {
+    int n, m;
+    cin >> n >> m;
+    for (int i = 0; i < m; i++)
+        cin >> e[i].a >> e[i].b >> e[i].cost;
+    int s;
+    cin >> s; // is there any negative cycle which is reachable from s ?
+
+    vector<int> d(n, INF); // for finding any cycle(not necessarily from s) set d[i] = 0 for all i
+    d[s] = 0;
+    vector<int> p(n, -1);
+    int x;
+
+    for (int i = 0; i < n; ++i) {
+        x = -1;
+        for (int j = 0; j < m; ++j) {
+            if (d[e[j].a] < INF) {
+                if (d[e[j].b] > d[e[j].a] + e[j].cost) {
+                    d[e[j].b] = max(-INF, d[e[j].a] + e[j].cost); // for overflow
+                    p[e[j].b] = e[j].a;
+                    x = e[j].b;
+                }}}}
+
+    if (x == -1)
+        cout << "No negative cycle from " << s;
+    else {
+        int y = x; // x can be on any cycle or reachable from some cycle
+        for (int i = 0; i < n; ++i)
+            y = p[y];
+
+        vector<int> path;
+        for (int cur = y;; cur = p[cur]) {
+            path.push_back(cur);
+            if (cur == y && path.size() > 1)
+                break;
+        }
+
+        reverse(path.begin(), path.end());
+        cout << "Negative cycle: ";
+        for (int i = 0; i < path.size(); ++i)
+            cout << path[i] << ' ';
+    }
+    return 0;}
+
+\end{lstlisting}
+
+\subsection{Bipartite Garphs}
+\begin{lstlisting}[language=C++]
+const int N = 1e5 + 9;
+vector<int> g[N];
+bool vis[N];
+int col[N];
+bool ok;
+void dfs(int u) {
+    vis[u] = true;
+    for (auto v : g[u]) {
+        if (!vis[v]) {
+            col[v] = col[u] ^ 1;
+            dfs(v);
+        } else {
+            if (col[u] == col[v])
+                ok = false;
+        }}}
+
+int32_t main() {
+    int n, m;
+    cin >> n >> m;
+    while (m--) {
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+
+    ok = true;
+    for (int i = 1; i <= n; i++)
+        if (!vis[i])
+            dfs(i);
+    if (ok) cout << "YES\n";
+    else cout << "NO\n";
+}
+
+\end{lstlisting}
+
+\subsection{Cycle or not Print Cycle}
+\begin{lstlisting}[language=C++]
+vector < vector < int > > adj;
+vector < bool > vis;
+vector < int > parent;
+bool isCycle = 0;
+int stop;
+int start;
+void dfs(int s,int p){
+    vis[s]=1;
+    parent[s]=p;
+    for(auto x : adj[s]){
+        if(vis[x]){
+            if(parent[s]==x){
+                continue;//agar tar thake aysi
+            }
+            else{
+                isCycle = 1;
+                start = x;
+                stop = s;
+                return;
+            }}
+        else{
+            dfs(x,s);
+        }}
+}
+void I_Am_Here() {
+    int n;
+    cin>> n;
+    int m;
+    cin>>m;
+    adj = vector < vector < int > >(n + 1, vector < int > ());
+    vis = vector < bool > (n + 1, false);
+    parent = vector < int > (n + 1, 0);
+
+    for(int i=0 ; i<m ; i++){
+        int u,v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    for(int i=1 ; i<=n ; i++){
+        if(!vis[i]){
+            dfs(i,0);
+            if(isCycle) break;
+        }
+    }
+    if(!isCycle){
+        cout<<"IMPOSSIBLE"<<endl;
+        return;
+    }
+    int t = start;
+    vector<int>ans;
+    ans.push_back(start);
+    while(start != stop){
+        start = parent[start];
+        ans.push_back(start);
+    }
+    ans.push_back(t);
+    cout<<ans.size()<<endl;
+    for(auto x : ans) cout<<x<<" ";cout<<endl;
+}
+\end{lstlisting}
+
+
+
+
+
+\subsection{Cycle or not in Directed Graph}
+\begin{lstlisting}[language=C++]
+vector<vector<int>>adj;
+vector<int>vis;
+vector<int>parent;
+int n,m;
+bool isCycle = 0;
+int start,End;
+void dfs(int s){
+    vis[s]=1;
+    for(auto child : adj[s]){
+        if(!vis[child]){
+            parent[child]=s;
+            dfs(child);
+            if(isCycle)return;
+        }
+        else if (vis[child]==1){
+            isCycle=1;
+            start = child;
+            End = s;
+            return;
+        }
+    }
+    vis[s]=2;
+}
+void I_Am_Here() {
+    cin>>n>>m;
+    adj = vector<vector<int>>(n+1,vector<int>());
+    vis = vector<int>(n+1,0);
+    parent = vector<int>(n+1,0);
+
+    for(int i=0,x,y ; i<m ; i++){
+        cin>>x>>y;
+        adj[x].push_back(y);
+    }
+    for(int i=1 ; i<=n ; i++){
+        if(!vis[i]){
+            dfs(i);
+        }
+        if(isCycle){
+            break;
+        }}
+    if(!isCycle){
+        cout<<"IMPOSSIBLE"<<endl;
+        return ;
+    }
+    vector<int>ans;
+    ans.push_back(start);
+    ans.push_back(End);
+    while(start != End){
+        End = parent[End];
+        ans.push_back(End);
+    }
+    reverse(full(ans));
+    cout<<ans.size()<<endl;
+    for(auto i:ans){
+        cout<<i<<' ';
+    }
+    cout<<endl;
+}
+
+\end{lstlisting}
+
+\subsection{DFS}
+\begin{lstlisting}[language=C++]
+const int N = 1e5 + 9;
+vector<int> g[N];
+bool vis[N];
+void dfs(int u) {
+    vis[u] = true;
+    for (auto v : g[u])
+        if (!vis[v])
+            dfs(v);
+}
+int32_t main() {
+    int n, m;
+    cin >> n >> m;
+    while (m--) {
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+    dfs(u);
+}
+
+\end{lstlisting}
+
+\subsection{Dijkstra}
+\begin{lstlisting}[language=C++]
+const int N = 3e5 + 9, mod = 998244353;
+int n, m;
+vector<pair<int, int>> g[N], r[N];
+
+vector<long long> dijkstra(int s, int t, vector<int> &cnt) {
+    const long long inf = 1e18;
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> q;
+    vector<long long> d(n + 1, inf);
+    vector<bool> vis(n + 1, 0);
+
+    q.push({0, s});
+    d[s] = 0;
+    cnt.resize(n + 1, 0); // number of shortest paths
+    cnt[s] = 1;
+
+    while (!q.empty()) {
+        auto x = q.top();
+        q.pop();
+        int u = x.second;
+        if (vis[u]) continue;
+        vis[u] = 1;
+
+        for (auto y : g[u]) {
+            int v = y.first;
+            long long w = y.second;
+            if (d[u] + w < d[v]) {
+                d[v] = d[u] + w;
+                q.push({d[v], v});
+                cnt[v] = cnt[u];
+            } else if (d[u] + w == d[v]) {
+                cnt[v] = (cnt[v] + cnt[u]) % mod;
+            } }}
+    return d;
+}
+
+int u[N], v[N], w[N];
+int32_t main() {
+    int s, t;
+    cin >> n >> m >> s >> t;
+    for (int i = 1; i <= m; i++) {
+        cin >> u[i] >> v[i] >> w[i];
+        g[u[i]].push_back({v[i], w[i]});
+        r[v[i]].push_back({u[i], w[i]});
+    }
+    vector<int> cnt1, cnt2;
+    auto d1 = dijkstra(s, t, cnt1);
+    auto d2 = dijkstra(t, s, cnt2);
+    long long ans = d1[t];
+
+    for (int i = 1; i <= m; i++) {
+        int x = u[i], y = v[i];
+        long long nw = d1[x] + w[i] + d2[y];
+        if (nw == ans && 1LL * cnt1[x] * cnt2[y] % mod == cnt1[t])
+            cout << "YES\n";
+        else if (nw - ans + 1 < w[i])cout << "CAN " << nw - ans + 1 << '\n';
+        
+        else cout << "NO\n";
+    }
+    return 0;
+}
+
+\end{lstlisting}
+
+\subsection{Floyd Warshall}
+\begin{lstlisting}[language=C++]
+const int N = 105;
+int d[N][N];
+int main() {
+    int n = 10;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (i != j)
+                d[i][j] = 1e9;
+        }}
+
+    for (int k = 1; k <= n; ++k) {
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+            }}}
+
+    return 0;
+}
+
+\end{lstlisting}
+
+\subsection{Krushkals MST}
+\begin{lstlisting}[language=C++]
+const int N = 3e5 + 9, mod = 1e9;
+struct dsu {
+    vector<int> par, rnk, size;
+    int c;
+
+    dsu(int n) : par(n + 1), rnk(n + 1, 0), size(n + 1, 1), c(n) {
+        for (int i = 1; i <= n; ++i)
+            par[i] = i;
+    }
+
+    int find(int i) {
+        return (par[i] == i ? i : (par[i] = find(par[i])));
+    }
+
+    bool same(int i, int j) {
+        return find(i) == find(j);
+    }
+
+    int get_size(int i) {
+        return size[find(i)];
+    }
+
+    int count() {
+        return c; // connected components
+    }
+
+    int merge(int i, int j) {
+        if ((i = find(i)) == (j = find(j)))
+            return -1;
+        else
+            --c;
+        if (rnk[i] > rnk[j])
+            swap(i, j);
+        par[i] = j;
+        size[j] += size[i];
+        if (rnk[i] == rnk[j])
+            rnk[j]++;
+        return j;
+    }
+};
+
+int32_t main() {
+    int n, m;
+    cin >> n >> m;
+    vector<array<int, 3>> ed;
+    for (int i = 1; i <= m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        ed.push_back({w, u, v});
+    }
+
+    sort(ed.begin(), ed.end());
+    long long ans = 0;
+    dsu d(n);
+
+    for (auto e : ed) {
+        int u = e[1], v = e[2], w = e[0];
+        if (d.same(u, v))
+            continue;
+        ans += w;
+        d.merge(u, v);
+    }
+    cout << ans << '\n';
+    return 0;}
+
+\end{lstlisting}
+
+\subsection{LCA}
+\begin{lstlisting}[language=C++]
+const int N = 3e5 + 9, LG = 18;
+vector<int> g[N];
+int par[N][LG + 1], dep[N], sz[N];
+void dfs(int u, int p = 0) {
+    par[u][0] = p;
+    dep[u] = dep[p] + 1;
+    sz[u] = 1;
+
+    for (int i = 1; i <= LG; i++)
+        par[u][i] = par[par[u][i - 1]][i - 1];
+
+    for (auto v : g[u])
+        if (v != p) {
+            dfs(v, u);
+            sz[u] += sz[v];
+        }
+}
+
+int lca(int u, int v) {
+    if (dep[u] < dep[v])
+        swap(u, v);
+    for (int k = LG; k >= 0; k--)
+        if (dep[par[u][k]] >= dep[v])
+            u = par[u][k];
+    if (u == v)
+        return u;
+    for (int k = LG; k >= 0; k--)
+        if (par[u][k] != par[v][k])
+            u = par[u][k], v = par[v][k];
+    return par[u][0];
+}
+
+int kth(int u, int k) {
+    assert(k >= 0);
+    for (int i = 0; i <= LG; i++)
+        if (k & (1 << i))
+            u = par[u][i];
+    return u;
+}
+
+int dist(int u, int v) {
+    int l = lca(u, v);
+    return dep[u] + dep[v] - (dep[l] << 1);
+}
+
+// kth node from u to v, 0th node is u
+int go(int u, int v, int k) {
+    int l = lca(u, v);
+    int d = dep[u] + dep[v] - (dep[l] << 1);
+    assert(k <= d);
+    if (dep[l] + k <= dep[u])
+        return kth(u, k);
+    k -= dep[u] - dep[l];
+    return kth(v, dep[v] - dep[l] - k);
+}
+
+int32_t main() {
+    int n;
+    cin >> n;
+    for (int i = 1; i < n; i++) {
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+    dfs(1);
+    int q;
+    cin >> q;
+    while (q--) {
+        int u, v;
+        cin >> u >> v;
+        cout << dist(u, v) << '\n';
+    }
+    return 0;}
+
+\end{lstlisting}
+
+\subsection{Prims MST}
+\begin{lstlisting}[language=C++]
+const int N = 2020;
+int g[N][N], w[N], to[N], selected[N];
+
+long long Prims(int n, vector<pair<int, int>> &edges) {
+    long long ans = 0;
+    for (int i = 1; i <= n; i++)
+        w[i] = 1e9, selected[i] = 0, to[i] = -1;
+    w[1] = 0;
+
+    for (int i = 1; i <= n; i++) {
+        int u = -1;
+        for (int j = 1; j <= n; j++)
+            if (!selected[j] && (u == -1 || w[j] < w[u]))
+                u = j;
+
+        if (w[u] == 1e9)
+            return -1; // NO MST
+
+        selected[u] = 1;
+        ans += w[u];
+
+        if (to[u] != -1)
+            edges.emplace_back(u, to[u]); // order of the edges may be changed
+
+        for (int v = 1; v <= n; v++)
+            if (g[u][v] < w[v])
+                w[v] = g[u][v], to[v] = u;
+    }
+
+    return ans;
+}
+
+string s[N];
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            g[i][j] = 1e9;
+
+    for (int i = 1; i <= n; i++)
+        cin >> s[i];
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = i + 1; j <= n; j++) {
+            int w = 0;
+            for (int k = 0; k < m; k++)
+                w = max(w, (int)abs(s[i][k] - s[j][k]));
+            g[i][j] = min(g[i][j], w);
+            g[j][i] = min(g[j][i], w);
+        }}
+
+    vector<pair<int, int>> ed;
+    long long ans = Prims(n, ed);
+    int res = 0;
+    for (auto e : ed)res = max(res, g[e.first][e.second]);
+    cout << res << '\n';
+    return 0;
+}
+
+/*https://www.codechef.com/ICL2016/problems/ICL16A*/
+
+\end{lstlisting}
+
+\subsection{Strongly Connected Components}
+\begin{lstlisting}[language=C++]
+const int N = 3e5 + 9;
+// given a directed graph return the minimum number of edges to be added so that the whole graph become an SCC 
+
+bool vis[N];
+vector<int> g[N], r[N], G[N], vec; // G is the condensed graph
+void dfs1(int u) {
+    vis[u] = 1;
+    for (auto v : g[u])
+        if (!vis[v])
+            dfs1(v);
+    vec.push_back(u);
+}
+
+vector<int> comp;
+
+void dfs2(int u) {
+    comp.push_back(u);
+    vis[u] = 1;
+    for (auto v : r[u])
+        if (!vis[v])
+            dfs2(v);
+}
+
+int idx[N], in[N], out[N];
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+    for (int i = 1; i <= m; i++) {
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
+        r[v].push_back(u);
+    }
+
+    for (int i = 1; i <= n; i++)
+        if (!vis[i])
+            dfs1(i);
+
+    reverse(vec.begin(), vec.end());
+    memset(vis, 0, sizeof vis);
+    int scc = 0;
+
+    for (auto u : vec) {
+        if (!vis[u]) {
+            comp.clear();
+            dfs2(u);
+            scc++;
+            for (auto x : comp)
+                idx[x] = scc;
+        }}
+
+    for (int u = 1; u <= n; u++) {
+        for (auto v : g[u]) {
+            if (idx[u] != idx[v]) {
+                in[idx[v]]++;
+                out[idx[u]]++;
+                G[idx[u]].push_back(idx[v]);
+            }}}
+
+    int needed_in = 0, needed_out = 0;
+    for (int i = 1; i <= scc; i++) {
+        if (!in[i]) needed_in++;
+        if (!out[i]) needed_out++;
+    }
+    int ans = max(needed_in, needed_out);
+    if (scc == 1) ans = 0;
+    cout << ans << '\n';
+    return 0;
+}
+
+\end{lstlisting}
+
+\subsection{Topological Sorting}
+\begin{lstlisting}[language=C++]
+vector<int> adj[100005];
+vector<int> ans;
+vector<int> vis;
+void dfs(int u) {
+    vis[u] = 1;
+    for(int v : adj[u]) {
+        if(!vis[v]) dfs(v);
+    }
+    ans.push_back(u);
+}
+
+vector<int> topSort(int n) {
+    vis.assign(n + 1, 0);
+    ans.clear();
+    for(int i = 1; i <= n; i++) {
+        if(!vis[i]) dfs(i);
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+// https://cses.fi/problemset/task/1679
+\end{lstlisting}
+
+% \subsection{Tree Diameter}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std; const int N = 2e5 + 9; vector<int> g[N];
+% int farthest(int s, int n, vector<int> &d){ static const int inf = N; d.assign(n + 1, inf); d[s] = 0; vector<bool> vis(n + 1); queue<int> q; q.push(s);  vis[s] = 1; int last = s;
+%     while (!q.empty()){ int u = q.front(); q.pop();
+%         for (int v : g[u]){if (vis[v]) continue;
+%             d[v] = d[u] + 1;q.push(v);vis[v] = 1;}
+%         last = u;}
+%     return last;}
+% int32_t main(){ ios_base::sync_with_stdio(0); cin.tie(0); int n; cin >> n;
+%     for (int i = 1; i < n; i++){ int u, v; cin >> u >> v;  g[u].push_back(v); g[v].push_back(u);}
+%     vector<int> dx, dy;
+%     int x = farthest(1, n, dx); int y = farthest(x, n, dx); farthest(y, n, dy);
+%     for (int i = 1; i <= n; i++)cout << max(dx[i], dy[i]) << ’ ’;
+%     cout << ’\n’; return 0;}// https://cses.fi/problemset/task/1132
+% \end{lstlisting}
+
+\subsection{Zero One BFS}
+\begin{lstlisting}[language=C++]
+// 0-1 BFS - O(V+E)
+const int N = 1e5 + 5;
+int dist[N];
+vector<pii> adj[N];
+deque<pii> dq;
+
+void zero_one_bfs(int x) {
+    cl(dist, 63);
+    dist[x] = 0;
+    dq.push_back({x, 0});
+
+    while (!dq.empty()) {
+        int u = dq.front().st;
+        int ud = dq.front().nd;
+        dq.pop_front();
+
+        if (dist[u] < ud)
+            continue;
+
+        for (auto x : adj[u]) {
+            int v = x.st;
+            int w = x.nd;
+            if (dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                if (w)
+                    dq.push_back({v, dist[v]});
+                else
+                    dq.push_front({v, dist[v]});
+            }}}}
+
+\end{lstlisting}
+
+\section{Mathematics}
+
+
+\subsection{2D Prefix Sum}
+\begin{lstlisting}[language=C++]
+for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= n; j++) {
+      prefixSum[i][j] = prefixSum[i-1][j] +          prefixSum[i][j-1] - prefixSum[i-1][j-1] + grid[i-1][j-1];
+        }}
+cin>>x1>>y1>>x2>>y2;
+cout<<prefixSum[x2][y2] + prefixSum[x1-1][y1-1] - prefixSum[x1-1][y2] - prefixSum[x2][y1-1]<<endl;
+\end{lstlisting}
+
+\subsection{Binary Exponentiation}
+\begin{lstlisting}[language=C++]
+long long binpow(long long a, long long b, long long m) {
+    a %= m;
+    long long res = 1;
+    while (b > 0) {
+        if (b & 1) res = res * a % m;
+        a = a * a % m;
+        b >>= 1;}
+    return res;} 
+\end{lstlisting}
+
+
+\subsection{Binary Multiplication with Mod }
+\begin{lstlisting}[language=C++]
+long long binmul(long long a, long long b, long long m) {
+    long long res = 0;
+    a %= m;
+    while (b > 0) {
+        if (b & 1) res = (res + a) % m;
+        a = (a + a) % m;
+        b >>= 1;}
+    return res;}
+\end{lstlisting}
+
+\subsection{Modular Arithmetic}
+\begin{lstlisting}[language=C++]
+// Greatest Common Divisor & Lowest Common Multiple
+ll gcd(ll a, ll b) {
+    return b ? gcd(b, a % b) : a;
+}
+
+ll lcm(ll a, ll b) {
+    return a / gcd(a, b) * b;
+}
+
+// Multiply caring overflow
+ll mulmod(ll a, ll b, ll m = MOD) {
+    ll r = 0;
+    for (a %= m; b; b >>= 1, a = (a * 2) % m)
+        if (b & 1)
+            r = (r + a) % m;
+    return r;
+}
+
+// Another option for mulmod is using long double
+ull mulmod(ull a, ull b, ull m = MOD) {
+    ull q = (ld)a * (ld)b / (ld)m;
+    ull r = a * b - q * m;
+    return (r + m) % m;
+}
+
+// Fast exponential
+ll fexp(ll a, ll b, ll m = MOD) {
+    ll r = 1;
+    for (a %= m; b; b >>= 1, a = (a * a) % m)
+        if (b & 1)
+            r = (r * a) % m;
+    return r;
+}
+
+\end{lstlisting}
+
+\subsection{Binomial Coefficients nCr}
+\begin{lstlisting}[language=C++]
+const int N = 2e5 + 9, mod = 998244353; 
+long long fact[N], finv[N], inv[N];
+void precal_factorial(int n) {
+    inv[0] = inv[1] = finv[0] = finv[1] = fact[0] = fact[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        inv[i] = inv[mod % i] * (mod - mod / i) % mod;
+        finv[i] = (finv[i - 1] * inv[i]) % mod;
+        fact[i] = (fact[i - 1] * i) % mod;
+    }
+}
+
+long long ncr(long long n, long long r) {
+    if (r > n) return 0;
+    long long a = (finv[r] * finv[n - r]) % mod;
+    return (a * fact[n]) % mod;
+}
+\end{lstlisting}
+
+\subsection{How Many Digits in  n!}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+using namespace std;
+int findDigits(int n){ if (n < 0) return 0;if (n <= 1) return 1; double digits = 0;
+    for (int i = 2; i <= n; i++)digits += log10(i);
+    return floor(digits) + 1;}
+\end{lstlisting}
+
+\subsection{Derangement}
+\begin{lstlisting}[language=C++]
+const int N = 1e6 + 9, mod = 1e9 + 7;
+int d[N];
+int32_t main() {
+    d[0] = 1;
+    d[1] = 0;
+    for (int i = 1; i < N; i++)
+        d[i] = 1LL * (i - 1) * (d[i - 1] + d[i - 2]) % mod;
+        
+    int n;
+    cin >> n;
+    cout << d[n] << '\n';
+    return 0;}
+    
+/* There are n children at a Christmas party, and each of them has brought a gift.
+   The idea is that everybody will get a gift brought by someone else.
+   In how many ways can the gifts be distributed? */
+
+\end{lstlisting}
+
+\subsection{Euler Phi}
+\begin{lstlisting}[language=C++]
+// Euler phi (totient)
+int ind = 0, pf = primes[0], ans = n;
+while (1ll * pf * pf <= n) {
+    if (n % pf == 0)
+        ans -= ans / pf;
+    while (n % pf == 0)
+        n /= pf;
+    pf = primes[++ind];}
+if (n != 1)ans -= ans / n;
+
+// Euler Totient Function 1 to n in O(nloglog(n))
+const int N = 1e5 + 9;
+int phi[N];
+
+void totient() {
+    for (int i = 1; i < N; i++)
+        phi[i] = i;
+    for (int i = 2; i < N; i++) {
+        if (phi[i] == i)
+            for (int j = i; j < N; j += i)
+                phi[j] -= phi[j] / i;
+    }}
+\end{lstlisting}
+
+\subsection{Fibonacci Number Faster}
+\begin{lstlisting}[language=C++]
+int fib(long long n, int mod) {
+    assert(n >= 0);
+    if (n <= 1) return n;
+    int a = 0, b = 1;
+    long long i = 1ll << (63 - __builtin_clzll(n) - 1);
+
+    for (; i; i >>= 1) {
+        int na = (a * (long long)a + b * (long long)b) % mod;
+        int nb = (2ll * a + b) * b % mod;
+        a = na;
+        b = nb;
+
+        if (n & i) {
+            int c = a + b;
+            if (c >= mod) c -= mod;
+            a = b;
+            b = c;
+        }}
+    return b;}
+
+\end{lstlisting}
+
+\subsection{GCD LCM}
+\begin{lstlisting}[language=C++]
+int gcd(int a, int b){if (a == 0) return b; return gcd(b % a, a);}
+long long lcm(long long a, long long b){ return (a / __gcd(a, b)) * b;}
+\end{lstlisting}
+
+\subsection{Josephus}
+\begin{lstlisting}[language=C++]
+/* Josephus Problem - It returns the position to be, in order to not die. O(n) */
+/* With k=2, for instance, the game begins with 2 being killed and then n+2, n+4, */
+ll josephus(ll n, ll k) {
+    if (n == 1) 
+        return 1; 
+    else 
+        return (josephus(n - 1, k) + k - 1) % n + 1;
+}
+
+/* Another Way to compute the last position to be killed - O(d * log n) */
+ll josephus(ll n, ll d) {
+    ll K = 1;
+    while (K <= (d - 1) * n) 
+        K = (d * K + d - 2) / (d - 1);
+    return d * n + 1 - K;
+}
+\end{lstlisting}
+
+\subsection{Large Number GCD}
+\begin{lstlisting}[language=C++]
+ll gcd(ll a, ll b) {
+    if (!a) 
+        return b;
+    return gcd(b % a, a);
+}
+ll reduceB(ll a, char b[]) {
+    ll mod = 0;
+    for (int i = 0; i < strlen(b); i++)
+        mod = (mod * 10 + b[i] - '0') % a;
+    return mod; // return modulo
+}
+ll gcdLarge(ll a, char b[]) {
+    ll num = reduceB(a, b);
+    return gcd(a, num);
+}
+
+int main() {
+    ll a = 1221;
+    char b[] = "1234567891011121314151617181920212223242526272829";
+    if (a == 0) 
+        cout << b << endl;
+    else 
+        cout << gcdLarge(a, b) << endl;
+    return 0;}
+\end{lstlisting}
+
+\subsection{Lengenders Formula}
+\begin{lstlisting}[language=C++]
+// n and a prime number p, find the largest x such that px divides n !(factorial)in O(logn).
+#include <bits/stdc++.h>
+using namespace std;
+int legendre(long long n, long long p){ int ans = 0;
+    while (n){ans += n / p; n /= p;}
+    return ans;}
+\end{lstlisting}
+
+% \subsection{Miller Rabin}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std;using ll = long long;
+% namespace MillerRabin{
+%     mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count()); const int P = 1e6 + 9; int primes[P], spf[P];
+%     inline ll mul_mod(ll x, ll y, ll m){ ll res = __int128(x) * y % m; return res; // ll res = x * y - (ll)((long double)x * y / m + 0.5) * m;
+%         // return res < 0 ? res + m : res;}
+%     inline ll pow_mod(ll x, ll n, ll m){ll res = 1 % m;
+%         for (; n; n >>= 1){if (n & 1) res = mul_mod(res, x, m); x = mul_mod(x, x, m);}
+%         return res;}// O(it * (logn)^3), it = number of rounds performed (but faster in practice)
+% inline bool miller_rabin(ll n){
+%     if (n <= 2 || (n & 1 ^ 1)) return (n == 2);
+%     if (n < P)return spf[n] == n;
+%     ll c, d, s = 0, r = n - 1;
+%     for (; !(r & 1); r >>= 1, s++){}
+%     // each iteration is a round
+%     for (int i = 0; primes[i] < n && primes[i] < 32; i++){c = pow_mod(primes[i], r, n);
+%         for (int j = 0; j < s; j++){ d = mul_mod(c, c, n); if (d == 1 && c != 1 && c != (n - 1)) return false; c = d; }
+%         if (c != 1) return false; }
+%     return true;}
+% void init(){ int cnt = 0;
+%     for (int i = 2; i < P; i++){
+%         if (!spf[i]) primes[cnt++] = spf[i] = i;
+%         for (int j = 0, k; (k = i * primes[j]) < P; j++){ spf[k] = primes[j]; if (spf[i] == spf[k]) break;}}}}
+% int32_t main(){ ios_base::sync_with_stdio(0); cin.tie(0); MillerRabin::init(); int t; cin >> t;
+%     while (t--){ ll n; cin >> n;
+%         if (MillerRabin::miller_rabin(n))cout << "Yes\n";
+%         else cout << "No\n";}
+%     return 0;}// https://judge.yosupo.jp/problem/primality_test
+% \end{lstlisting}
+
+\subsection{Modular for Subtraction \& Multiplication}
+\begin{lstlisting}[language=C++]
+int vagsesh = (a % m - b % m + m) % m; // For Substraction
+long long res = 1;                     // For Multiplicaion
+for (int i = 1; i <= n; i++)res = (res * a) % m;
+cout << res << endl;
+\end{lstlisting}
+
+% \subsection{NOD}
+% \begin{lstlisting}[language=C++]
+% // Number of divisors using the prime factorization of n.
+% long long numberOfDivisors(long long num){ long long total = 1;
+%     for (int i = 2; (long long)i * i <= num; i++){
+%         if (num % i == 0) {int e = 0;
+%             do{ e++;num /= i;} while (num % i == 0);
+%             total *= e + 1;}}
+%     if (num > 1)total *= 2;
+%     return total;}
+% \end{lstlisting}
+
+\subsection{Optimized Sieve}
+\begin{lstlisting}[language=C++]
+// (Fast Sieve, Using bit set, Works till 10^8 in less than 1s, Memory Complexity: O (n/64))
+
+const int N = 1e8 + 9;
+bitset<N> f;
+int32_t main() {
+    int n = N - 9;
+    vector<int> primes;
+    f[1] = true;
+
+    for (int i = 2; i * i <= n; i++)
+        if (!f[i])
+            for (int j = i * i; j <= n; j += i)
+                f[j] = true;
+
+    for (int i = 2; i <= n; i++)
+        if (!f[i])
+            primes.push_back(i);
+
+    cout << primes.size() << '\n';
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Lower Prime Factorization}
+\begin{lstlisting}[language=C++]
+
+// Linear Sieve for prime factorization
+//time complexity: O(n)
+//space complexity: O(n)
+const int N = 10000000;  // up to 1e7
+vector<int> lp;   // lowest prime factor
+vector<int> primes;      // list of primes
+void linear_sieve(int n) {
+    lp = vector<int>(n + 1, 0);
+    for (int i = 2; i <= n; i++) {
+        if (lp[i] == 0) {        // i is prime
+            lp[i] = i;
+            primes.push_back(i);
+        }
+        for (int p : primes) {
+            if (p > lp[i] || 1LL * i * p > n) break;
+            lp[i * p] = p;
+        }}}
+\end{lstlisting}
+\subsection{Prime or Not}
+\begin{lstlisting}[language=C++]
+bool prime(int n) {
+   if(n < 2) return false;
+   if(n == 2) return true;
+   for(int i = 2; i * i <= n; i++) {
+       if(n % i == 0)
+           return false;
+   }
+   return true;}
+\end{lstlisting}
+
+\subsection{ Number of Divisor A Number Have}
+\begin{lstlisting}[language=C++]
+long long numDivisors[1000005] = {};
+void calculateDivisors(long long numDivisors[])
+{   //calculate number of divisor
+    for (int i = 1; i < 1000005; i++) {
+        for (int j = i; j < 1000005; j += i) {
+            numDivisors[j]++;
+        }
+    }
+}
+\end{lstlisting}
+
+
+
+\subsection{Prime Factors}
+\begin{lstlisting}[language=C++]
+void calcFp(int n) {
+    fp = vector < int >(n + 1, 0);
+    for (int i = 2; i <= n; i++) {
+        if (fp[i] == 0) { // i is prime
+            for (int j = i; j <= n; j += i) {
+                if (fp[j] == 0) fp[j] = i;
+            } } }}
+            
+int main () {
+    calcFp((int)1e6);
+    while (1) {
+        int x;
+        cin >> x;
+        if (x == 0) break;
+        vector < int > primes, pw;
+        while (x > 1) {
+            int p = fp[x];
+            int cnt = 0;
+            while (x % p == 0) {
+                x /= p;
+                cnt++;
+            }
+            primes.push_back(p);
+            pw.push_back(cnt);
+        }
+        for (int i = 0; i < primes.size(); i++) {
+            cout << primes[i] << "^" << pw[i] << endl;
+        } }
+return 0;
+}
+\end{lstlisting}
+
+
+\subsection{Formulas Using Prime Factorization Math }
+\begin{lstlisting}[language=C++]
+// if a number prime factor = p1^x1 * p2^x2 * p3^x3 * ...pn^xn
+
+// then number of divisors = (x1+1)*(x2+1)*(x3+1)*...(xn+1) 
+
+// total divisor sum = (p1^(x1+1)-1/p1-1) * (p2^(x2+1)-1/p2-1) * (p3^(x3+1)-1/p3-1) * ... * (pn^(xn+1)-1/pn-1)
+// --------------sum = sum-N
+
+//prodect of divisor = n^(number of divisors/2)
+// b/a = b*a^(-1);
+// a^(−1)==a^(MOD−2)%MOD;
+
+// product of divisor
+int div_prod = expo(div_prod, k[i] + 1) *
+		           expo(expo(p[i], (k[i] * (k[i] + 1) / 2)), div_cnt2) % MOD;
+int div_cnt2 = div_cnt2 * (k[i] + 1) % (MOD - 1);
+\end{lstlisting}
+
+\subsection{Sum of Divisor}
+\begin{lstlisting}[language=C++]
+// Sum of divisors using the prime factorization of n.
+long long SumOfDivisors(long long num){ long long total = 1;
+    for (int i = 2; (long long)i * i <= num; i++){
+        if (num % i == 0){ int e = 0;
+            do{ e++; num /= i;} while (num%i == 0);
+            long long sum = 0, pow = 1;
+            do{sum += pow; pow *= i;}while(e-- > 0);
+            total *= sum;}}
+    if (num > 1) total *= (1 + num); return total;}
+\end{lstlisting}
+
+\subsection{Sieve}
+\begin{lstlisting}[language=C++]
+// primes which are less than n in O(nloglog(n))
+const int N = 1e7 + 9;
+bool f[N];
+
+int32_t main() {
+    int n = N - 9;
+    vector<int> primes;
+    f[1] = true;
+    for (int i = 2; i <= n; i++) {
+        if (!f[i]) {
+            primes.push_back(i);
+            for (int j = i + i; j <= n; j += i)
+                f[j] = true;
+        }
+    }
+    cout << primes.size() << '\n';
+    return 0;}
+
+\end{lstlisting}
+
+\subsection{n!  Trailing Zero}
+\begin{lstlisting}[language=C++]
+int findTrailingZeros(int n){
+    if (n < 0) // Negative Number Edge Case
+        return -1;
+    int count = 0;
+    for (int i=5;n/i >= 1; i *= 5) count += n / i;
+    return count;}
+\end{lstlisting}
+
+\subsection{Number of Divisors 1 to n }
+\begin{lstlisting}[language=C++]
+int d[104];
+int32_t main(){ 
+int n = 100;
+    for (int i = 1; i <= n; i++)for (int j = i; j <= n; j += i)d[j]++;// d[j] += i // for sum of divisors
+    for (int i = 1; i <= n; i++)cout << d[i] << ’ ’;
+    return 0;}
+\end{lstlisting}
+
+\section{Mixed}
+
+\subsection{Run Code Technique}
+\begin{lstlisting}[language=C++]
+//C++ Shell for run
+g++ file_name.cpp -o a
+.\a
+
+//Python shell for run
+python -u "g:\foldername\filename.py"
+
+//first io
+ios::sync_with_stdio(false);
+cin.tie(nullptr);
+
+//input,output in file
+#ifndef ONLINE_JUDGE
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
+#endif
+\end{lstlisting}
+
+\subsection{ i128 Bit}
+\begin{lstlisting}[language=C++]
+#include <bits/stdc++.h>
+#define i128 __int128_t
+using namespace std;
+int32_t main() {
+    i128 x = 1;
+    int y = (int)(x+1);
+    cout<<y<<endl;
+    return 0;}
+// i128 can be store not print 
+// range -2^127 to 2^127-1 
+\end{lstlisting}
+
+\subsection{Base Conberstion}
+\begin{lstlisting}[language=C++]
+string base_convert(int n, int b) {
+    string s = "";
+    while (n > 0) {
+        s = to_string(n % b) + s;
+        n /= b;
+    }
+    return s;
+}
+int convert_to_decimal(string s, int base) {
+    int n = 0, power = 1;
+    for (int i = (int)s.size() - 1; i >= 0; i--) {
+        n += power * (s[i] - '0');
+        power *= base;
+    }
+    return n;}
+\end{lstlisting}
+
+\subsection{Bitset}
+\begin{lstlisting}[language=C++]
+// Declaration with size N
+bitset<100005> bs;   // all bits 0 initially
+
+// Set all bits to 1
+bs.set();
+
+// Set i-th bit
+bs.set(i);
+
+// Reset i-th bit (make 0)
+bs.reset(i);
+
+// Reset all bits
+bs.reset();
+
+// Flip i-th bit
+bs.flip(i);
+
+// Flip entire bitset
+bs.flip();
+
+// Check if i-th bit is set
+bool f = bs.test(i);
+
+// Count number of 1s
+int cnt = bs.count();
+
+// Check if all bits are 1
+bool ok1 = bs.all();
+
+// Check if any bit is 1
+bool ok2 = bs.any();
+
+// Check if none bit is 1
+bool ok3 = bs.none();
+
+// Convert bitset to unsigned long long
+unsigned long long x = bs.to_ullong();
+
+// Convert bitset to string
+string s = bs.to_string();
+
+\end{lstlisting}
+
+\subsection{Bit Operation}
+\begin{lstlisting}[language=C++]
+const int inf = numeric_limits<int>::max() - 5;
+#define int long long
+
+struct ST {
+    int right_shift(int a, int b) { return (a >> b); }
+    int left_shift(int a, int b) { return (a << b); }
+    int bitwise_not(int a) { return (~a); }
+    int ON_BIT(int a) { return __builtin_popcount(a); }
+    int leading_zero(int a) { return __builtin_clz(a); }
+    int tailing_zero(int a) { return __builtin_ctz(a); }
+    int LSB(int a) { return (a & 1); }
+    bool kth_bit(int a, int k) { return (a & (1 << k)); }
+    int msb(int a) { return a ? 32 - __builtin_clz(a) : 0; }
+
+    string base_convert(int n, int b) {
+        string s = "";
+        while (n > 0) {
+            s = to_string(n % b) + s;
+            n /= b;
+        }
+        return s;
+    }
+
+    int convert_to_decimal(string s, int base) {
+        int n = 0, power = 1;
+        for (int i = (int)s.size() - 1; i >= 0; i--) {
+            n += power * (s[i] - '0');
+            power *= base;
+        }
+        return n;
+    }
+} bit;
+
+// other
+// Count number of set bits (1s)
+int pc = __builtin_popcount(x);      // for int
+int pcLL = __builtin_popcountll(x);  // for long long
+
+// Count trailing zeros
+int tz = __builtin_ctz(x);
+int tzLL = __builtin_ctzll(x);
+
+// Count leading zeros
+int lz = __builtin_clz(x);
+int lzLL = __builtin_clzll(x);
+
+// Check power of two
+bool isP2 = (x > 0) && ((x & (x - 1)) == 0);
+
+\end{lstlisting}
+
+
+
+\subsection{Merge Sort}
+\begin{lstlisting}[language=C++]
+// Merge-sort with inversion count - O(nlog n)
+int n, inv;
+vector<int> v, ans;
+
+void mergesort(int l, int r, vector<int> &v) {
+    if (l == r) return;
+    int mid = (l + r) / 2;
+    mergesort(l, mid, v);
+    mergesort(mid + 1, r, v);
+
+    int i = l, j = mid + 1, k = l;
+    while (i <= mid || j <= r) {
+        if (i <= mid && (j > r || v[i] <= v[j]))
+            ans[k++] = v[i++];
+        else
+            ans[k++] = v[j++], inv += j - k;
+    }
+
+    for (int i = l; i <= r; i++)
+        v[i] = ans[i];
+}
+// in main: ans.resize(v.size());
+
+\end{lstlisting}
+
+\subsection{STL}
+\begin{lstlisting}[language=C++]
+auto [a, b] = p; pair<int, int> p; pair<int, pair<int, int>> p3; 
+
+deque<int> dq; dq.push_front(1); dq.push_back(3); pop_front(); pop_back(); 
+
+stack<int> st; st.push(2); st.pop(); st.top();st.size();
+
+queue<int> q; q.push(5); q.pop();q.front();q.back();size();empty();
+
+// Max priority first (largest value removed first)
+priority_queue<long long> pq_max;
+
+// Min priority first (smallest value removed first)
+priority_queue<long long, vector<long long>, greater<long long>> pq_min;
+
+// Clear both
+pq_max = priority_queue<long long>();
+pq_min = priority_queue<long long, vector<long long>, greater<long long>>();
+
+map<int, int> mp1; map<int, pair<int, int>> mp2; mp2[0].first; mp2[0].second; 
+int index = lower_bound(v.begin(), v.end(), val) - v.begin() ;
+int index = upper_bound(v.begin(), v.end(), val) - v.begin();
+auto it = s.lower_bound(6); *it; it--; 
+auto it = s.upper_bound(6); *it; it--;
+\end{lstlisting}
+
+\subsection{Sqrt Decomposition}
+\begin{lstlisting}[language=C++]
+// Square Root Decomposition (Mo’s Algorithm) - O(n^(3/2))
+const int N = 1e5 + 1, SQ = 500;
+int n, m, v[N];
+
+void add(int p) { /* add value to aggregated data structure */ }
+void rem(int p) { /* remove value from aggregated data structure */ }
+
+struct query {
+    int i, l, r, ans;
+} qs[N];
+
+bool c1(query a, query b) {
+    if (a.l / SQ != b.l / SQ) return a.l < b.l;
+    return a.l / SQ & 1 ? a.r > b.r : a.r < b.r;
+}
+bool c2(query a, query b) { return a.i < b.i; }
+/* inside main */
+int l = 0, r = -1;
+sort(qs, qs + m, c1);
+
+for (int i = 0; i < m; ++i) {
+    query &q = qs[i];
+    while (r < q.r) add(v[++r]);
+    while (r > q.r) rem(v[r--]);
+    while (l < q.l) rem(v[l++]);
+    while (l > q.l) add(v[--l]);
+    q.ans = /* calculate answer */;
+}
+
+sort(qs, qs + m, c2); // sort to original order
+
+\end{lstlisting}
+\subsection{Binary Search}
+\begin{lstlisting}[language=Python]
+ll binary_search_last_true(ll lo, ll hi, Pred pred) {
+    while (lo < hi) {
+        ll mid = lo + (hi - lo + 1) / 2; // upper mid
+        if (pred(mid)) lo = mid;
+        else hi = mid - 1;
+    }
+    return lo;
+}
+\end{lstlisting}
+
+\subsection{Ternary Search}
+\begin{lstlisting}[language=C++]
+// Ternary Search - O(log(n))
+// Max version, for minimum version just change signals
+ll ternary_search(ll l, ll r) {
+    while (r - l > 3) {
+        ll m1 = (l + r) / 2;
+        ll m2 = (l + r) / 2 + 1;
+        ll f1 = f(m1), f2 = f(m2); // if(f1 > f2) l = m1;
+        if (f1 < f2) 
+            l = m1;
+        else  
+            r = m2;
+    }
+    ll ans = 0;
+    for (int i = l; i <= r; i++) {
+        ll tmp = f(i); // ans = min(ans, tmp);
+        ans = max(ans, tmp);
+    }
+    return ans;
+}
+// Faster version - 300 iterations up to 1e-6 precision
+double ternary_search(double l, double r, int No = 300) {
+    // for(int i = 0; i < No; i++){
+    while (r - l > EPS) {
+        double m1 = l + (r - l) / 3;
+        double m2 = r - (r - l) / 3;
+        // if (f(m1) > f(m2))
+        if (f(m1) < f(m2)) 
+            l = m1;
+        else 
+            r = m2;
+    }
+    return f(l);}
+
+\end{lstlisting}
+
+
+\subsection{python}
+\begin{lstlisting}[language=Python]
+# reopen
+import sys
+sys.stdout = open(’out’,’w’)
+sys.stdin = open(’in’ ,’r’)
+//Dummy example
+R = lambda: map(int, input().split())
+n, k = R(),
+v, t = [], [0]*n
+for p, c, i in sorted(zip(R(), R(), range(n))):
+    t[i] = sum(v)+c
+    v += [c]
+    v = sorted(v)[::-1]
+    if len(v) > k:
+        v.pop()
+print(’ ’.join(map(str, t)))
+\end{lstlisting}
+
+\section{Strings}
+
+\subsection{All String Operation}
+\begin{lstlisting}[language=C++]
+string s = "abcdef";
+//Substring
+string sub = s.substr(0, 5+1); 
+
+//Find substring or character
+int pos = s.find("cd");   //  -1 if not found
+int posChar = s.find('e'); 
+
+// Compare strings
+bool eq = (s1 == s2); 
+bool lt = (s1 < s2);// lexicographical comparison
+
+// Convert int <-> string
+string numStr = to_string(45);
+int x = stoi("123");  
+long long y = stoll("123456789"); // string to long long
+
+// Convert float <-> string
+double d = 3.14;
+string ds = to_string(d);
+double dd = stod("2.718");
+
+//  Uppercase / Lowercase
+string t = "AbCd";
+transform(t.begin(), t.end(), t.begin(), ::toupper); 
+transform(t.begin(), t.end(), t.begin(), ::tolower); 
+
+//Reverse string
+reverse(rev.begin(), rev.end()); 
+
+//Remove spaces
+string str = "a b c d";
+str.erase(remove(str.begin(), str.end(), ' '), str.end()); 
+
+// Subsequence check
+string small = "ace";
+int i = 0;
+for (char c : s) if (i < small.size() && small[i] == c) i++;
+bool isSubseq = (i == small.size());
+\end{lstlisting}
+
+
+
+\subsection{Single Hashing}
+\begin{lstlisting}[language=C++]
+//single string hashing
+struct StringHash {
+    const long long MOD = 1000000007; // large prime
+    const long long P = 31;           // base (for lowercase letters)
+    vector<long long> prefix, power;
+
+    StringHash(const string &s) {
+        int n = s.size();
+        prefix = vector<long long>(n+1, 0);
+        power = vector<long long>(n+1, 1);
+        
+        for (int i = 1; i <= n; i++) {
+            power[i] = (power[i-1] * P) % MOD;
+            prefix[i] = (prefix[i-1] * P + (s[i-1] - 'a' + 1)) % MOD;
+        }
+    }
+
+    // get hash of substring [l, r] (0-indexed inclusive)
+    long long getHash(int l, int r) {
+        long long res = (prefix[r+1] - (prefix[l] * power[r-l+1]) % MOD + MOD) % MOD;
+        return res;
+    }
+};
+
+\end{lstlisting}
+
+
+
+\subsection{Single Hashing}
+\begin{lstlisting}[language=C++]
+
+// double string hashing to further reduce collision
+struct StringHash {
+    // two large primes to reduce collision
+    const long long MOD1 = 1000000007;
+    const long long MOD2 = 1000000009;
+    const long long P1 = 31;
+    const long long P2 = 37;
+
+    vector<long long> prefix1, prefix2;
+    vector<long long> power1, power2;
+
+    StringHash(const string &s) {
+        int n = s.size();
+        prefix1.resize(n+1, 0);
+        prefix2.resize(n+1, 0);
+        power1.resize(n+1, 1);
+        power2.resize(n+1, 1);
+
+        for (int i = 1; i <= n; i++) {
+            int val = s[i-1]; // works for all ASCII characters
+            power1[i] = (power1[i-1] * P1) % MOD1;
+            power2[i] = (power2[i-1] * P2) % MOD2;
+
+            prefix1[i] = (prefix1[i-1] * P1 + val) % MOD1;
+            prefix2[i] = (prefix2[i-1] * P2 + val) % MOD2;
+        }
+    }
+
+    // get double hash of substring [l, r] inclusive
+    pair<long long,long long> getHash(int l, int r) {
+        long long h1 = (prefix1[r+1] - (prefix1[l] * power1[r-l+1]) % MOD1 + MOD1) % MOD1;
+        long long h2 = (prefix2[r+1] - (prefix2[l] * power2[r-l+1]) % MOD2 + MOD2) % MOD2;
+        return {h1, h2};
+    }
+
+    // quick compare of substrings from two StringHash objects
+    bool isEqual(int l1, int r1, int l2, int r2, StringHash &other) {
+        return getHash(l1, r1) == other.getHash(l2, r2);
+    }
+};
+
+
+\end{lstlisting}
+
+\subsection{Largest Substring More than K}
+\begin{lstlisting}[language=C++]
+int n;
+int max_oc(int len) {
+    map<pair<int, int>, int> mp;
+    for (int i = 0; i + len - 1 < n; i++)
+        mp[get_hash(i, i + len - 1)]++;
+    
+    int ans = 0;
+    for (auto [x, y] : mp)
+        ans = max(ans, y);
+    
+    return ans;
+}
+
+int32_t main() {
+    prec();
+    string s;
+    cin >> s;
+    build(s);
+
+    int k;
+    cin >> k;
+    n = s.size();
+    int l = 1, r = s.size(), ans = -1;
+    while (l <= r) {
+        int mid = (l + r) >> 1;
+        if (max_oc(mid) >= k) 
+            ans = mid, l = mid + 1;
+        else 
+            r = mid - 1;
+    }
+    cout << ans << ’\n';
+    return 0;}
+
+\end{lstlisting}
+
+\subsection{Longest Common Prefix Of Two Substrings}
+\begin{lstlisting}[language=C++]
+int lcp(int i, int j, int x, int y) { // O(log n)
+    int l = 1, r = min(j - i + 1, y - x + 1), ans = 0;
+    while (l <= r) {
+        int mid = l + r >> 1;
+        if (get_hash(i, i + mid - 1) == get_hash(x, x + mid - 1)) {
+            ans = mid;
+            l = mid + 1;
+        } else {
+            r = mid - 1;
+        }
+    }
+    return ans;}
+/* 
+given a string s of size n and q queries of type i, j, x, y.
+find the LCP of Substring s[i...j] and s[x...y]. 
+1 <= n, q <= 1e5
+*/
+\end{lstlisting}
+
+\subsection{Longest Common Substring}
+\begin{lstlisting}[language=C++]
+const int N = 1e5 + 9; 
+const int p1 = 137, mod1 = 127657753, p2 = 277, mod2 = 987654319;
+
+int power(long long n, long long k, int mod){ 
+    int ans = 1 % mod; n %= mod;
+    if (n < 0) n += mod;
+    while (k){ 
+        if (k & 1) ans = (long long)ans * n % mod; 
+        n = (long long)n * n % mod; 
+        k >>= 1;
+    }
+    return ans;
+}
+
+int ip1, ip2; 
+pair<int, int> pw[N], ipw[N];
+
+void prec(){ // O(n)
+    pw[0] = {1, 1};
+    for (int i = 1; i < N; i++){ 
+        pw[i].first = 1LL * pw[i - 1].first * p1 % mod1; 
+        pw[i].second = 1LL * pw[i - 1].second * p2 % mod2;
+    }
+    ip1 = power(p1, mod1 - 2, mod1); 
+    ip2 = power(p2, mod2 - 2, mod2); 
+    ipw[0] = {1, 1};
+    for (int i = 1; i < N; i++){ 
+        ipw[i].first = 1LL * ipw[i - 1].first * ip1 % mod1; 
+        ipw[i].second = 1LL * ipw[i - 1].second * ip2 % mod2;
+    }
+}
+
+pair<int, int> string_hash(string s){ // O(n)
+    int n = s.size(); 
+    pair<int, int> hs({0, 0});
+    for (int i = 0; i < n; i++){ 
+        hs.first += 1LL * s[i] * pw[i].first % mod1; 
+        hs.first %= mod1; 
+        hs.second += 1LL * s[i] * pw[i].second % mod2; 
+        hs.second %= mod2;
+    }
+    return hs;
+}
+struct Hashing{ 
+    pair<int, int> pref[N];
+    void build(string s){ // O(n)
+        int n = s.size();
+        for (int i = 0; i < n; i++){ 
+            pref[i].first = 1LL * s[i] * pw[i].first % mod1;
+            if (i) pref[i].first = (pref[i].first + pref[i - 1].first) % mod1;
+            pref[i].second = 1LL * s[i] * pw[i].second % mod2;
+            if (i) pref[i].second = (pref[i].second + pref[i - 1].second) % mod2;
+        }
+    }
+    pair<int, int> get_hash(int i, int j){ // O(1)
+        pair<int, int> hs({0, 0}); 
+        hs.first = pref[j].first;
+        if (i) hs.first = (hs.first - pref[i - 1].first + mod1) % mod1;
+        hs.first = 1LL * hs.first * ipw[i].first % mod1; 
+        hs.second = pref[j].second;
+        if (i) hs.second = (hs.second - pref[i - 1].second + mod2) %mod2;
+        hs.second = 1LL * hs.second * ipw[i].second % mod2; 
+        return hs;
+    } 
+} A, B;
+
+int n; 
+string a, b; 
+string res;
+
+bool ok(int k){ // is there a k length substring that occurs in both a and b
+    set<pair<int, int>> substring_hashes_in_a;
+    for (int i = 0; i + k - 1 < n; i++) 
+        substring_hashes_in_a.insert(A.get_hash(i, i + k - 1));
+    for (int i = 0; i + k - 1 < n; i++){ 
+        auto substring_hash_in_b = B.get_hash(i, i + k - 1);
+        if (substring_hashes_in_a.find(substring_hash_in_b) != substring_hashes_in_a.end()){ 
+            res = b.substr(i, k); 
+            return true; 
+        } 
+    }
+    return false;
+}
+
+int32_t main(){ 
+    prec(); 
+    cin >> n; 
+    cin >> a >> b; 
+    A.build(a); 
+    B.build(b); 
+    int l = 1, r = n, ans = 0;
+    while (l <= r){ 
+        int mid = (l + r) / 2;
+        if (ok(mid)){ ans = mid; l = mid + 1;} 
+        else { r = mid - 1; } 
+    } 
+    ok(ans); 
+    cout << res << '\n'; // O(n log^2 n)
+    return 0;
+}// Find the Longest Common Substring of Two Strings
+\end{lstlisting}
+
+\subsection{Pattern Matching}
+\begin{lstlisting}[language=C++]
+const int N = 1e6 + 9;
+const int p1 = 137, mod1 = 127657753, p2 = 277, mod2 = 987654319;
+
+int power(long long n, long long k, int mod){
+    int ans = 1 % mod; 
+    n %= mod;
+    if (n < 0) n += mod;
+    while (k){
+        if (k & 1) ans = (long long)ans * n % mod;
+        n = (long long)n * n % mod; 
+        k >>= 1;
+    }
+    return ans;
+}
+
+int ip1, ip2;
+pair<int, int> pw[N], ipw[N];
+
+void prec(){ 
+    pw[0] = {1, 1};
+    for (int i = 1; i < N; i++){
+        pw[i].first = 1LL * pw[i - 1].first * p1 % mod1; 
+        pw[i].second = 1LL * pw[i - 1].second * p2 % mod2;
+    }
+    ip1 = power(p1, mod1 - 2, mod1); 
+    ip2 = power(p2, mod2 - 2, mod2); 
+    ipw[0] = {1, 1};
+    for (int i = 1; i < N; i++){
+        ipw[i].first = 1LL * ipw[i - 1].first * ip1 % mod1; 
+        ipw[i].second = 1LL * ipw[i - 1].second * ip2 % mod2;
+    }
+}
+
+pair<int, int> string_hash(string s){ 
+    int n = s.size(); 
+    pair<int, int> hs({0, 0});
+    for (int i = 0; i < n; i++){
+        hs.first += 1LL * s[i] * pw[i].first % mod1; 
+        hs.first %= mod1; 
+        hs.second += 1LL * s[i] * pw[i].second % mod2; 
+        hs.second %= mod2;
+    }
+    return hs;
+}
+
+pair<int, int> pref[N];
+
+void build(string s){ 
+    int n = s.size();
+    for (int i = 0; i < n; i++){ 
+        pref[i].first = 1LL * s[i] * pw[i].first % mod1;
+        if (i) pref[i].first = (pref[i].first + pref[i - 1].first) % mod1;
+        pref[i].second = 1LL * s[i] * pw[i].second % mod2;
+        if (i) pref[i].second = (pref[i].second + pref[i - 1].second) % mod2;
+    }
+}
+
+pair<int, int> get_hash(int i, int j){ 
+    assert(i <= j); 
+    pair<int, int> hs({0, 0}); 
+    hs.first = pref[j].first;
+    if (i) hs.first = (hs.first - pref[i - 1].first + mod1) % mod1;
+    hs.first = 1LL * hs.first * ipw[i].first % mod1; 
+    hs.second = pref[j].second;
+    if (i) hs.second = (hs.second - pref[i - 1].second + mod2) % mod2;
+    hs.second = 1LL * hs.second * ipw[i].second % mod2; 
+    return hs;
+}
+
+int32_t main(){ 
+    prec(); 
+    string a, b; 
+    cin >> a >> b; 
+    build(a); 
+    int ans = 0, n = a.size(), m = b.size(); 
+    auto hash_b = string_hash(b);
+    for (int i = 0; i + m - 1 < n; i++) 
+        ans += get_hash(i, i + m - 1) == hash_b;
+    cout << ans << '\n'; 
+    return 0;
+}
+/*
+Given a string a and pattern b, count the number of positions where the pattern occurs in the string.
+
+Input:
+saippuakauppias
+pp
+Output:2*/
+
+\end{lstlisting}
+
+\subsection{Two Strings Are Equal Or Not}
+\begin{lstlisting}[language=C++]
+const int p = 137, mod = 1e9 + 7;
+const int N = 1e5 + 9;
+int pw[N];
+
+void prec(){
+    pw[0] = 1;
+    for (int i = 1; i < N; i++) 
+        pw[i] = 1LL * pw[i - 1] * p % mod;
+}
+int get_hash(string s){
+    int n = s.size();
+    int hs = 0;
+    for (int i = 0; i < n; i++){
+        hs += 1LL * s[i] * pw[i] % mod;
+        hs %= mod;
+    }
+    return hs;
+}
+int32_t main(){
+    prec();
+    string a, b;
+    cin >> a >> b;
+    cout << (get_hash(a) == get_hash(b)) << '\n';
+    return 0;}
+
+\end{lstlisting}
+
+% \section{geometry}
+
+% \subsection{Basics}
+% \begin{lstlisting}[language=C++]
+% #include <bits/stdc++.h>
+% using namespace std;
+% #define st first
+% #define nd second
+% #define pb push_back
+% #define cl(x, v) memset((x), (v), sizeof(x))
+% #define db(x) cerr << #x << " == " << x << endl
+% #define dbs(x) cerr << x << endl
+% #define _ << ", " <<
+% typedef long long ll; typedef long double ld; typedef pair<int, int> pii; typedef pair<int, pii> piii; typedef pair<ll, ll> pll; typedef pair<ll, pll> plll; typedef vector<int> vi; typedef vector<vi> vii; const ld EPS = 1e-9, PI = acos(-1.); const ll LINF = 0x3f3f3f3f3f3f3f3f; const int INF = 0x3f3f3f3f, MOD = 1e9 + 7; const int N = 1e5 + 5; typedef long double type;
+% // for big coordinates change to long long
+% bool ge(type x, type y) { return x + EPS > y; }
+% bool le(type x, type y) { return x - EPS < y; }
+% bool eq(type x, type y) { return ge(x, y) and le(x, y); }
+% int sign(type x) { return ge(x, 0) - le(x, 0); }
+% struct point{ type x, y;
+%     point() : x(0), y(0) {}
+%     point(type _x, type _y) : x(_x), y(_y) {}
+%     point operator-() { return point(-x, -y); }
+%     point operator+(point p) { return point(x + p.x, y + p.y); }
+%     point operator-(point p) { return point(x - p.x, y - p.y); }
+%     point operator*(type k) { return point(x * k, y * k); }
+%     point operator/(type k) { return point(x / k, y / k); }
+%     // inner product
+%     type operator*(point p) { return x * p.x + y * p.y; }
+%     // cross product
+%     type operator%(point p) { return x * p.y - y * p.x; }
+%     bool operator==(const point &p) const { return x == p.x and y == p.y; }
+%     bool operator!=(const point &p) const { return x != p.x or y != p.y; }
+%     bool operator<(const point &p) const { return (x < p.x) or (x == p.x and y < p.y); }
+%     // 0 => same direction
+%     // 1 => p is on the left
+%     //-1 => p is on the right
+%     int dir(point o, point p){ type x = (*this - o) % (p - o); return ge(x, 0) - le(x, 0);}
+%     bool on_seg(point p, point q){ if (this->dir(p, q)) return 0; return ge(x, min(p.x, q.x)) and le(x, max(p.x, q.x)) and ge(y, min(p.y, q.y)) and le(y, max(p.y, q.y)); }
+%     ld abs() { return sqrt(x * x + y * y); }
+%     type abs2() { return x * x + y * y; }
+%     ld dist(point q) { return (*this - q).abs(); }
+%     type dist2(point q) { return (*this - q).abs2(); }
+%     ld arg() { return atan2l(y, x); }
+%     // Project point on vector y
+%     point project(point y) { return y * ((*this * y) / (y * y)); }
+%     // Project point on line generated by points x and y
+%     point project(point x, point y) { return x + (*this - x).project(y - x); }
+%     ld dist_line(point x, point y) { return dist(project(x, y)); }
+%     ld dist_seg(point x, point y){ return project(x, y).on_seg(x, y) ? dist_line(x, y) : min(dist(x), dist(y));}
+%     point rotate(ld sin, ld cos) { return point(cos * x - sin * y, sin * x + cos * y); }
+%     point rotate(ld a) { return rotate(sin(a), cos(a)); }
+%     // rotate around the argument of vector p
+%     point rotate(point p) { return rotate(p.y / p.abs(), p.x / p.abs()); } };
+% int direction(point o, point p, point q) { return p.dir(o, q); }
+% point rotate_ccw90(point p) { return point(-p.y, p.x); }
+% point rotate_cw90(point p) { return point(p.y, -p.x); }
+% // for reading purposes avoid using * and % operators, use the functions below : 
+% type dot(point p, point q){ return p.x * q.x + p.y * q.y;}
+% type cross(point p, point q) { return p.x * q.y - p.y * q.x; }
+% // double area
+% type area_2(point a, point b, point c) { return cross(a, b) + cross(b, c) + cross(c, a); }
+% // angle between (a1 and b1) vs angle between (a2 and b2)
+% // 1 : bigger
+% //-1 : smaller
+% // 0 : equal
+% int angle_less(const point &a1, const point &b1, const point &a2, const point &b2){ point p1(dot(a1, b1), abs(cross(a1, b1))); point p2(dot(a2, b2), abs(cross(a2, b2)));
+%     if (cross(p1, p2) < 0) return 1;
+%     if (cross(p1, p2) > 0) return -1;
+%     return 0;}
+% ostream &operator<<(ostream &os, const point &p){ os << "(" << p.x << "," << p.y << ")"; return os;}
+% \end{lstlisting}
+
+
+
+% \subsection{Circle}
+% \begin{lstlisting}[language=C++]
+% #include "basics.cpp"
+% #include "lines.cpp"
+% struct circle{ point c; ld r;
+%     circle(){ c = point(); r = 0;}
+%     circle(point _c, ld _r) : c(_c), r(_r) {}
+%     ld area() { return acos(-1.0) * r * r; }
+%     ld chord(ld rad) { return 2 * r * sin(rad / 2.0); }
+%     ld sector(ld rad) { return 0.5 * rad * area() / acos(-1.0); }
+%     bool intersects(circle other){return le(c.dist(other.c), r + other.r);}
+%     bool contains(point p) { return le(c.dist(p), r); }
+%     pair<point, point> getTangentPoint(point p){ ld d1 = c.dist(p), theta = asin(r / d1); point p1 = (c - p).rotate(-theta); point p2 = (c - p).rotate(theta); p1 = p1 * (sqrt(d1 * d1 - r * r) / d1) + p; p2 = p2 * (sqrt(d1 * d1 - r * r) / d1) + p; return make_pair(p1, p2);}};
+% circle circumcircle(point a, point b, point c){ circle ans; point u = point((b - a).y, -(b - a).x); point v = point((c - a).y, -(c - a).x); point n = (c - b) * 0.5; ld t = cross(u, n) / cross(v, u); ans.c = ((a + c) * 0.5) + (v * t); ans.r = ans.c.dist(a); return ans;}
+% point compute_circle_center(point a, point b, point c){ // circumcenter
+%     b = (a + b) / 2; c = (a + c) / 2; return compute_line_intersection(b, b + rotate_cw90(a - b), c, c + rotate_cw90(a - c));}
+% int inside_circle(point p, circle c){
+%     if (fabs(p.dist(c.c) - c.r) < EPS) return 1;
+%     else if (p.dist(c.c) < c.r) return 0;
+%     else return 2;} // 0 = inside/1 = border/2 = outside
+% circle incircle(point p1, point p2, point p3){ ld m1 = p2.dist(p3); ld m2 = p1.dist(p3); ld m3 = p1.dist(p2); point c = (p1 * m1 + p2 * m2 + p3 * m3) * (1 / (m1 + m2 + m3)); ld s = 0.5 * (m1 + m2 + m3); ld r = sqrt(s * (s - m1) * (s - m2) * (s - m3)) / s; return circle(c, r);}
+% circle minimum_circle(vector<point> p){ random_shuffle(p.begin(), p.end()); circle C = circle(p[0], 0.0);
+%     for (int i = 0; i < (int)p.size(); i++){
+%         if (C.contains(p[i])) continue;
+%         C = circle(p[i], 0.0);
+%         for (int j = 0; j < i; j++){
+%             if (C.contains(p[j])) continue;
+%             C = circle((p[j] + p[i]) * 0.5,0.5 * p[j].dist(p[i]));
+%             for (int k = 0; k < j; k++){
+%                 if (C.contains(p[k]))continue;
+%                 C = circumcircle(p[j], p[i], p[k]);}}}
+%     return C;}
+% // compute intersection of line through points a and b with
+% // circle centered at c with radius r > 0
+% vector<point> circle_line_intersection(point a, point b, point c, ld r){ vector<point> ret; b = b - a; a = a - c; ld A = dot(b, b); ld B = dot(a, b); ld C = dot(a, a) - r * r; ld D = B * B - A * C;
+%     if (D < -EPS) return ret;
+%     ret.push_back(c + a + b * (sqrt(D + EPS) - B) / A);
+%     if (D > EPS) ret.push_back(c + a + b * (-B - sqrt(D)) / A);
+%     return ret;}
+% vector<point> circle_circle_intersection(point a, point b, ld r, ld R){ vector<point> ret; ld d = sqrt(a.dist2(b));
+%     if (d > r + R || d + min(r, R) < max(r, R)) return ret;
+%     ld x = (d * d - R * R + r * r) / (2 * d); ld y = sqrt(r * r - x * x); point v = (b - a) / d; ret.push_back(a + v * x + rotate_ccw90(v) * y);
+%     if (y > 0) ret.push_back(a + v * x - rotate_ccw90(v) * y);
+%     return ret;}
+% // GREAT CIRCLE
+% double gcTheta(double pLat, double pLong, double qLat, double qLong){ pLat *= acos(-1.0) / 180.0; pLong *= acos(-1.0) /180.0; // convert degree to radian
+%     qLat *= acos(-1.0) / 180.0; qLong *= acos(-1.0) / 180.0; return acos(cos(pLat) * cos(pLong) * cos(qLat) * cos(qLong) + cos(pLat) * sin(pLong) * cos(qLat) * sin(qLong) + sin(pLat) * sin(qLat));}
+% double gcDistance(double pLat, double pLong, double qLat, double qLong, double radius){ return radius * gcTheta(pLat, pLong, qLat, qLong);}
+% /* Codeforces 101707B*/
+% /*
+% point A, B; circle C;
+% double getd2(point a, point b) { double h = dist(a, b); double r = C.r; double alpha = asin(h/(2*r));
+% while (alpha < 0) alpha += 2*acos(-1.0);
+% return dist(a, A) + dist(b, B) + r*2*min(alpha, 2*acos(-1.0) - alpha);}
+% int main() { scanf("%lf %lf", &A.x, &A.y); scanf("%lf %lf", &B.x, &B.y); scanf("%lf %lf %lf", &C.c.x, &C.c.y, &C.r); double ans; if (distToLineSegment(C.c, A, B) >= C.r) { ans = dist(A, B); } else { pair<point, point> tan1 = C.getTangentPoint(A); pair<point, point> tan2 = C.getTangentPoint(B); ans = 1e+30; ans = min(ans, getd2(tan1.first, tan2.first)); ans = min(ans, getd2(tan1.first, tan2.second)); ans = min(ans, getd2(tan1.second, tan2.first)); ans = min(ans, getd2(tan1.second, tan2.second)); }
+% printf("%.18f\n", ans); return 0; }*/
+% \end{lstlisting}
+
+\subsection{Lines}
+\begin{lstlisting}[language=C++]
+#include "basics.cpp"
+// functions tested at: https : // codeforces.com/group/3qadGzUdR4/contest/101706/problem/B
+// WARNING: all distance functions are not realizing sqrt operation
+// Suggestion: for line intersections check line_line_intersection and then use compute_line_intersection
+
+point project_point_line(point c, point a, point b) {
+    ld r = dot(b - a, b - a);
+    if (fabs(r) < EPS) return a;
+    return a + (b - a) * dot(c - a, b - a) / dot(b - a, b - a);
+}
+
+point project_point_ray(point c, point a, point b) {
+    ld r = dot(b - a, b - a);
+    if (fabs(r) < EPS) return a;
+    r = dot(c - a, b - a) / r;
+    if (le(r, 0)) return a;
+    return a + (b - a) * r;
+}
+
+point project_point_segment(point c, point a, point b) {
+    ld r = dot(b - a, b - a);
+    if (fabs(r) < EPS) return a;
+    r = dot(c - a, b - a) / r;
+    if (le(r, 0)) return a;
+    if (ge(r, 1)) return b;
+    return a + (b - a) * r;
+}
+
+ld distance_point_line(point c, point a, point b) {
+    return c.dist2(project_point_line(c, a, b));
+}
+
+ld distance_point_ray(point c, point a, point b) {
+    return c.dist2(project_point_ray(c, a, b));
+}
+
+ld distance_point_segment(point c, point a, point b) {
+    return c.dist2(project_point_segment(c, a, b));
+}
+
+// not tested
+ld distance_point_plane(ld x, ld y, ld z, ld a, ld b, ld c, ld d) {
+    return fabs(a * x + b * y + c * z - d) / sqrt(a * a + b * b + c * c);
+}
+
+bool lines_parallel(point a, point b, point c, point d) {
+    return fabs(cross(b - a, d - c)) < EPS;
+}
+
+bool lines_collinear(point a, point b, point c, point d) {
+    return lines_parallel(a, b, c, d) && fabs(cross(a - b, a - c)) < EPS && fabs(cross(c - d, c - a)) < EPS;
+}
+
+point lines_intersect(point p, point q, point a, point b) {
+    point r = q - p, s = b - a, c(p % q, a % b);
+    if (eq(r % s, 0)) return point(LINF, LINF);
+    return point(point(r.x, s.x) % c, point(r.y, s.y) % c) / (r % s);
+}
+
+// be careful: test line_line_intersection before using this function
+point compute_line_intersection(point a, point b, point c, point d) {
+    b = b - a;
+    d = c - d;
+    c = c - a;
+    assert(dot(b, b) > EPS && dot(d, d) > EPS);
+    return a + b * cross(c, d) / cross(b, d);
+}
+
+bool line_line_intersect(point a, point b, point c, point d) {
+    if (!lines_parallel(a, b, c, d)) return true;
+    if (lines_collinear(a, b, c, d)) return true;
+    return false;
+}
+
+// rays in direction a -> b, c -> d
+bool ray_ray_intersect(point a, point b, point c, point d) {
+    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+    if (lines_collinear(a, b, c, d)) {
+        if (ge(dot(b - a, d - c), 0)) return true;
+        if (ge(dot(a - c, d - c), 0)) return true;
+        return false;
+    }
+    if (!line_line_intersect(a, b, c, d)) return false;
+    point inters = lines_intersect(a, b, c, d);
+    if (ge(dot(inters - c, d - c), 0) && ge(dot(inters - a, b - a), 0)) return true;
+    return false;
+}
+
+bool segment_segment_intersect(point a, point b, point c, point d) {
+    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+    int d1, d2, d3, d4;
+    d1 = direction(a, b, c);
+    d2 = direction(a, b, d);
+    d3 = direction(c, d, a);
+    d4 = direction(c, d, b);
+    if (d1 * d2 < 0 and d3 * d4 < 0) return 1;
+    return a.on_seg(c, d) or b.on_seg(c, d) or c.on_seg(a, b) or d.on_seg(a, b);
+}
+
+bool segment_line_intersect(point a, point b, point c, point d) {
+    if (!line_line_intersect(a, b, c, d)) return false;
+    point inters = lines_intersect(a, b, c, d);
+    if (inters.on_seg(a, b)) return true;
+    return false;
+}
+
+// ray in direction c -> d
+bool segment_ray_intersect(point a, point b, point c, point d) {
+    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+    if (lines_collinear(a, b, c, d)) {
+        if (c.on_seg(a, b)) return true;
+        if (ge(dot(d - c, a - c), 0)) return true;
+        return false;
+    }
+    if (!line_line_intersect(a, b, c, d)) return false;
+    point inters = lines_intersect(a, b, c, d);
+    if (!inters.on_seg(a, b)) return false;
+    if (ge(dot(inters - c, d - c), 0)) return true;
+    return false;
+}
+
+// ray in direction a -> b
+bool ray_line_intersect(point a, point b, point c, point d) {
+    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+    if (!line_line_intersect(a, b, c, d)) return false;
+    point inters = lines_intersect(a, b, c, d);
+    if (!line_line_intersect(a, b, c, d)) return false;
+    if (ge(dot(inters - a, b - a), 0)) return true;
+    return false;
+}
+
+ld distance_segment_line(point a, point b, point c, point d) {
+    if (segment_line_intersect(a, b, c, d)) return 0;
+    return min(distance_point_line(a, c, d), distance_point_line(b, c, d));
+}
+
+ld distance_segment_ray(point a, point b, point c, point d) {
+    if (segment_ray_intersect(a, b, c, d)) return 0;
+    ld min1 = distance_point_segment(c, a, b);
+    ld min2 = min(distance_point_ray(a, c, d), distance_point_ray(b, c, d));
+    return min(min1, min2);
+}
+
+ld distance_segment_segment(point a, point b, point c, point d) {
+    if (segment_segment_intersect(a, b, c, d)) return 0;
+    ld min1 = min(distance_point_segment(c, a, b), distance_point_segment(d, a, b));
+    ld min2 = min(distance_point_segment(a, c, d), distance_point_segment(b, c, d));
+    return min(min1, min2);
+}
+
+ld distance_ray_line(point a, point b, point c, point d) {
+    if (ray_line_intersect(a, b, c, d)) return 0;
+    ld min1 = distance_point_line(a, c, d);
+    return min1;
+}
+
+ld distance_ray_ray(point a, point b, point c, point d) {
+    if (ray_ray_intersect(a, b, c, d)) return 0;
+    ld min1 = min(distance_point_ray(c, a, b), distance_point_ray(a, c, d));
+    return min1;
+}
+
+ld distance_line_line(point a, point b, point c, point d) {
+    if (line_line_intersect(a, b, c, d)) return 0;
+    return distance_point_line(a, c, d);
+}
+
+\end{lstlisting}
+
+\subsection{Polygons}
+\begin{lstlisting}[language=C++]
+#include "basics.cpp"
+#include "lines.cpp"
+
+// Monotone chain O(nlog(n))
+#define REMOVE_REDUNDANT
+#ifdef REMOVE_REDUNDANT
+bool between(const point &a, const point &b, const point &c) {
+    return (fabs(area_2(a, b, c)) < EPS &&
+            (a.x - b.x) * (c.x - b.x) <= 0 &&
+            (a.y - b.y) * (c.y - b.y) <= 0);
+}
+#endif
+
+// new change: <= 0 / >= 0 became < 0 / > 0 (yet to be tested)
+void convex_hull(vector<point> &pts) {
+    sort(pts.begin(), pts.end());
+    pts.erase(unique(pts.begin(), pts.end()), pts.end());
+    vector<point> up, dn;
+    for (int i = 0; i < pts.size(); i++) {
+        while (up.size() > 1 && area_2(up[up.size() - 2], up.back(), pts[i]) > 0) up.pop_back();
+        while (dn.size() > 1 && area_2(dn[dn.size() - 2], dn.back(), pts[i]) < 0) dn.pop_back();
+        up.push_back(pts[i]);
+        dn.push_back(pts[i]);
+    }
+    pts = dn;
+    for (int i = (int)up.size() - 2; i >= 1; i--) pts.push_back(up[i]);
+#ifdef REMOVE_REDUNDANT
+    if (pts.size() <= 2) return;
+    dn.clear();
+    dn.push_back(pts[0]);
+    dn.push_back(pts[1]);
+    for (int i = 2; i < pts.size(); i++) {
+        if (between(dn[dn.size() - 2], dn[dn.size() - 1], pts[i])) dn.pop_back();
+        dn.push_back(pts[i]);
+    }
+    if (dn.size() >= 3 && between(dn.back(), dn[0], dn[1])) {
+        dn[0] = dn.back();
+        dn.pop_back();
+    }
+    pts = dn;
+#endif
+}
+
+// avoid using long double for comparisons, change type and remove division by 2
+type compute_signed_area(const vector<point> &p) {
+    type area = 0;
+    for (int i = 0; i < p.size(); i++) {
+        int j = (i + 1) % p.size();
+        area += p[i].x * p[j].y - p[j].x * p[i].y;
+    }
+    return area;
+}
+
+ld compute_area(const vector<point> &p) {
+    return fabs(compute_signed_area(p) / 2.0);
+}
+
+ld compute_perimeter(vector<point> &p) {
+    ld per = 0;
+    for (int i = 0; i < p.size(); i++) {
+        int j = (i + 1) % p.size();
+        per += p[i].dist(p[j]);
+    }
+    return per;
+}
+
+// not tested
+// TODO: test this code. This code has not been tested, please do it before proper use.
+// http://codeforces.com/problemset/problem/975/E is a good problem for testing.
+point compute_centroid(vector<point> &p) {
+    point c(0, 0);
+    ld scale = 6.0 * compute_signed_area(p);
+    for (int i = 0; i < p.size(); i++) {
+        int j = (i + 1) % p.size();
+        c = c + (p[i] + p[j]) * (p[i].x * p[j].y - p[j].x * p[i].y);
+    }
+    return c / scale;
+}
+
+// TODO: test this code. This code has not been tested, please do it before proper use.
+// http://codeforces.com/problemset/problem/975/E is a good problem for testing.
+point centroid(vector<point> &v) {
+    int n = v.size();
+    type da = 0;
+    point m, c;
+    for (point p : v) m = m + p;
+    m = m / n;
+    for (int i = 0; i < n; ++i) {
+        point p = v[i] - m, q = v[(i + 1) % n] - m;
+        type x = p % q;
+        c = c + (p + q) * x;
+        da += x;
+    }
+    return c / (3 * da);
+}
+
+// O(n^2)
+bool is_simple(const vector<point> &p) {
+    for (int i = 0; i < p.size(); i++) {
+        for (int k = i + 1; k < p.size(); k++) {
+            int j = (i + 1) % p.size();
+            int l = (k + 1) % p.size();
+            if (i == l || j == k) continue;
+            if (segment_segment_intersect(p[i], p[j], p[k], p[l])) return false;
+        }
+    }
+    return true;
+}
+
+bool point_in_triangle(point a, point b, point c, point cur) {
+    ll s1 = abs(cross(b - a, c - a));
+    ll s2 = abs(cross(a - cur, b - cur)) + abs(cross(b - cur, c - cur)) + abs(cross(c - cur, a - cur));
+    return s1 == s2;
+}
+
+void sort_lex_hull(vector<point> &hull) {
+    if (compute_signed_area(hull) < 0) reverse(hull.begin(), hull.end());
+    int n = hull.size(); // Sort hull by x
+    int pos = 0;
+    for (int i = 1; i < n; i++) if (hull[i] < hull[pos]) pos = i;
+    rotate(hull.begin(), hull.begin() + pos, hull.end());
+}
+
+// determine if point is inside or on the boundary of a polygon (O(logn)) 
+bool point_in_convex_polygon(vector<point> &hull, point cur) {
+    int n = hull.size();
+    // Corner cases: point outside most left and most right wedges 
+    if (cur.dir(hull[0], hull[1]) != 0 && cur.dir(hull[0], hull[1]) != hull[n - 1].dir(hull[0], hull[1])) return false;
+    if (cur.dir(hull[0], hull[n - 1]) != 0 && cur.dir(hull[0], hull[n - 1]) != hull[1].dir(hull[0], hull[n - 1])) return false;
+    // Binary search to find which wedges it is between
+    int l = 1, r = n - 1;
+    while (r - l > 1) {
+        int mid = (l + r) / 2;
+        if (cur.dir(hull[0], hull[mid]) <= 0) l = mid;
+        else r = mid;
+    }
+    return point_in_triangle(hull[l], hull[l + 1], hull[0], cur);
+}
+
+// determine if point is on the boundary of a polygon (O(N))
+bool point_on_polygon(vector<point> &p, point q) {
+    for (int i = 0; i < p.size(); i++)
+        if (q.dist2(project_point_segment(p[i], p[(i + 1) % p.size()], q)) < EPS) return true;
+    return false;
+}
+
+\end{lstlisting}
+
+% \subsection{Radial Sort}
+% \begin{lstlisting}[language=C++]
+% #include "basics.cpp"
+% point origin;
+% /*below < above
+% order: [pi, 2 * pi)*/
+% int above(point p){
+%     if (p.y == origin.y) return p.x > origin.x;
+%     return p.y > origin.y;}
+% bool cmp(point p, point q){ int tmp = above(q) - above(p);
+%     if (tmp) return tmp > 0;
+%     return p.dir(origin, q) > 0; // Be Careful: p.dir(origin,q) == 0
+%     }
+% \end{lstlisting}
+
+\section{Mathematical Formulas}
+
+\subsection{Math Formula}
+\begin{lstlisting}[language=C++]
+summation a to b = (b−a+1)⋅(a+b)/2
+
+
+Orientation of 3 point
+// a(x,y),b(x,y),c(x,y),d(x,y)
+// slop ab = (yb-ya)/(xb-xa);
+// slop bc = (yc-yb)/(xc-xb);
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+// Orientation of 3 points(a,b,c)->
+// Counterclockwise (abc<0): ab slop uoper c point
+// Clockwise (abc>0): ab slop nicha c point 
+// Collinear(abc=0): ab slop soja c point
+
+//how to calculate
+    ABCslop = slopAB - slopBC
+    = (By-Ay)/(Bx-Ax) - (By-Cy)/(Bx-Cx);
+    = ((By-Ay))*(Cx-Bx) - (Cy-By)*(Bx-Ax);
+
+}
+
+\end{lstlisting}
+
+
+\subsection{Matrices and Determinants}
+% Reduced item spacing
+\begin{enumerate}[label=\arabic*., itemsep=0pt, topsep=0pt]
+    \item The number of rows or columns (Order) in a square matrix is called its order.
+    \item A matrix whose all elements are zero is called a null matrix.
+    \item Matrix multiplication $AB$ is possible only when the number of columns in matrix $A$ is equal to the number of rows in matrix $B$.
+    \item If $A$ is a non-singular matrix, then the inverse is given by: $$A^{-1} = \frac{1}{|A|} \text{Adj}(A)$$
+    \item Adjoint of $A$: $\text{Adj}(A) = (\text{Cofactor Matrix})^T$.
+    \item Determinant minors and cofactors (for 3x3 D):
+    $$D = \begin{vmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \\ a_{31} & a_{32} & a_{33} \end{vmatrix}$$
+    Minor of $a_{11}$: $m_{11} = a_{22}a_{33} - a_{23}a_{32}$
+    Cofactor of $a_{ij}$: $A_{ij} = (-1)^{i+j} m_{ij}$
+    Example: $A_{11} = a_{22}a_{33} - a_{23}a_{32}$, $A_{12} = -m_{12}$.
+    \item Important Properties of Determinants:
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt] % Reduced item spacing
+        \item If any two columns (or rows) are identical, its value is zero.
+        $$
+        \begin{vmatrix} a & a & c \\ b & b & f \\ d & d & g \end{vmatrix}
+        = 0
+        $$
+        \item If all elements in any one row (or column) of a determinant are multiplied by a scalar $k$, the value is $k$ times the value of the original determinant.
+        $$
+        \begin{vmatrix} ka & kb & kc \\ d & e & f \\ g & h & i \end{vmatrix}
+        = k \begin{vmatrix} a & b & c \\ d & e & f \\ g & h & i \end{vmatrix}
+        $$
+        \item The value of the determinant remains unchanged if a multiple of one row (or column) is added to another.
+        $$
+        D = \begin{vmatrix} a_1 & b_1 & c_1 \\ a_2 & b_2 & c_2 \\ a_3 & b_3 & c_3 \end{vmatrix}
+        \implies D = \begin{vmatrix} a_1 + mb_1 & b_1 & c_1 \\ a_2 + mb_2 & b_2 & c_2 \\ a_3 + mb_3 & b_3 & c_3 \end{vmatrix}
+        $$
+        \item If two adjacent rows (or columns) are interchanged, the sign of the determinant's value changes.
+    \end{enumerate}
+    \item Cramer's Rule for solving simultaneous linear equations:
+    Given: $a_1x + b_1y + c_1z = d_1$, $a_2x + b_2y + c_2z = d_2$, $a_3x + b_3y + c_3z = d_3$.
+    $$D = \begin{vmatrix} a_1 & b_1 & c_1 \\ a_2 & b_2 & c_2 \\ a_3 & b_3 & c_3 \end{vmatrix} \neq 0$$
+    $$
+    D_x = \begin{vmatrix} d_1 & b_1 & c_1 \\ d_2 & b_2 & c_2 \\ d_3 & b_3 & c_3 \end{vmatrix}
+    \qquad
+    D_y = \begin{vmatrix} a_1 & d_1 & c_1 \\ a_2 & d_2 & c_2 \\ a_3 & d_3 & c_3 \end{vmatrix}
+    \qquad$$
+
+    
+    $$D_z = \begin{vmatrix} a_1 & b_1 & d_1 \\ a_2 & b_2 & d_2 \\ a_3 & b_3 & d_3 \end{vmatrix}
+    $$
+    Solution: $x = \frac{D_x}{D}$, $y = \frac{D_y}{D}$, and $z = \frac{D_z}{D}$.
+\end{enumerate}
+
+\subsection{Vectors}
+% Reduced item spacing
+\begin{enumerate}[label=\arabic*., itemsep=0pt, topsep=0pt]
+    \item If $\vec{a} = a_1\mathbf{i} + a_2\mathbf{j} + a_3\mathbf{k}$, the magnitude is: $$|\vec{a}| = \sqrt{a_1^2 + a_2^2 + a_3^2}$$
+    \item Position Vector: The position vector of point $(x, y, z)$ is: $$\vec{r} = x\mathbf{i} + y\mathbf{j} + z\mathbf{k}$$
+    \item Vector Subtraction: If $\vec{OP} = x_1\mathbf{i} + y_1\mathbf{j} + z_1\mathbf{k}$ and $\vec{OQ} = x_2\mathbf{i} + y_2\mathbf{j} + z_2\mathbf{k}$, then: $$\vec{PQ} = \vec{OQ} - \vec{OP} = (x_2 - x_1)\mathbf{i} + (y_2 - y_1)\mathbf{j} + (z_2 - z_1)\mathbf{k}$$
+    \item Section Formula:
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt] % Reduced item spacing
+        \item Internal Division: If $R$ divides $AB$ internally in the ratio $m:n$, and $\vec{a}, \vec{b}$ are position vectors of $A$ and $B$, then: $$\vec{r} = \frac{m\vec{b} + n\vec{a}}{m+n}$$
+        \item Midpoint: If $C$ is the midpoint of $AB$, the position vector of $C$ is: $$\vec{c} = \frac{\vec{a} + \vec{b}}{2}$$
+    \end{enumerate}
+    \item Unit vector parallel to $\vec{a}$: $\pm \frac{\vec{a}}{|\vec{a}|}$.
+    \item Unit vector perpendicular to $\vec{a}$ and $\vec{b}$: $\pm \frac{\vec{a} \times \vec{b}}{|\vec{a} \times \vec{b}|}$.
+    \item Unit vector perpendicular to the plane containing $\vec{a}$ and $\vec{b}$: $\pm \frac{\vec{a} \times \vec{b}}{|\vec{a} \times \vec{b}|}$.
+    \item Vector addition: If $\vec{a}=a_1\mathbf{i}+a_2\mathbf{j}+a_3\mathbf{k}$ and $\vec{b}=b_1\mathbf{i}+b_2\mathbf{j}+b_3\mathbf{k}$, then: $$\vec{a}+\vec{b} = (a_1+b_1)\mathbf{i} + (a_2+b_2)\mathbf{j} + (a_3+b_3)\mathbf{k}$$
+    \item Scalar Product (Dot Product): $$\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}| \cos \theta = a_1b_1 + a_2b_2 + a_3b_3$$
+    \item Unit Vector Dot Products: $$\mathbf{i} \cdot \mathbf{i} = \mathbf{j} \cdot \mathbf{j} = \mathbf{k} \cdot \mathbf{k} = 1, \quad \mathbf{i} \cdot \mathbf{j} = \mathbf{j} \cdot \mathbf{k} = \mathbf{k} \cdot \mathbf{i} = 0$$
+    \item Vector Product (Cross Product):
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt]
+        \item Magnitude: $|\vec{a} \times \vec{b}| = |\vec{a}||\vec{b}| \sin \theta$.
+        \item Cartesian form: $$\vec{a} \times \vec{b} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \end{vmatrix}$$
+        \item Property: $\vec{a} \times \vec{b} = -(\vec{b} \times \vec{a})$.
+    \end{enumerate}
+    \item Unit Vector Cross Products: $\mathbf{i} \times \mathbf{i} = 0$. Cyclic relations: $$\mathbf{i} \times \mathbf{j} = \mathbf{k}, \quad \mathbf{j} \times \mathbf{k} = \mathbf{i}, \quad \mathbf{k} \times \mathbf{i} = \mathbf{j}$$
+    \item Condition for Perpendicularity: If $\vec{a} \perp \vec{b}$, then $\vec{a} \cdot \vec{b} = 0$.
+    \item Scalar projection of $\vec{a}$ onto $\vec{b}$: $$a \cos \theta = \frac{\vec{a} \cdot \vec{b}}{|\vec{b}|}$$
+    \item Vector projection of $\vec{a}$ onto $\vec{b}$ (along $\vec{b}$): $$\frac{(\vec{a} \cdot \vec{b})}{|\vec{b}|^2}\vec{b}$$
+    \item Scalar projection of $\vec{b}$ onto $\vec{a}$: $$\frac{\vec{a} \cdot \vec{b}}{|\vec{a}|}$$
+    \item Volume of the parallelepiped formed by $\vec{a}, \vec{b}, \vec{c}$: $$\left| \begin{vmatrix} a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \\ c_1 & c_2 & c_3 \end{vmatrix} \right| \text{ cubic units}$$
+    \item Condition for Coplanarity: If vectors $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then $\vec{a} \cdot (\vec{b} \times \vec{c}) = 0$.
+    \item Area Formulas (Parallelogram and Triangle):
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt]
+        \item Area of parallelogram formed by $\vec{a}$ and $\vec{b}$: $|\vec{a} \times \vec{b}|$ sq units.
+        \item Area of triangle formed by $\vec{a}$ and $\vec{b}$: $\frac{1}{2}|\vec{a} \times \vec{b}|$ sq units.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Straight Lines}
+
+\begin{enumerate}[label=\arabic*., itemsep=0pt, topsep=0pt]
+    \item Coordinates on the axes: A point on the $x$-axis is $(x, 0)$; a point on the $y$-axis is $(0, y)$.
+    \item Distance of point $(x, y)$: From the $x$-axis is $|y|$; from the $y$-axis is $|x|$.
+    \item Cartesian $(x, y)$ and Polar $(r, \theta)$ Coordinate relations:
+    $$x = r \cos \theta, \quad y = r \sin \theta$$
+    $$r = \sqrt{x^2+y^2}, \quad \theta = \tan^{-1}\left(\frac{y}{x}\right)$$
+    (Conditions: $0 \le r < \infty$ and $0 \le \theta < 2\pi$).
+    \item Location of Polar Coordinates $(r, \theta)$ from Cartesian $(x, y)$:
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt]
+        \item For the $\mathbf{first\ quadrant}$ $(x > 0, y > 0)$: $\theta = \tan^{-1}\left(\frac{y}{x}\right)$; $0 < \theta < 90^\circ$.
+        \item For the $\mathbf{second\ quadrant}$ $(-x, y)$: $\theta = 180^\circ - \tan^{-1}\left(\frac{y}{|x|}\right)$; $90^\circ < \theta < 180^\circ$.
+        \item For the $\mathbf{third\ quadrant}$ $(-x, -y)$: $\theta = 180^\circ + \tan^{-1}\left(\frac{|y|}{|x|}\right)$; $180^\circ < \theta < 270^\circ$.
+        \item For the $\mathbf{fourth\ quadrant}$ $(x, -y)$: $\theta = 360^\circ - \tan^{-1}\left(\frac{|y|}{x}\right)$; $270^\circ < \theta < 360^\circ$.
+        \item Alternatively, for Cartesian $(x, y)$, the angle $\theta$ is: $\theta = \tan^{-1}\left(\frac{y}{x}\right) \text{ (If } x>0 \text{) or } \pi + \tan^{-1}\left(\frac{y}{x}\right) \text{ (If } x<0 \text{)}$
+    \end{enumerate}
+
+    \item $\mathbf{Distance\ Formula}$ between two points $(x_1, y_1)$ and $(x_2, y_2)$: $$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
+
+    \item Distance between two points $(x_1, b)$ and $(x_2, b)$: $|x_2 - x_1|$ (since $y_1=y_2=b$).
+    \item Distance between two points $(a, y_1)$ and $(a, y_2)$: $|y_2 - y_1|$ (since $x_1=x_2=a$).
+
+    \item Distance between two $\mathbf{Polar\ Points}$ $(r_1, \theta_1)$ and $(r_2, \theta_2)$: $$d = \sqrt{r_1^2 + r_2^2 - 2r_1 r_2 \cos (\theta_1 - \theta_2)}$$
+
+    \item $\mathbf{Division\ Formula\ (Internal)}$: Coordinates of point dividing line segment $(x_1, y_1)$ and $(x_2, y_2)$ $\mathbf{internally}$ in ratio $m_1:m_2$: $$\left( \frac{m_1x_2 + m_2x_1}{m_1+m_2}, \frac{m_1y_2 + m_2y_1}{m_1+m_2} \right)$$
+
+    \item $\mathbf{Division\ Formula\ (External)}$: Coordinates of point dividing line segment $(x_1, y_1)$ and $(x_2, y_2)$ $\mathbf{externally}$ in ratio $m_1:m_2$: $$\left( \frac{m_1x_2 - m_2x_1}{m_1-m_2}, \frac{m_1y_2 - m_2y_1}{m_1-m_2} \right)$$
+
+    \item $\mathbf{Midpoint\ Formula}$: Midpoint of line segment between $(x_1, y_1)$ and $(x_2, y_2)$: $$\left( \frac{x_1+x_2}{2}, \frac{y_1+y_2}{2} \right)$$
+
+    \item $\mathbf{Centroid\ Formula}$: Centroid of a triangle with vertices $(x_1, y_1), (x_2, y_2), (x_3, y_3)$: $$\left( \frac{x_1+x_2+x_3}{3}, \frac{y_1+y_2+y_3}{3} \right)$$
+
+    \item $\mathbf{Area\ of\ Triangle}$ $\triangle ABC$ with vertices $A(x_1, y_1), B(x_2, y_2), C(x_3, y_3)$: $$\text{Area} = \frac{1}{2} \left| \begin{vmatrix} x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1 \end{vmatrix} \right| \text{ sq units}$$
+
+    \item Area of Triangle with origin $(0, 0)$ and vertices $(x_1, y_1), (x_2, y_2)$: $$\text{Area} = \frac{1}{2} |x_1y_2 - x_2y_1| \text{ sq units}$$
+    \item $\mathbf{Collinearity\ Condition}$: Three points $A(x_1, y_1), B(x_2, y_2), C(x_3, y_3)$ are collinear if the area of $\triangle ABC$ is zero:
+    $$\frac{1}{2} \left| x_1(y_2 - y_3) + x_2(y_3 - y_1) + x_3(y_1 - y_2) \right| = 0$$
+    (or using the determinant form: $\begin{vmatrix} x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1 \end{vmatrix} = 0$)
+
+    \item $\mathbf{Area\ of\ Quadrilateral}$ $ABCD$ with vertices $(x_1, y_1), (x_2, y_2), (x_3, y_3), (x_4, y_4)$: $$\text{Area} = \frac{1}{2} \left| \begin{vmatrix} x_1 & x_2 & x_3 & x_4 & x_1 \\ y_1 & y_2 & y_3 & y_4 & y_1 \end{vmatrix} \right|$$
+
+    \item $\mathbf{Slope\ (Gradient)}$ of a Straight Line:
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt]
+        \item The $\mathbf{slope}$ is $m = \tan \theta$, where $\theta$ is the angle with the positive $x$-axis ($0^\circ \le \theta < 180^\circ$).
+        \item Slope of the $\mathbf{x\text{-}axis}$ (or parallel to $x$-axis) is $m=0$.
+        \item Slope of the $\mathbf{y\text{-}axis}$ (or parallel to $y$-axis) is $\mathbf{undefined}$.
+        \item Slope of the line passing through $(x_1, y_1)$ and $(x_2, y_2)$: $m = \frac{y_2 - y_1}{x_2 - x_1}$.
+        \item Slope of the line $\mathbf{ax + by + c = 0}$: $m = -\frac{a}{b}$.
+    \end{enumerate}
+
+    \item Equation of the $\mathbf{x\text{-}axis}$: $y=0$.
+    \item Equation of the $\mathbf{y\text{-}axis}$: $x=0$.
+    \item Equation of a line $\mathbf{parallel\ to\ the\ x\text{-}axis}$ (or horizontal line): $y=b$.
+    \item Equation of a line $\mathbf{parallel\ to\ the\ y\text{-}axis}$ (or vertical line): $x=a$.
+    \item Equation of a line $\mathbf{passing\ through\ the\ origin}$: $y=mx$.
+
+    \item $\mathbf{Different\ Forms\ of\ the\ Equation\ of\ a\ Straight\ Line}$:
+    \begin{enumerate}[label=\roman*., itemsep=0pt, topsep=0pt]
+        \item $\mathbf{Point\text{-}Slope\ form}$ (passing through $(x_1, y_1)$ with slope $m$): $y - y_1 = m(x - x_1)$.
+        \item $\mathbf{Slope\text{-}Intercept\ form}$ (with slope $m$ and $y$-intercept $c$): $y = mx + c$.
+        \item $\mathbf{Two\text{-}Point\ form}$ (passing through $(x_1, y_1)$ and $(x_2, y_2)$): $\frac{y - y_1}{y_2 - y_1} = \frac{x - x_1}{x_2 - x_1}$.
+        \item $\mathbf{Intercept\ form}$ (with $x$-intercept $a$ and $y$-intercept $b$): $\frac{x}{a} + \frac{y}{b} = 1$.
+        \item $\mathbf{General\ form}$: $ax + by + c = 0$.
+    \end{enumerate}
+
+    \item $\mathbf{Area\ of\ the\ triangle}$ formed by the line $\frac{x}{a} + \frac{y}{b} = 1$ and the coordinate axes: $\frac{1}{2} |ab| \text{ sq units}$.
+
+    \item $\mathbf{Perpendicular\ Distance}$ from a point $(x_1, y_1)$ to the line $ax + by + c = 0$: $$d = \frac{|ax_1 + by_1 + c|}{\sqrt{a^2 + b^2}}$$
+
+\end{enumerate}
+
+\end{multicols}
+
+\end{document}
