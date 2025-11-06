@@ -19,6 +19,12 @@
 \fancyhf{}
 \fancyhead[R]{\thepage}
 
+% Team info at bottom-left on every page
+\fancyfoot[L]{Team: UAP\_Nightjars}  
+
+% % Optional: page number at bottom-right as well
+% \fancyfoot[R]{\thepage}  
+
 % === COLUMN SETTINGS ===
 \setlength{\columnsep}{5pt}         % Space between columns
 \setlength{\columnseprule}{0.4pt}    % <-- Vertical line between columns
@@ -57,10 +63,10 @@
 \begin{document}
 
 \begin{center}
-    {\LARGE \textbf{Competitive Programming Reference}}\\
+    {\LARGE \textbf{UAP\_Nightjars CP Reference}}\\
     {\small University of Asia Pacific}\\
     \vspace{0.3em}
-    {\footnotesize Last Updated: \today}
+    {\footnotesize Team: UAP\_Nightjars (Maruf,Rhythm,Arafat)}
     \vspace{0.5em}
     \hrule
 \end{center}
