@@ -1921,17 +1921,19 @@ int div_prod = expo(div_prod, k[i] + 1) *
 int div_cnt2 = div_cnt2 * (k[i] + 1) % (MOD - 1);
 \end{lstlisting}
 
-\subsection{Sum of Divisor}
+\subsection{Sum \& Product of Divisor}
 \begin{lstlisting}[language=C++]
-// Sum of divisors using the prime factorization of n.
-long long SumOfDivisors(long long num){ long long total = 1;
-    for (int i = 2; (long long)i * i <= num; i++){
-        if (num % i == 0){ int e = 0;
-            do{ e++; num /= i;} while (num%i == 0);
-            long long sum = 0, pow = 1;
-            do{sum += pow; pow *= i;}while(e-- > 0);
-            total *= sum;}}
-    if (num > 1) total *= (1 + num); return total;}
+for (int i = 0; i < n; i++) cin >> p[i] >> k[i];
+ll div_cnt = 1, div_sum = 1, div_prod = 1, div_cnt2 = 1;
+for (int i = 0; i < n; i++) {
+	div_cnt = div_cnt * (k[i] + 1) % MOD;
+	div_sum = div_sum * (expo(p[i], k[i] + 1) - 1) % MOD * expo(p[i] - 1, MOD - 2) % MOD;
+    
+	div_prod = expo(div_prod, k[i] + 1) *                     expo(expo(p[i], (k[i] * (k[i] + 1) / 2)), div_cnt2) % MOD;
+    
+    div_cnt2 = div_cnt2 * (k[i] + 1) % (MOD - 1);
+	}
+	cout << div_cnt << ' ' << div_sum << ' ' << div_prod;
 \end{lstlisting}
 
 \subsection{Sieve}
@@ -2267,6 +2269,33 @@ double ternary_search(double l, double r, int No = 300) {
     }
     return f(l);}
 
+\end{lstlisting}
+\subsection{Custom Sorting}
+\begin{lstlisting}[language=Python]
+//single value
+bool descending(int a, int b) {
+    return a > b;
+}
+int main() {
+    vector<int> nums = {5, 3, 1, 4, 2};
+    sort(nums.begin(), nums.end(), descending); // custom comparator
+}
+
+//three value
+bool customSort(const pair<int, pair<int,int>> &a, const pair<int, pair<int,int>> &b) {
+    if (a.first != b.first)
+        return a.first < b.first;// 1st ascending
+    if (a.second.first != b.second.first)
+        return a.second.first > b.second.first;   // 2nd descending
+    return a.second.second < b.second.second;     // 3rd ascending
+}
+
+int main() {
+    vector<pair<int, pair<int,int>>> v = {
+        {1, {5, 10}},};
+    sort(v.begin(), v.end(), customSort);
+    }
+}
 \end{lstlisting}
 
 
