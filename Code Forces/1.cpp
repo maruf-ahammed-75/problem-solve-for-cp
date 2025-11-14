@@ -1,39 +1,92 @@
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
-int min_operations(const string& s) {
-    int n = s.size();
-    string target;
-    for (int i = 0; i < n; ++i)
-        target += (i % 2 == 0) ? '0' : '1';
+typedef long long int ll;
 
-    string temp = s;
-    int res = 0;
-    for (int i = 1; i < n - 1; ++i) {
-        if (temp[i - 1] != target[i - 1]) {
-            for (int d = -1; d <= 1; ++d) {
-                int idx = i + d;
-                if (idx >= 0 && idx < n)
-                    temp[idx] = (temp[idx] == '0') ? '1' : '0';
-            }
-            ++res;
-        }
+bool trav(vector< vector<ll> > &edges, vector< bool > &visited, ll start, ll end, ll u){
+    visited[start]=true;
+    for(ll e : edges[start]){
+        if(visited[e])continue;
+        if(e==end)return true;
+        if(trav(edges, visited, e, end, u))return true;
     }
-    if (temp == target)
-        return res;
-    else
-        return -1;
+    return false;
 }
 
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int n;
-        string s;
-        cin >> n >> s;
-        cout << min_operations(s) << endl;
+void trav_n(vector< vector<ll> > &edges, vector< bool > &visited, ll start, vector<ll> &all_n){
+    visited[start]=true;
+    for(ll e : edges[start]){
+        if(visited[e])continue;
+        all_n.push_back(e);
+        trav_n(edges, visited, e, all_n);
     }
+}
+
+ll mindist(vector<ll> v1, vector<ll> v2){
+    sort(v1.begin(),v1.end());
+    sort(v2.begin(),v2.end());
+
+    ll i=0,j=0;
+    ll mind = LLONG_MAX;
+    ll sz1= v1.size(), sz2= v2.size();
+    while(i<sz1 && j<sz2){
+        mind = min(mind , abs(v1[i]-v2[j]));
+
+        if(v1[i]<v2[j])i++;
+        else j++;
+    }
+    return mind;
+}
+
+int main()
+{
+
+    ll t,n,m,q,u,v, t_e, t_t;
+
+    cin>>t;
+    t_t=t;
+
+    while(t--){
+        cout<<"Case "<<t_t - t<<":\n";
+        cin>>n;
+        vector< vector<ll> > edges(n+1, vector<ll>() );
+        vector< vector<ll> > edges_r(n + 1, vector<ll>());
+        vector< bool > visited(n+1,false);
+
+        cin>>m;
+        t_e = m;
+
+        while(t_e--){
+            cin>>u>>v;
+            edges[u].push_back(v);
+            edges_r[v].push_back(u);
+        }
+
+        cin>>q;
+        t_e = q;
+
+        while(t_e--){
+            cin>>u>>v;
+            vector<ll> v1 = vector<ll>(), v2 = vector<ll>();
+            if(trav(edges, visited,u,v,u)){
+                for(ll i=0;i<n;i++)visited[i]=false;
+                cout<<"0\n";
+            }
+            else{
+                for(ll i=0;i<n;i++)visited[i]=false;
+                v1.push_back(u);
+                trav_n(edges, visited, u, v1);
+                for(ll i=0;i<n;i++)visited[i]=false;
+                v2.push_back(v);
+                trav_n(edges_r, visited, v, v2);
+
+                ll mind = mindist(v1,v2);
+
+                cout<<mind<<"\n";
+            }
+        }
+
+    }
+
     return 0;
 }
