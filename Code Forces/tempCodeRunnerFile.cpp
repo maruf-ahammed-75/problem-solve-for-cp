@@ -1,54 +1,42 @@
-#include <bits/stdc++.h>
-#define ll long long
-#define int long long
-#define ff first
-#define ss second
-#define full(a) a.begin(), a.end()
-#define endl "\n"
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
-
-using namespace std;
-
 void I_Am_Here() {
     int n;
     cin>>n;
+    vector<int>a(n);
+    stack<int>s;
+    for(int i=0 ; i<n ; i++){
+        cin>>a[i];
+    }
+    int i=0;
+    int j=n-1;
     int sum=0;
-    if(n!=1)sum=1;
-    
-    for(int i=2 ; i*i<=n ; i++){
-        if(n%i==0){
-            sum+=i;
-            if(i!=(n/i)){
-                sum+=(n/i);
+    while(i<j){
+
+        int x = max(a[i],a[i+1]);
+        int y = max(a[j],a[j-1]);
+        int z = max(a[i],a[j]);
+
+        if(x < min(y,z)){
+            sum+=x;
+            if(a[i]<a[i+1]){
+                swap(a[i],a[i+1]);
             }
+            i++;
         }
-    }
-    if(sum==n){
-        cout<<"perfect"<<endl;
-    }
-    else if(sum>n){
-        cout<<"abundant"<<endl;
-    }
-    else{
-        cout<<"deficient"<<endl;
-    }
-}
+        else if(y < min(x,z)){
+            sum+=y;
+            if(a[j]>a[j-1]){
+                swap(a[j],a[j-1]);
+            }
+            j--;
+        }
+        else{
+            sum+=z;
+            if(a[i]<a[j]){
+                swap(a[i],a[j]);
+            }
+            i++;
+        }
 
-int32_t main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-
-    int t = 1;
-    cin >> t;
-    for (int T = 1; T <= t; T++) {
-        I_Am_Here();
     }
-    return 0;
+    cout<<sum<<endl;
 }
