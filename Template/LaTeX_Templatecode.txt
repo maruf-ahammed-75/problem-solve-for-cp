@@ -1913,8 +1913,7 @@ return 0;
 
 //prodect of divisor = n^(number of divisors/2)
 // b/a = b*a^(-1);
-// a^(−1)==a^(MOD−2)%MOD;
-
+// a^(-1)==a^(MOD-2)%MOD;
 // product of divisor
 int div_prod = expo(div_prod, k[i] + 1) *
 		           expo(expo(p[i], (k[i] * (k[i] + 1) / 2)), div_cnt2) % MOD;
@@ -2171,21 +2170,27 @@ stack<int> st; st.push(2); st.pop(); st.top();st.size();
 
 queue<int> q; q.push(5); q.pop();q.front();q.back();size();empty();
 
+-------priority queue--------
 // Max priority first (largest value removed first)
 priority_queue<long long> pq_max;
 
 // Min priority first (smallest value removed first)
 priority_queue<long long, vector<long long>, greater<long long>> pq_min;
 
-// Clear both
-pq_max = priority_queue<long long>();
-pq_min = priority_queue<long long, vector<long long>, greater<long long>>();
+// Clear
+pq_max = priority_queue<long long>();//same ot other
+//operation
+pq.push(x);pq.top();pq.pop();//Time Complexity = log(n) 
 
+------------map--------------
 map<int, int> mp1; map<int, pair<int, int>> mp2; mp2[0].first; mp2[0].second; 
 int index = lower_bound(v.begin(), v.end(), val) - v.begin() ;
 int index = upper_bound(v.begin(), v.end(), val) - v.begin();
 auto it = s.lower_bound(6); *it; it--; 
 auto it = s.upper_bound(6); *it; it--;
+
+------multiset-----
+multiset < int > m; insert(); erase(); begin(); end(); size(); count(); empty(); ms.count(x),ms.lower_bound(x),ms.upper_bound(x);//all operation TC = log(n)
 \end{lstlisting}
 
 \subsection{Sqrt Decomposition}
@@ -2859,326 +2864,326 @@ int32_t main(){
 % printf("%.18f\n", ans); return 0; }*/
 % \end{lstlisting}
 
-\subsection{Lines}
-\begin{lstlisting}[language=C++]
-#include "basics.cpp"
-// functions tested at: https : // codeforces.com/group/3qadGzUdR4/contest/101706/problem/B
-// WARNING: all distance functions are not realizing sqrt operation
-// Suggestion: for line intersections check line_line_intersection and then use compute_line_intersection
+% \subsection{Lines}
+% \begin{lstlisting}[language=C++]
+% #include "basics.cpp"
+% // functions tested at: https : // codeforces.com/group/3qadGzUdR4/contest/101706/problem/B
+% // WARNING: all distance functions are not realizing sqrt operation
+% // Suggestion: for line intersections check line_line_intersection and then use compute_line_intersection
 
-point project_point_line(point c, point a, point b) {
-    ld r = dot(b - a, b - a);
-    if (fabs(r) < EPS) return a;
-    return a + (b - a) * dot(c - a, b - a) / dot(b - a, b - a);
-}
+% point project_point_line(point c, point a, point b) {
+%     ld r = dot(b - a, b - a);
+%     if (fabs(r) < EPS) return a;
+%     return a + (b - a) * dot(c - a, b - a) / dot(b - a, b - a);
+% }
 
-point project_point_ray(point c, point a, point b) {
-    ld r = dot(b - a, b - a);
-    if (fabs(r) < EPS) return a;
-    r = dot(c - a, b - a) / r;
-    if (le(r, 0)) return a;
-    return a + (b - a) * r;
-}
+% point project_point_ray(point c, point a, point b) {
+%     ld r = dot(b - a, b - a);
+%     if (fabs(r) < EPS) return a;
+%     r = dot(c - a, b - a) / r;
+%     if (le(r, 0)) return a;
+%     return a + (b - a) * r;
+% }
 
-point project_point_segment(point c, point a, point b) {
-    ld r = dot(b - a, b - a);
-    if (fabs(r) < EPS) return a;
-    r = dot(c - a, b - a) / r;
-    if (le(r, 0)) return a;
-    if (ge(r, 1)) return b;
-    return a + (b - a) * r;
-}
+% point project_point_segment(point c, point a, point b) {
+%     ld r = dot(b - a, b - a);
+%     if (fabs(r) < EPS) return a;
+%     r = dot(c - a, b - a) / r;
+%     if (le(r, 0)) return a;
+%     if (ge(r, 1)) return b;
+%     return a + (b - a) * r;
+% }
 
-ld distance_point_line(point c, point a, point b) {
-    return c.dist2(project_point_line(c, a, b));
-}
+% ld distance_point_line(point c, point a, point b) {
+%     return c.dist2(project_point_line(c, a, b));
+% }
 
-ld distance_point_ray(point c, point a, point b) {
-    return c.dist2(project_point_ray(c, a, b));
-}
+% ld distance_point_ray(point c, point a, point b) {
+%     return c.dist2(project_point_ray(c, a, b));
+% }
 
-ld distance_point_segment(point c, point a, point b) {
-    return c.dist2(project_point_segment(c, a, b));
-}
+% ld distance_point_segment(point c, point a, point b) {
+%     return c.dist2(project_point_segment(c, a, b));
+% }
 
-// not tested
-ld distance_point_plane(ld x, ld y, ld z, ld a, ld b, ld c, ld d) {
-    return fabs(a * x + b * y + c * z - d) / sqrt(a * a + b * b + c * c);
-}
+% // not tested
+% ld distance_point_plane(ld x, ld y, ld z, ld a, ld b, ld c, ld d) {
+%     return fabs(a * x + b * y + c * z - d) / sqrt(a * a + b * b + c * c);
+% }
 
-bool lines_parallel(point a, point b, point c, point d) {
-    return fabs(cross(b - a, d - c)) < EPS;
-}
+% bool lines_parallel(point a, point b, point c, point d) {
+%     return fabs(cross(b - a, d - c)) < EPS;
+% }
 
-bool lines_collinear(point a, point b, point c, point d) {
-    return lines_parallel(a, b, c, d) && fabs(cross(a - b, a - c)) < EPS && fabs(cross(c - d, c - a)) < EPS;
-}
+% bool lines_collinear(point a, point b, point c, point d) {
+%     return lines_parallel(a, b, c, d) && fabs(cross(a - b, a - c)) < EPS && fabs(cross(c - d, c - a)) < EPS;
+% }
 
-point lines_intersect(point p, point q, point a, point b) {
-    point r = q - p, s = b - a, c(p % q, a % b);
-    if (eq(r % s, 0)) return point(LINF, LINF);
-    return point(point(r.x, s.x) % c, point(r.y, s.y) % c) / (r % s);
-}
+% point lines_intersect(point p, point q, point a, point b) {
+%     point r = q - p, s = b - a, c(p % q, a % b);
+%     if (eq(r % s, 0)) return point(LINF, LINF);
+%     return point(point(r.x, s.x) % c, point(r.y, s.y) % c) / (r % s);
+% }
 
-// be careful: test line_line_intersection before using this function
-point compute_line_intersection(point a, point b, point c, point d) {
-    b = b - a;
-    d = c - d;
-    c = c - a;
-    assert(dot(b, b) > EPS && dot(d, d) > EPS);
-    return a + b * cross(c, d) / cross(b, d);
-}
+% // be careful: test line_line_intersection before using this function
+% point compute_line_intersection(point a, point b, point c, point d) {
+%     b = b - a;
+%     d = c - d;
+%     c = c - a;
+%     assert(dot(b, b) > EPS && dot(d, d) > EPS);
+%     return a + b * cross(c, d) / cross(b, d);
+% }
 
-bool line_line_intersect(point a, point b, point c, point d) {
-    if (!lines_parallel(a, b, c, d)) return true;
-    if (lines_collinear(a, b, c, d)) return true;
-    return false;
-}
+% bool line_line_intersect(point a, point b, point c, point d) {
+%     if (!lines_parallel(a, b, c, d)) return true;
+%     if (lines_collinear(a, b, c, d)) return true;
+%     return false;
+% }
 
-// rays in direction a -> b, c -> d
-bool ray_ray_intersect(point a, point b, point c, point d) {
-    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
-    if (lines_collinear(a, b, c, d)) {
-        if (ge(dot(b - a, d - c), 0)) return true;
-        if (ge(dot(a - c, d - c), 0)) return true;
-        return false;
-    }
-    if (!line_line_intersect(a, b, c, d)) return false;
-    point inters = lines_intersect(a, b, c, d);
-    if (ge(dot(inters - c, d - c), 0) && ge(dot(inters - a, b - a), 0)) return true;
-    return false;
-}
+% // rays in direction a -> b, c -> d
+% bool ray_ray_intersect(point a, point b, point c, point d) {
+%     if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+%     if (lines_collinear(a, b, c, d)) {
+%         if (ge(dot(b - a, d - c), 0)) return true;
+%         if (ge(dot(a - c, d - c), 0)) return true;
+%         return false;
+%     }
+%     if (!line_line_intersect(a, b, c, d)) return false;
+%     point inters = lines_intersect(a, b, c, d);
+%     if (ge(dot(inters - c, d - c), 0) && ge(dot(inters - a, b - a), 0)) return true;
+%     return false;
+% }
 
-bool segment_segment_intersect(point a, point b, point c, point d) {
-    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
-    int d1, d2, d3, d4;
-    d1 = direction(a, b, c);
-    d2 = direction(a, b, d);
-    d3 = direction(c, d, a);
-    d4 = direction(c, d, b);
-    if (d1 * d2 < 0 and d3 * d4 < 0) return 1;
-    return a.on_seg(c, d) or b.on_seg(c, d) or c.on_seg(a, b) or d.on_seg(a, b);
-}
+% bool segment_segment_intersect(point a, point b, point c, point d) {
+%     if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+%     int d1, d2, d3, d4;
+%     d1 = direction(a, b, c);
+%     d2 = direction(a, b, d);
+%     d3 = direction(c, d, a);
+%     d4 = direction(c, d, b);
+%     if (d1 * d2 < 0 and d3 * d4 < 0) return 1;
+%     return a.on_seg(c, d) or b.on_seg(c, d) or c.on_seg(a, b) or d.on_seg(a, b);
+% }
 
-bool segment_line_intersect(point a, point b, point c, point d) {
-    if (!line_line_intersect(a, b, c, d)) return false;
-    point inters = lines_intersect(a, b, c, d);
-    if (inters.on_seg(a, b)) return true;
-    return false;
-}
+% bool segment_line_intersect(point a, point b, point c, point d) {
+%     if (!line_line_intersect(a, b, c, d)) return false;
+%     point inters = lines_intersect(a, b, c, d);
+%     if (inters.on_seg(a, b)) return true;
+%     return false;
+% }
 
-// ray in direction c -> d
-bool segment_ray_intersect(point a, point b, point c, point d) {
-    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
-    if (lines_collinear(a, b, c, d)) {
-        if (c.on_seg(a, b)) return true;
-        if (ge(dot(d - c, a - c), 0)) return true;
-        return false;
-    }
-    if (!line_line_intersect(a, b, c, d)) return false;
-    point inters = lines_intersect(a, b, c, d);
-    if (!inters.on_seg(a, b)) return false;
-    if (ge(dot(inters - c, d - c), 0)) return true;
-    return false;
-}
+% // ray in direction c -> d
+% bool segment_ray_intersect(point a, point b, point c, point d) {
+%     if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+%     if (lines_collinear(a, b, c, d)) {
+%         if (c.on_seg(a, b)) return true;
+%         if (ge(dot(d - c, a - c), 0)) return true;
+%         return false;
+%     }
+%     if (!line_line_intersect(a, b, c, d)) return false;
+%     point inters = lines_intersect(a, b, c, d);
+%     if (!inters.on_seg(a, b)) return false;
+%     if (ge(dot(inters - c, d - c), 0)) return true;
+%     return false;
+% }
 
-// ray in direction a -> b
-bool ray_line_intersect(point a, point b, point c, point d) {
-    if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
-    if (!line_line_intersect(a, b, c, d)) return false;
-    point inters = lines_intersect(a, b, c, d);
-    if (!line_line_intersect(a, b, c, d)) return false;
-    if (ge(dot(inters - a, b - a), 0)) return true;
-    return false;
-}
+% // ray in direction a -> b
+% bool ray_line_intersect(point a, point b, point c, point d) {
+%     if (a.dist2(c) < EPS || a.dist2(d) < EPS || b.dist2(c) < EPS || b.dist2(d) < EPS) return true;
+%     if (!line_line_intersect(a, b, c, d)) return false;
+%     point inters = lines_intersect(a, b, c, d);
+%     if (!line_line_intersect(a, b, c, d)) return false;
+%     if (ge(dot(inters - a, b - a), 0)) return true;
+%     return false;
+% }
 
-ld distance_segment_line(point a, point b, point c, point d) {
-    if (segment_line_intersect(a, b, c, d)) return 0;
-    return min(distance_point_line(a, c, d), distance_point_line(b, c, d));
-}
+% ld distance_segment_line(point a, point b, point c, point d) {
+%     if (segment_line_intersect(a, b, c, d)) return 0;
+%     return min(distance_point_line(a, c, d), distance_point_line(b, c, d));
+% }
 
-ld distance_segment_ray(point a, point b, point c, point d) {
-    if (segment_ray_intersect(a, b, c, d)) return 0;
-    ld min1 = distance_point_segment(c, a, b);
-    ld min2 = min(distance_point_ray(a, c, d), distance_point_ray(b, c, d));
-    return min(min1, min2);
-}
+% ld distance_segment_ray(point a, point b, point c, point d) {
+%     if (segment_ray_intersect(a, b, c, d)) return 0;
+%     ld min1 = distance_point_segment(c, a, b);
+%     ld min2 = min(distance_point_ray(a, c, d), distance_point_ray(b, c, d));
+%     return min(min1, min2);
+% }
 
-ld distance_segment_segment(point a, point b, point c, point d) {
-    if (segment_segment_intersect(a, b, c, d)) return 0;
-    ld min1 = min(distance_point_segment(c, a, b), distance_point_segment(d, a, b));
-    ld min2 = min(distance_point_segment(a, c, d), distance_point_segment(b, c, d));
-    return min(min1, min2);
-}
+% ld distance_segment_segment(point a, point b, point c, point d) {
+%     if (segment_segment_intersect(a, b, c, d)) return 0;
+%     ld min1 = min(distance_point_segment(c, a, b), distance_point_segment(d, a, b));
+%     ld min2 = min(distance_point_segment(a, c, d), distance_point_segment(b, c, d));
+%     return min(min1, min2);
+% }
 
-ld distance_ray_line(point a, point b, point c, point d) {
-    if (ray_line_intersect(a, b, c, d)) return 0;
-    ld min1 = distance_point_line(a, c, d);
-    return min1;
-}
+% ld distance_ray_line(point a, point b, point c, point d) {
+%     if (ray_line_intersect(a, b, c, d)) return 0;
+%     ld min1 = distance_point_line(a, c, d);
+%     return min1;
+% }
 
-ld distance_ray_ray(point a, point b, point c, point d) {
-    if (ray_ray_intersect(a, b, c, d)) return 0;
-    ld min1 = min(distance_point_ray(c, a, b), distance_point_ray(a, c, d));
-    return min1;
-}
+% ld distance_ray_ray(point a, point b, point c, point d) {
+%     if (ray_ray_intersect(a, b, c, d)) return 0;
+%     ld min1 = min(distance_point_ray(c, a, b), distance_point_ray(a, c, d));
+%     return min1;
+% }
 
-ld distance_line_line(point a, point b, point c, point d) {
-    if (line_line_intersect(a, b, c, d)) return 0;
-    return distance_point_line(a, c, d);
-}
+% ld distance_line_line(point a, point b, point c, point d) {
+%     if (line_line_intersect(a, b, c, d)) return 0;
+%     return distance_point_line(a, c, d);
+% }
 
-\end{lstlisting}
+% \end{lstlisting}
 
-\subsection{Polygons}
-\begin{lstlisting}[language=C++]
-#include "basics.cpp"
-#include "lines.cpp"
+% \subsection{Polygons}
+% \begin{lstlisting}[language=C++]
+% #include "basics.cpp"
+% #include "lines.cpp"
 
-// Monotone chain O(nlog(n))
-#define REMOVE_REDUNDANT
-#ifdef REMOVE_REDUNDANT
-bool between(const point &a, const point &b, const point &c) {
-    return (fabs(area_2(a, b, c)) < EPS &&
-            (a.x - b.x) * (c.x - b.x) <= 0 &&
-            (a.y - b.y) * (c.y - b.y) <= 0);
-}
-#endif
+% // Monotone chain O(nlog(n))
+% #define REMOVE_REDUNDANT
+% #ifdef REMOVE_REDUNDANT
+% bool between(const point &a, const point &b, const point &c) {
+%     return (fabs(area_2(a, b, c)) < EPS &&
+%             (a.x - b.x) * (c.x - b.x) <= 0 &&
+%             (a.y - b.y) * (c.y - b.y) <= 0);
+% }
+% #endif
 
-// new change: <= 0 / >= 0 became < 0 / > 0 (yet to be tested)
-void convex_hull(vector<point> &pts) {
-    sort(pts.begin(), pts.end());
-    pts.erase(unique(pts.begin(), pts.end()), pts.end());
-    vector<point> up, dn;
-    for (int i = 0; i < pts.size(); i++) {
-        while (up.size() > 1 && area_2(up[up.size() - 2], up.back(), pts[i]) > 0) up.pop_back();
-        while (dn.size() > 1 && area_2(dn[dn.size() - 2], dn.back(), pts[i]) < 0) dn.pop_back();
-        up.push_back(pts[i]);
-        dn.push_back(pts[i]);
-    }
-    pts = dn;
-    for (int i = (int)up.size() - 2; i >= 1; i--) pts.push_back(up[i]);
-#ifdef REMOVE_REDUNDANT
-    if (pts.size() <= 2) return;
-    dn.clear();
-    dn.push_back(pts[0]);
-    dn.push_back(pts[1]);
-    for (int i = 2; i < pts.size(); i++) {
-        if (between(dn[dn.size() - 2], dn[dn.size() - 1], pts[i])) dn.pop_back();
-        dn.push_back(pts[i]);
-    }
-    if (dn.size() >= 3 && between(dn.back(), dn[0], dn[1])) {
-        dn[0] = dn.back();
-        dn.pop_back();
-    }
-    pts = dn;
-#endif
-}
+% // new change: <= 0 / >= 0 became < 0 / > 0 (yet to be tested)
+% void convex_hull(vector<point> &pts) {
+%     sort(pts.begin(), pts.end());
+%     pts.erase(unique(pts.begin(), pts.end()), pts.end());
+%     vector<point> up, dn;
+%     for (int i = 0; i < pts.size(); i++) {
+%         while (up.size() > 1 && area_2(up[up.size() - 2], up.back(), pts[i]) > 0) up.pop_back();
+%         while (dn.size() > 1 && area_2(dn[dn.size() - 2], dn.back(), pts[i]) < 0) dn.pop_back();
+%         up.push_back(pts[i]);
+%         dn.push_back(pts[i]);
+%     }
+%     pts = dn;
+%     for (int i = (int)up.size() - 2; i >= 1; i--) pts.push_back(up[i]);
+% #ifdef REMOVE_REDUNDANT
+%     if (pts.size() <= 2) return;
+%     dn.clear();
+%     dn.push_back(pts[0]);
+%     dn.push_back(pts[1]);
+%     for (int i = 2; i < pts.size(); i++) {
+%         if (between(dn[dn.size() - 2], dn[dn.size() - 1], pts[i])) dn.pop_back();
+%         dn.push_back(pts[i]);
+%     }
+%     if (dn.size() >= 3 && between(dn.back(), dn[0], dn[1])) {
+%         dn[0] = dn.back();
+%         dn.pop_back();
+%     }
+%     pts = dn;
+% #endif
+% }
 
-// avoid using long double for comparisons, change type and remove division by 2
-type compute_signed_area(const vector<point> &p) {
-    type area = 0;
-    for (int i = 0; i < p.size(); i++) {
-        int j = (i + 1) % p.size();
-        area += p[i].x * p[j].y - p[j].x * p[i].y;
-    }
-    return area;
-}
+% // avoid using long double for comparisons, change type and remove division by 2
+% type compute_signed_area(const vector<point> &p) {
+%     type area = 0;
+%     for (int i = 0; i < p.size(); i++) {
+%         int j = (i + 1) % p.size();
+%         area += p[i].x * p[j].y - p[j].x * p[i].y;
+%     }
+%     return area;
+% }
 
-ld compute_area(const vector<point> &p) {
-    return fabs(compute_signed_area(p) / 2.0);
-}
+% ld compute_area(const vector<point> &p) {
+%     return fabs(compute_signed_area(p) / 2.0);
+% }
 
-ld compute_perimeter(vector<point> &p) {
-    ld per = 0;
-    for (int i = 0; i < p.size(); i++) {
-        int j = (i + 1) % p.size();
-        per += p[i].dist(p[j]);
-    }
-    return per;
-}
+% ld compute_perimeter(vector<point> &p) {
+%     ld per = 0;
+%     for (int i = 0; i < p.size(); i++) {
+%         int j = (i + 1) % p.size();
+%         per += p[i].dist(p[j]);
+%     }
+%     return per;
+% }
 
-// not tested
-// TODO: test this code. This code has not been tested, please do it before proper use.
-// http://codeforces.com/problemset/problem/975/E is a good problem for testing.
-point compute_centroid(vector<point> &p) {
-    point c(0, 0);
-    ld scale = 6.0 * compute_signed_area(p);
-    for (int i = 0; i < p.size(); i++) {
-        int j = (i + 1) % p.size();
-        c = c + (p[i] + p[j]) * (p[i].x * p[j].y - p[j].x * p[i].y);
-    }
-    return c / scale;
-}
+% // not tested
+% // TODO: test this code. This code has not been tested, please do it before proper use.
+% // http://codeforces.com/problemset/problem/975/E is a good problem for testing.
+% point compute_centroid(vector<point> &p) {
+%     point c(0, 0);
+%     ld scale = 6.0 * compute_signed_area(p);
+%     for (int i = 0; i < p.size(); i++) {
+%         int j = (i + 1) % p.size();
+%         c = c + (p[i] + p[j]) * (p[i].x * p[j].y - p[j].x * p[i].y);
+%     }
+%     return c / scale;
+% }
 
-// TODO: test this code. This code has not been tested, please do it before proper use.
-// http://codeforces.com/problemset/problem/975/E is a good problem for testing.
-point centroid(vector<point> &v) {
-    int n = v.size();
-    type da = 0;
-    point m, c;
-    for (point p : v) m = m + p;
-    m = m / n;
-    for (int i = 0; i < n; ++i) {
-        point p = v[i] - m, q = v[(i + 1) % n] - m;
-        type x = p % q;
-        c = c + (p + q) * x;
-        da += x;
-    }
-    return c / (3 * da);
-}
+% // TODO: test this code. This code has not been tested, please do it before proper use.
+% // http://codeforces.com/problemset/problem/975/E is a good problem for testing.
+% point centroid(vector<point> &v) {
+%     int n = v.size();
+%     type da = 0;
+%     point m, c;
+%     for (point p : v) m = m + p;
+%     m = m / n;
+%     for (int i = 0; i < n; ++i) {
+%         point p = v[i] - m, q = v[(i + 1) % n] - m;
+%         type x = p % q;
+%         c = c + (p + q) * x;
+%         da += x;
+%     }
+%     return c / (3 * da);
+% }
 
-// O(n^2)
-bool is_simple(const vector<point> &p) {
-    for (int i = 0; i < p.size(); i++) {
-        for (int k = i + 1; k < p.size(); k++) {
-            int j = (i + 1) % p.size();
-            int l = (k + 1) % p.size();
-            if (i == l || j == k) continue;
-            if (segment_segment_intersect(p[i], p[j], p[k], p[l])) return false;
-        }
-    }
-    return true;
-}
+% // O(n^2)
+% bool is_simple(const vector<point> &p) {
+%     for (int i = 0; i < p.size(); i++) {
+%         for (int k = i + 1; k < p.size(); k++) {
+%             int j = (i + 1) % p.size();
+%             int l = (k + 1) % p.size();
+%             if (i == l || j == k) continue;
+%             if (segment_segment_intersect(p[i], p[j], p[k], p[l])) return false;
+%         }
+%     }
+%     return true;
+% }
 
-bool point_in_triangle(point a, point b, point c, point cur) {
-    ll s1 = abs(cross(b - a, c - a));
-    ll s2 = abs(cross(a - cur, b - cur)) + abs(cross(b - cur, c - cur)) + abs(cross(c - cur, a - cur));
-    return s1 == s2;
-}
+% bool point_in_triangle(point a, point b, point c, point cur) {
+%     ll s1 = abs(cross(b - a, c - a));
+%     ll s2 = abs(cross(a - cur, b - cur)) + abs(cross(b - cur, c - cur)) + abs(cross(c - cur, a - cur));
+%     return s1 == s2;
+% }
 
-void sort_lex_hull(vector<point> &hull) {
-    if (compute_signed_area(hull) < 0) reverse(hull.begin(), hull.end());
-    int n = hull.size(); // Sort hull by x
-    int pos = 0;
-    for (int i = 1; i < n; i++) if (hull[i] < hull[pos]) pos = i;
-    rotate(hull.begin(), hull.begin() + pos, hull.end());
-}
+% void sort_lex_hull(vector<point> &hull) {
+%     if (compute_signed_area(hull) < 0) reverse(hull.begin(), hull.end());
+%     int n = hull.size(); // Sort hull by x
+%     int pos = 0;
+%     for (int i = 1; i < n; i++) if (hull[i] < hull[pos]) pos = i;
+%     rotate(hull.begin(), hull.begin() + pos, hull.end());
+% }
 
-// determine if point is inside or on the boundary of a polygon (O(logn)) 
-bool point_in_convex_polygon(vector<point> &hull, point cur) {
-    int n = hull.size();
-    // Corner cases: point outside most left and most right wedges 
-    if (cur.dir(hull[0], hull[1]) != 0 && cur.dir(hull[0], hull[1]) != hull[n - 1].dir(hull[0], hull[1])) return false;
-    if (cur.dir(hull[0], hull[n - 1]) != 0 && cur.dir(hull[0], hull[n - 1]) != hull[1].dir(hull[0], hull[n - 1])) return false;
-    // Binary search to find which wedges it is between
-    int l = 1, r = n - 1;
-    while (r - l > 1) {
-        int mid = (l + r) / 2;
-        if (cur.dir(hull[0], hull[mid]) <= 0) l = mid;
-        else r = mid;
-    }
-    return point_in_triangle(hull[l], hull[l + 1], hull[0], cur);
-}
+% // determine if point is inside or on the boundary of a polygon (O(logn)) 
+% bool point_in_convex_polygon(vector<point> &hull, point cur) {
+%     int n = hull.size();
+%     // Corner cases: point outside most left and most right wedges 
+%     if (cur.dir(hull[0], hull[1]) != 0 && cur.dir(hull[0], hull[1]) != hull[n - 1].dir(hull[0], hull[1])) return false;
+%     if (cur.dir(hull[0], hull[n - 1]) != 0 && cur.dir(hull[0], hull[n - 1]) != hull[1].dir(hull[0], hull[n - 1])) return false;
+%     // Binary search to find which wedges it is between
+%     int l = 1, r = n - 1;
+%     while (r - l > 1) {
+%         int mid = (l + r) / 2;
+%         if (cur.dir(hull[0], hull[mid]) <= 0) l = mid;
+%         else r = mid;
+%     }
+%     return point_in_triangle(hull[l], hull[l + 1], hull[0], cur);
+% }
 
-// determine if point is on the boundary of a polygon (O(N))
-bool point_on_polygon(vector<point> &p, point q) {
-    for (int i = 0; i < p.size(); i++)
-        if (q.dist2(project_point_segment(p[i], p[(i + 1) % p.size()], q)) < EPS) return true;
-    return false;
-}
+% // determine if point is on the boundary of a polygon (O(N))
+% bool point_on_polygon(vector<point> &p, point q) {
+%     for (int i = 0; i < p.size(); i++)
+%         if (q.dist2(project_point_segment(p[i], p[(i + 1) % p.size()], q)) < EPS) return true;
+%     return false;
+% }
 
-\end{lstlisting}
+% \end{lstlisting}
 
 % \subsection{Radial Sort}
 % \begin{lstlisting}[language=C++]
