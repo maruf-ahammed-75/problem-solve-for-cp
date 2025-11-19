@@ -3204,8 +3204,7 @@ int32_t main(){
 
 \subsection{Math Formula}
 \begin{lstlisting}[language=C++]
-summation a to b = (b−a+1)⋅(a+b)/2
-
+summation a to b = ((b-a+1)*(a+b))/2
 
 Orientation of 3 point
 // a(x,y),b(x,y),c(x,y),d(x,y)
@@ -3223,11 +3222,22 @@ int main() {
     ABCslop = slopAB - slopBC
     = (By-Ay)/(Bx-Ax) - (By-Cy)/(Bx-Cx);
     = ((By-Ay))*(Cx-Bx) - (Cy-By)*(Bx-Ax);
-
 }
 
 \end{lstlisting}
 
+\[
+\sum_{1<=i<=j<=n} a_i a_j = \frac{\left(\sum_i a_i\right)^2 - \sum_i a_i^2}{2}.
+\]
+The sum of ai*aj means we take all pairs of elements in the range (i - j), multiply each pair, and then add them together
+
+For the array $[1,2,3,4,5]$:
+\[
+\sum_{i=1}^5 a_i^2 = 1^2 + 2^2 + 3^2 + 4^2 + 5^2,
+\]
+\[
+\sum_{i=1}^5 a_i = 1 + 2 + 3 + 4 + 5.
+\]
 
 \subsection{Matrices and Determinants}
 % Reduced item spacing

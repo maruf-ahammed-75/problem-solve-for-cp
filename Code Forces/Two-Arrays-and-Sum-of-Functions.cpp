@@ -13,33 +13,24 @@ const int mod = 998244353;
 void I_Am_Here() {
     int n;
     cin>>n;
-
-    vector<pair<int,int>>a(n);
+    vector<int>a(n);
     vector<int>b(n);
     vector<int>c(n,0);
     for(int i=0;i<n;i++){
-        cin>>a[i].ff;
-        a[i].ss=i;
+        cin>>a[i];
+        a[i]=((n-i)*(i+1)) * a[i];
     }
-    sort(full(a));
-    for(int i=0;i<n;i++){
+    for(int i=0 ; i<n ; i++){
         cin>>b[i];
     }
     sort(b.rbegin(),b.rend());
-
+    sort(full(a));
+    int sum=0;
     for(int i=0 ; i<n ; i++){
-        c[a[i].ss]= (a[i].ff * b[i])%mod;
-    }
-    int x = n;
-    int y = 1;
-    int sum = 0;
-    for(int i=0 ; i<n ; i++){
-        sum += (c[i] * (x * (i+1))%mod)%mod;
+        sum+= (a[i]%mod * b[i]%mod)%mod;
         sum%=mod;
-        x--;
-        // cout<<sum<<endl;
     }
-    cout<<sum%mod<<endl;
+    cout<<sum<<endl;
 }
 
 int32_t main() {
