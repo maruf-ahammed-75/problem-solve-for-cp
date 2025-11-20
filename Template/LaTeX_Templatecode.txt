@@ -2302,6 +2302,17 @@ int main() {
 }
 \end{lstlisting}
 
+\subsection{Permutation \& Combination}
+% \begin{lstlisting}[language=Python]
+% \end{lstlisting}
+\[
+\text{Permutation: } {}^{n}P_{r} = \frac{n!}{(n-r)!}
+\]
+\[
+\text{Combination: } {}^{n}C_{r} = \frac{n!}{r!(n-r)!}
+\]
+
+
 
 \subsection{python}
 \begin{lstlisting}[language=Python]
@@ -3259,9 +3270,9 @@ use : Counting Valid Parentheses Sequences, Number of Binary Search Trees,Ways t
 
 
 
-\subsection{GEOMETRY FORMULAS }
-\begin{lstlisting}[language=C++]
-\end{lstlisting}
+\subsection{Geometry Formulas 1}
+% \begin{lstlisting}[language=C++]
+% \end{lstlisting}
 
 % 1. Triangle
 \textbf{1. Triangle}
@@ -3319,10 +3330,10 @@ Given: radius $r$
 \textbf{8. Cylinder} \\
 Given: radius $r$, height $h$
 \[
-\text{Lateral Surface Area} = 2\pi r h , \text{Total Surface } Area = 2\pi r (h + r)
+\text{Lateral Surface Area} = 2\pi r h 
 \]
 \[
- Volume = \pi r^2 h
+ \text{Total Surface } Area = 2\pi r (h + r),Volume = \pi r^2 h
 \]
 
 % 4. Cone
@@ -3330,10 +3341,11 @@ Given: radius $r$, height $h$
 Given: radius $r$, height $h$, slant height $l = \sqrt{r^2 + h^2}$
 
 \[
-\text{Lateral Surface Area} = \pi r l,\text{Total Surface Area =}\pi r(r + l)
+\text{Lateral Surface Area} = \pi r l
 \]
 \[
-Volume = \frac{1}{3}\pi r^2 h
+\text{Total Surface Area =}\pi r(r + l)
+,Volume = \frac{1}{3}\pi r^2 h
 \]
 
 % 5. Pyramid
@@ -3363,6 +3375,91 @@ Given: side $s$
 \[
 \text{Surface Area} = 6s^2,Volume = s^3,Diagonal = s\sqrt{3}
 \]
+
+\subsection{Geometry Formulas 2}
+\textbf{Distance, Dot, Cross, Orientation :}
+\[
+\text{Distance of two points: }
+d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
+\]
+
+\[
+\text{Dot product: }\vec{a} \cdot \vec{b} = a_x b_x + a_y b_y
+\]
+
+\[
+\text{Cross product (2D): }\vec{a} \times \vec{b} = a_x b_y - a_y b_x
+\]
+
+\[
+\text{Orientation: }\text{orient}(a,b,c) = (b-a) \times (c-a)
+\]
+
+\textbf{Line through } 
+\[
+(x_1, y_1), (x_2, y_2) : Ax + By + C = 0
+\]where
+\[
+A = y_1 - y_2,\quad
+B = x_2 - x_1,\quad
+C = x_1 y_2 - x_2 y_1
+\]
+\textbf{Distance from point to line:}
+\[
+d = \frac{|A x_0 + B y_0 + C|}{\sqrt{A^2 + B^2}}
+\]
+
+\textbf{Polygon Formula}
+\[
+\text{Polygon Area} = \frac{1}{2}
+\left|
+\sum_{i=1}^{n}
+(x_i y_{i+1} - x_{i+1} y_i)
+\right|
+\]
+
+\text{Polygon Perimeter:}
+\[
+\sum_{i=1}^{n} d(p_i, p_{i+1})
+\]
+
+\textbf{Circle Geometry:}
+\[
+\text{Chord length} = 2\sqrt{r^2 - d^2}
+\]
+\[
+\text{Sector area:} = \frac{1}{2} r^2 \theta , \quad
+\text{Arc length: }s = r\theta
+\]
+
+\[
+\text{Triangle area using circumradius } A = \frac{abc}{4R}
+\]
+
+\textbf{Vectors}
+\[
+\text{Angle between vectors }\theta = \cos^{-1}\left( \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| |\vec{b}|} \right)
+\]
+
+
+\[
+\text{Projection: } \text{proj}_{\vec{b}} (\vec{a}) = 
+\frac{\vec{a} \cdot \vec{b}}{|\vec{b}|^2}\, \vec{b}
+\]
+\textbf{Number Theory:}
+
+\[
+\text{Modular inverse (for prime modulus): } a^{-1} \equiv a^{m-2} \pmod{m}
+\]
+\[
+\text{Combination: } \binom{n}{r} = \frac{n!}{r! (n-r)!}
+\]
+
+\[
+\text{Catalan numbers: } C_n = \frac{1}{n+1} \binom{2n}{n}
+\]
+
+
 
 \subsection{Matrices and Determinants}
 % Reduced item spacing
