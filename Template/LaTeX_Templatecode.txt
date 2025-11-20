@@ -1502,8 +1502,7 @@ void zero_one_bfs(int x) {
 
 \end{lstlisting}
 
-\section{Mathematics}
-
+\section{Number Theory}
 
 \subsection{2D Prefix Sum}
 \begin{lstlisting}[language=C++]
@@ -3237,6 +3236,132 @@ For the array $[1,2,3,4,5]$:
 \]
 \[
 \sum_{i=1}^5 a_i = 1 + 2 + 3 + 4 + 5.
+\]
+
+\subsection{Catalan Numbers }
+\begin{lstlisting}[language=C++]
+1,1,2,5,14,42,132,429,1430.....
+\end{lstlisting}
+\[
+\text{Binomial coefficient: }\;
+C_n = \frac{1}{n+1} \binom{2n}{n} = \frac{(2n)!}{(n+1)!\, n!}
+\]
+\[
+\text{Recursive Formula: }\;
+C_n = C_0 C_{n-1} + C_1 C_{n-2} + \cdots + C_{n-1} C_0
+\]
+\[
+\text{Another recurrence relation: }\;
+C_{n+1} = \frac{2(2n+1)}{\,n+2\,} C_n
+\]
+
+use : Counting Valid Parentheses Sequences, Number of Binary Search Trees,Ways to Triangulate a Convex Polygon,...etc
+
+
+
+\subsection{GEOMETRY FORMULAS }
+\begin{lstlisting}[language=C++]
+\end{lstlisting}
+
+% 1. Triangle
+\textbf{1. Triangle}
+Given: base $b$, height $h$, sides $a,b,c$
+\[
+\text{semiperimeter s}= \frac{a+b+c}{2},Area = \frac{1}{2} b h,Perimeter = a + b + c
+\]
+\[
+\text{Heron Formula Area} = \sqrt{s(s-a)(s-b)(s-c)}
+\]\\
+% 2. Square
+\textbf{2. Square}
+Given: side $s$
+\[
+Area = s^2,Perimeter = 4s,Diagonal = s\sqrt{2}
+\]\\
+\textbf{3. Rectangle}
+Given: length $l$, width $w$
+\[
+Area = lw,Perimeter = 2(l+w),Diagonal = \sqrt{l^2 + w^2}
+\]\\
+\textbf{4. Trapezoid (Trapezium)}
+Given: bases $a,b$, height $h$
+\[
+Area = \frac{1}{2}(a+b)h,Midsegment = \frac{a+b}{2} ,Perimeter = a+b+c+d
+\]\\
+\textbf{5. Parallelogram}
+Given: base $b$, height $h$, sides $a,b$
+\[
+Area = bh,Perimeter = 2(a+b)
+d_1 = \sqrt{a^2 + b^2 + 2ab\cos\theta} \quad , \quad
+d_2 = \sqrt{a^2 + b^2 - 2ab\cos\theta}
+\]
+Diagonal formulas:
+\[
+d_1 = \sqrt{a^2 + b^2 + 2ab\cos\theta} \quad , \quad
+d_2 = \sqrt{a^2 + b^2 - 2ab\cos\theta}
+\]
+
+% 1. Circle
+\textbf{6. Circle} \\
+Given: radius $r$
+\[
+Area = \pi r^2 , Circumference = 2\pi r , Diameter = 2r
+\]
+
+% 2. Sphere
+\textbf{7. Sphere} \\
+Given: radius $r$
+\[
+\text{Surface Area = }4\pi r^2,Volume = \frac{4}{3}\pi r^3
+\]
+
+% 3. Cylinder
+\textbf{8. Cylinder} \\
+Given: radius $r$, height $h$
+\[
+\text{Lateral Surface Area} = 2\pi r h , \text{Total Surface } Area = 2\pi r (h + r)
+\]
+\[
+ Volume = \pi r^2 h
+\]
+
+% 4. Cone
+\textbf{9. Cone} \\
+Given: radius $r$, height $h$, slant height $l = \sqrt{r^2 + h^2}$
+
+\[
+\text{Lateral Surface Area} = \pi r l,\text{Total Surface Area =}\pi r(r + l)
+\]
+\[
+Volume = \frac{1}{3}\pi r^2 h
+\]
+
+% 5. Pyramid
+\textbf{10. Pyramid} \\
+Given: base area $B$, height $h$, slant height $l$
+
+\[
+Volume = \frac{1}{3}Bh , \text{  Lateral Surface Area (square base) = } 2 a l
+\]
+\[
+\text{Total Surface Area (square base) = }a^2 + 2 a l
+\]
+
+% 6. Rectangular Prism
+\textbf{11. Rectangular Prism (Cuboid)} \\
+Given: length $l$, width $w$, height $h$
+\[
+\text{Surface Area} = 2(lw + lh + wh),Volume = lwh
+\]
+\[
+Diagonal = \sqrt{l^2 + w^2 + h^2}
+\]
+
+% 7. Cube
+\textbf{12. Cube} \\
+Given: side $s$
+\[
+\text{Surface Area} = 6s^2,Volume = s^3,Diagonal = s\sqrt{3}
 \]
 
 \subsection{Matrices and Determinants}
