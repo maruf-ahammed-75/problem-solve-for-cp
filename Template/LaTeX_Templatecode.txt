@@ -1976,8 +1976,19 @@ int n = 100;
     return 0;}
 \end{lstlisting}
 
-\section{Mixed}
+\subsection{how many numbers (0..n) have k-th bit=1}
+\[
+\text{count}(k)
+=
+\left( \frac{n+1}{2^{\,k+1}} \right) \cdot 2^{\,k}
+\;+\;
+\max\Big(0,\; \big((n+1) \bmod 2^{\,k+1}\big) - 2^{\,k}\Big)
+\]
 
+
+
+
+\section{Mixed}
 \subsection{Run Code Technique}
 \begin{lstlisting}[language=C++]
 //C++ Shell for run

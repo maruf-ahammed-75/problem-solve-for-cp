@@ -1,44 +1,8 @@
-#include <bits/stdc++.h>
-#define ll long long
-#define int long long
-#define ff first
-#define ss second
-#define full(a) a.begin(), a.end()
-#define endl "\n"
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
+int main(){
+    for(int i=1 ; i<=1e9 ; i++){
 
-using namespace std;
-
-void I_Am_Here() {
-    int a, b, n;
-    cin >> a >> b >> n;
-    if((b==1 && a>=n) || a == b || ((double)a/(double)n >= (double)b)){
-        cout<<1<<endl;
-        return;
     }
-   if(n==1){
-        cout<<1<<endl;
-   }
-   else{
-    cout<<2<<endl;
-   }
-}
+    for(int i=1e9 ; i<=1e18 ; i++){
 
-int32_t main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-
-    int t = 1;
-    cin >> t;
-    for (int T = 1; T <= t; T++) {
-        I_Am_Here();
     }
-    return 0;
 }
