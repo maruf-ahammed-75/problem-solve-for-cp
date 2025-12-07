@@ -40,6 +40,7 @@ void I_Am_Here() {
         else{
             ans -= x.ss;
         }
+        cout<<"x.ff: "<<x.ff<<" x.ss: "<<x.ss<<" ans: "<<ans<<endl;
     }
     cout << ans << endl;
 }
