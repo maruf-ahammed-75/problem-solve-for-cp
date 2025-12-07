@@ -15,23 +15,24 @@ int ans=0;
 int ansB=0;
 int proba = 0;
 
-void TotalCombi(int id,int sum){
+int TotalCombi(int id,int sum){
     // cout<<id<<' '<<sum<<' '<<ans<<endl;
     if(sum==ans && id==n){
-        proba++;
+        return 1;
     }
-    if(id==n)return;
+    if(id==n)return 0;
     
 
     if(b[id]=='+'){
-        TotalCombi(id+1,sum+1);
+        return TotalCombi(id+1,sum+1);
     }
     else if(b[id]=='-'){
-        TotalCombi(id+1,sum-1);
+        return TotalCombi(id+1,sum-1);
     }
     else if(b[id]=='?'){
-        TotalCombi(id+1,sum-1);
-        TotalCombi(id+1,sum+1);
+       int take1 =  TotalCombi(id+1,sum-1);
+       int take2 = TotalCombi(id+1,sum+1);
+       return take1 + take2;
     }
 }
 
@@ -59,10 +60,9 @@ void I_Am_Here() {
 
 
 
-    TotalCombi(0,0);
-    // cout<<proba<<endl;
+    
 
-    cout<<fixed<<setprecision(12)<<(double)proba/(double)total<<endl;
+    cout<<fixed<<setprecision(12)<<(double)TotalCombi(0,0)/(double)total<<endl;
 }
 
 int32_t main() {
