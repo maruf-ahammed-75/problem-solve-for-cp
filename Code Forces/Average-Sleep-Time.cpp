@@ -15,10 +15,24 @@ void I_Am_Here() {
     cin>>n>>k;
     vector<int>a(n);
     int total = 0;
-    for(int i=0;i<n;i++){
+    for(int i=0 ; i<n ; i++){
         cin>>a[i];
-        if(i==0||i==n-1)total+=a[i];
-        else total+=2*a[i];
+    }
+    for(int i=0 ; i<k ; i++){
+        total+=a[i];
+    }
+    int i=1;
+    int j=k;
+    // cout<<total<<' '<<i<<' '<<j<<endl;
+
+    for(int i=1; i<n ; i++)a[i]+=a[i-1];
+
+    while(j!=n){
+        total+=a[j]-a[i-1];
+        // if(i==j)total-=a[i];
+        i++;
+        j++;
+        // cout<<total<<' '<<i<<' '<<j<<endl;
     }
     cout<<fixed<<setprecision(10)<<(double)total/(double)(n-k+1)<<endl;
 }
