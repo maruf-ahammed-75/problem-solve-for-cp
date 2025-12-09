@@ -9,45 +9,46 @@
 #define N cout<<"NO\n"
 
 using namespace std;
-int n,k;
-vector<int> a;
-
-bool isTake(int mid) {
-    vector<int> b;
-    for(int i=0 ; i<mid ; i++) b.push_back(a[i]);
-    sort(full(b),greater<int>());
-
-    int total = 0;
-
-    for(int i = 0; i < mid; i += 2) {
-        total += b[i]; 
+string s;
+int n;
+std::vector<vector<int>>dp ;
+int solve(int i,int st=0){
+    
+    if(st==3)return 1;
+    if(i==n)return 0;
+    if(dp[i][st]!=-1)return dp[i][st];
+    
+    int ans=0;
+    dp[i][st]=0;
+    //find first w
+    if(st == 0){
+        if(i+1<n && s[i]=='v' && s[i+1]=='v'){
+            dp[i][st] += solve(i+1,st+1);
+        }
     }
-
-    return total <= k;
+    //find o
+    if(st==1){
+        if(s[i]=='o')dp[i][st] += solve(i+1,st+1);
+    }
+    //find last 'w'
+    if(st==2){
+        if(i+1<n && s[i]=='v' && s[i+1]=='v'){
+            dp[i][st] += solve(i+1,st+1);
+        }
+    }
+    
+    //skip
+    dp[i][st] += solve(i+1,st);
+    
+    return dp[i][st];
 }
+
 void I_Am_Here() {
-    cin>>n>>k;
-    a = vector<int>(n);
-    for(int i =0 ; i<n ; i++) cin>>a[i];
-
-    int l = 0;
-    int h = 100000;
-
-    while(h-l>1){
-        int mid = (l+h)/2;//add +1 cause need upper mid
-
-        if(mid<=n && isTake(mid)){
-            // cout<<"if = "<<mid;
-            l = mid;
-        }
-
-        else{
-            // cout<<"else = "<<mid;
-            h = mid;
-        }
-        // cout<<' '<<l<<' '<<h<<endl;
-    }
-    cout<<l<<endl;
+    cin>>s;
+    n = s.size();
+    dp = vector<vector<int>>(n+1,vector<int>(4,-1));
+    cout<<solve(0)<<endl;
+    
 }
 
 int32_t main() {
@@ -55,10 +56,6 @@ int32_t main() {
     cin.tie(nullptr);
 
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
 
     int t = 1;
     // cin >> t;
