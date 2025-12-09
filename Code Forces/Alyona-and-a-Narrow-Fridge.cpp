@@ -12,7 +12,9 @@ using namespace std;
 int n,k;
 vector<int> a;
 
-bool isTake(int mid, vector<int>& b) {
+bool isTake(int mid) {
+    vector<int> b;
+    for(int i=0 ; i<mid ; i++) b.push_back(a[i]);
     sort(full(b),greater<int>());
 
     int total = 0;
@@ -29,16 +31,12 @@ void I_Am_Here() {
     for(int i =0 ; i<n ; i++) cin>>a[i];
 
     int l = 0;
-    int h = n;
+    int h = 100000;
 
     while(h-l>1){
         int mid = (l+h)/2;//add +1 cause need upper mid
 
-        vector<int> b;
-        for(int i=0 ; i<mid ; i++) b.push_back(a[i]);
-        
-
-        if(isTake(mid,b)){
+        if(mid<=n && isTake(mid)){
             // cout<<"if = "<<mid;
             l = mid;
         }
