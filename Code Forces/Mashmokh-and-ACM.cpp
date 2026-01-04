@@ -7,40 +7,29 @@
 #define endl "\n"
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
-using namespace std;
 
+using namespace std;
 void I_Am_Here() {
-    int n;
-    cin>>n;
-    vector<string> a(n);
-    for(int i=0;i<n;i++) {
-        cin>>a[i];
-    }
-    string s=a[0];
-    for(int i=1 ; i<n ; i++){
-        if(s<a[i]){
-            s = s + a[i];
-        }
-        else{
-            s = a[i] + s;
-        }
-    }
-    cout<<s<<endl;
+    
 }
 
 int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
+
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
     
+
     int t = 1;
-    cin >> t;   
+    cin >> t;
     for (int T = 1; T <= t; T++) {
+        // cout<<"Case "<<T<<": ";
         I_Am_Here();
     }
     return 0;
 }
+//31

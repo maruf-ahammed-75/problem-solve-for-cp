@@ -1,2 +1,7 @@
-5 10
-3 1 4 2 4
+3
+4
+amir rima amin nima
+1
+codeforces
+3
+a ab abc
