@@ -7,66 +7,50 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-int n;
 vector<int>a,b,c;
+vector<vector<int>>dp;
+int n;
 
-// only for recursion
-// int vacation(int index , int last){
-//     if(index > n) return 0;
-
-//     int ans =0 ;
-
-//     if(last!=1){
-//         ans = max(ans,a[index] + vacation(index+1, 1));
-//     }
-//     if(last!=2){
-//         ans = max(ans,b[index] + vacation(index+1, 2));
-//     }
-//     if(last!=3){
-//         ans = max(ans,c[index] + vacation(index+1, 3));
-//     }
-//     return ans;
-// }
-
-vector<vector<int>> vacation;
+int point(int id,int use){
+    
+    if(id==n)return 0;
+    
+    if(dp[id][use]!=-1)return dp[id][use];
+    
+    if(use!=1){
+       dp[id][use] = max(dp[id][use], point(id+1,1)+a[id]);
+    }
+    if(use!=2){
+        dp[id][use] = max(dp[id][use], point(id+1,2)+b[id]);
+    }
+    if(use!=3){
+        dp[id][use] = max(dp[id][use],point(id+1,3)+c[id]);
+    }
+    
+    return dp[id][use];
+}
 
 void I_Am_Here() {
     cin>>n;
-    a = vector<int>(n+100, 0);
-    b = vector<int>(n+100, 0);
-    c = vector<int>(n+100, 0);
-    for(int i=1 ; i<=n ; i++) {
-        cin >> a[i] >> b[i] >> c[i];
+    a = vector<int>(n);
+    b = vector<int>(n);
+    c = vector<int>(n);
+    
+    dp = vector<vector<int>>(n+1,vector<int>(4,-1));
+    
+    for(int i=0 ; i<n ; i++){
+        cin>>a[i]>>b[i]>>c[i];
     }
-    // for recursion
-    // cout<< vacation(1, 0) << endl;
-
-
-    // for dp
-    vacation = vector<vector<int>>(n+100, vector<int>(4, 0));
-    for(int index=n ; index>=1 ; index--) {
-        for(int last=0 ; last<=3 ; last++) {
-            int ans =0;
-            if(last!=1){
-                ans = max(ans, a[index] + vacation[index+1][1]);
-            }
-            if(last!=2){
-                ans = max(ans, b[index] + vacation[index+1][2]);
-            }
-            if(last!=3){
-                ans = max(ans, c[index] + vacation[index+1][3]);
-            }
-            vacation[index][last] = ans;
-        }
-    }
-    cout<< vacation[1][0] << endl;
+    cout<<point(0,0)<<endl;
+    
+    
 }
 
 int32_t main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
 
     int t = 1;
     // cin >> t;
