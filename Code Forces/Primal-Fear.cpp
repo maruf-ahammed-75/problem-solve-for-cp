@@ -11,6 +11,9 @@ using namespace std;
 const int M = 1000000;
 bool isPrime[M + 100 ];
 vector<int> primes(M + 100 ,0);
+
+
+
 void sieve() {
     isPrime[0] = 1;
     isPrime[1] = 1;
@@ -50,14 +53,22 @@ void I_Am_Here() {
     cin>>n;
     cout<<primes[n]<<endl;
 
+
 }
 
 int32_t main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
     sieve();
+
+    
+    
 
     int t = 1;
     cin >> t;

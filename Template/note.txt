@@ -1,0 +1,1 @@
+in c code if i use fast io cin/cout get more time than scanf/printf
