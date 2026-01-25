@@ -17,22 +17,24 @@ int minSum(int id , int k){
     if(id==n){
         return 0;
     }
-
-    if(dp[id][k] != -1){
+    
+    if(dp[id][k] != INT_MAX){
         return dp[id][k];
     }
-
     int ans = LLONG_MAX;
-    //no
-    ans = min(ans,minSum(id+1,k) + a[id]);
+    
+    //no change
+    ans = min(ans , minSum(id+1 , k)) + a[id];
 
-    //right
-    if(id<n-1 && k>0 )ans = min(ans,minSum(id+1,k-1)+a[id+1]);
+    //right change
+    for(int i= id+1 ; i<n && k>0 ; i++){
+        ans = min(ans , minSum(i , k-1)) + a[id];
+    }
 
-    //left
-    if(id>0 && k>0)ans = min(ans,minSum(id+1,k-1)+a[id-1]);
-
-
+    //left change
+    for(int i= id-1 ; i>=0 && k>0 ; i--){
+        ans = min(ans , minSum(i , k-1)) + a[id];
+    }
 
     return dp[id][k] = ans;
 
@@ -42,7 +44,7 @@ void I_Am_Here() {
     cin>>n;
     cin>>x;
     a = vector<int>(n);
-    dp = vector<vector<int>>(n+1,vector<int>(x+1,-1));
+    dp = vector<vector<int>>(n+1,vector<int>(x+1,INT_MAX));
     for(int i=0;i<n;i++){
         cin>>a[i];
     }

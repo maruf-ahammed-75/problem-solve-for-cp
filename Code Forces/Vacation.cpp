@@ -12,7 +12,7 @@ vector<vector<int>>dp;
 int n;
 
 int point(int id,int use){
-    
+
     if(id==n)return 0;
     
     if(dp[id][use]!=-1)return dp[id][use];
@@ -20,9 +20,11 @@ int point(int id,int use){
     if(use!=1){
        dp[id][use] = max(dp[id][use], point(id+1,1)+a[id]);
     }
+
     if(use!=2){
         dp[id][use] = max(dp[id][use], point(id+1,2)+b[id]);
     }
+
     if(use!=3){
         dp[id][use] = max(dp[id][use],point(id+1,3)+c[id]);
     }
@@ -42,8 +44,6 @@ void I_Am_Here() {
         cin>>a[i]>>b[i]>>c[i];
     }
     cout<<point(0,0)<<endl;
-    
-    
 }
 
 int32_t main() {
