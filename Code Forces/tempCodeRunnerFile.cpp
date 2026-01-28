@@ -1,3 +1,4 @@
-n;
-    // cin>>n;
-    // cout<<p
+uto i:v){
+    //     cout<<i<<' ';
+    // }
+    // cout<<
