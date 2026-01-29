@@ -10,23 +10,51 @@ using namespace std;
 
 
 void I_Am_Here() {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
+    int n,m;
+    cin>>n>>m;
 
-    int zero = 0;
-    for(auto i:s){
-        if( i=='0' )zero++;
-    }
+    vector<int>a(n);
 
-    if(zero%2==0 && (zero/2)%2==0){
-        cout<<"DRAW"<<endl;
+    map<int,int>mp;
+    for(int i=0 ; i<n ; i++){
+        cin>>a[i];
+        mp[a[i]%m]++;
     }
-    else if(zero%2==1){
-        cout<<"ALICE"<<endl;
+    int ans =0;
+
+    for(auto i:mp){
+        int firstval = i.ff; 
+        int lastval = m - i.ff;
+        if(firstval == lastval && i.ss>0){
+            ans++;
+            mp[firstval]=0;
+        }
+        else if(i.ff == 0 && i.ss>0){
+            ans++;
+        }
+        else if(i.ss>0){
+            int total = i.ss;
+            int total2 = mp[lastval];
+            if(total2==0){
+                ans++;
+                mp[i.ff]=0;
+            }
+            else{
+                int diff = abs(total - total2);
+                if(diff>1){
+                    ans+=2;
+                    mp[i.ff]=0;
+                    mp[lastval]=0;
+                }
+                else{
+                    ans++;
+                    mp[i.ff]=0;
+                    mp[lastval]=0;
+                }
+            }
+        }
     }
-    else cout<<"BOB"<<endl;
+    cout<<ans<<endl;
 }
 
 int32_t main() {
