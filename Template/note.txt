@@ -1,1 +1,4 @@
 in c code if i use fast io cin/cout get more time than scanf/printf
+
+
+pigeonhole principle : If \(n\) objects are put into \(m\) containers, and \(n>m\), then at least one container must have more than one object. 
