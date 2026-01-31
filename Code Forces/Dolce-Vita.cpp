@@ -10,24 +10,28 @@ using namespace std;
 
 
 void I_Am_Here() {
-    int n ; 
-    cin>>n;
-    int k; 
-    cin>>k;
-    vector<int>a(n+1,0);
-    for(int i=1 ; i<= n ; i++){
+    int n,x;
+    cin>>n>>x;
+    vector<int>a(n);
+    for(int i=0 ; i<n ; i++){
         cin>>a[i];
-        a[i] += a[i-1];
-    }    
-    int i = 0;
-    int ans =0;
-    int x =0 ;
-    for(int j = k ; j<=n ; j++,i++){
-        x++;
-        ans+= a[j] - a[i]; 
     }
-    // cout<<ans<<' ' <<x<<endl;
-    cout <<fixed<<setprecision(10)<<(double)ans/(double)(n-k+1)<<endl;
+    sort(full(a));
+
+    int ans = 0;
+
+    for(int i=0 ; i<n ; i++){
+        if(i){
+            a[i]+= a[i-1];
+        }
+    }
+    for(int i=0 ; i<n ; i++){
+        if(a[i]<=x){
+            int left = x - a[i];
+            ans+= 1 + (left/(i+1));
+        }
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -41,7 +45,7 @@ int32_t main() {
     #endif
 
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int T = 1; T <= t; T++) {
         I_Am_Here();
     }
