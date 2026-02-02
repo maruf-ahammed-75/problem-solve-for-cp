@@ -17,27 +17,24 @@ void I_Am_Here() {
     for(int i=0 ; i<n ; i++)cin>>b[i];
 
     int i=0,j=0;
-    int ans =0 ;
+    int ans = 0;
     vector<int>vis(n+1,0);
     while(i<n && j<n){
-        if(a[i]==b[j] || vis[a[i]]){
-            j++;
+        // cout<<a[i]<<' '<<b[j]<<' ' ;
+        if(vis[a[i]]){
+            i++;
+            continue;
+        }
+        if(a[i]!=b[j]){
+            ans++;
+            vis[b[j]]=1;
+        }
+        else if(a[i]==b[j]){
             vis[a[i]]=1;
+            i++;
         }
-        else{
-            while(j<n){
-                vis[b[j]]=1;
-                if(b[j]==a[i]){
-                    vis[b[j]]=1;
-                    j++;
-                    break;
-                }
-                ans++;
-                j++;
-            }
-            // cout<<a[i]<<' '<<ans<<' ' << j <<endl;
-        }
-        i++;
+        // cout<<ans<<endl;
+        j++;
     }
     cout<<ans<<"\n";
 }
