@@ -7,29 +7,35 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
+string s;
+int n;
+vector<vector<int>>dp;
+int Wowfactor(int id,int state){
+    if(state==3)return 1;
+    if(id==n)return 0;
+    if(dp[id][state]!=-1)return dp[id][state];
+    int ans=0;
 
+    ans+=Wowfactor(id+1,state);
+    if(state==0 && id+1<n && s[id]=='v'&&s[id+1]=='v'){
+        ans+=Wowfactor(id+1,1);
+    }
+    if(state==1 &&s[id]=='o'){
+        ans+=Wowfactor(id+1,2);
+    }
+    if(state==2 && id+1<n && s[id]=='v'&&s[id+1]=='v'){
+        ans+=Wowfactor(id+1,3);
+    }
+
+    return dp[id][state]=ans;
+}
 
 void I_Am_Here() {
-    int n;
-    string s;
     cin>>s;
     n = s.size();
+    dp = vector<vector<int>>(n+1,vector<int>(4,-1));
 
-    vector<vector<int>>dp(n+1,vector<int>(4,0));
-
-    for(int i =0 ; i<=n ; i++){
-        dp[i][0]=1;
-    }
-
-    for(int i=1 ; i<n ; i++){
-        if(s[i-1]=='v' && s[i]=='v'){
-            dp[]
-        }
-        else{
-            dp[i+1][1] = dp[i][1];
-        }
-    }
-
+    cout<<Wowfactor(0,0)<<"\n";
 
 }
 
