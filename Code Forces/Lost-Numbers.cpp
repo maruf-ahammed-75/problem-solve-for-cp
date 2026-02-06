@@ -19,14 +19,73 @@ void I_Am_Here() {
         }
     }
     vector<int>ans;
-    for(int i=1,x ; i<=6 ; i+=2){
-        cout<<"? "<<i<<" "<<i+1<<endl;
-        cin>>x;
+    int x;
 
-        pair<int,int>p=mp[x];
-        ans.push_back(p.ff);
-        ans.push_back(p.ss);
+    cout<<"? 1 2"<<endl;
+    cin>>x;
+    int y;
+    cout<<"? 2 3"<<endl;
+    cin>>y;
+
+    // cout<<mp[x].ff<<" "<<mp[x].ss<<" "<<mp[y].ff<<" "<<mp[y].ss<<endl;
+
+    if(mp[x].ff == mp[y].ff){
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[y].ss);
     }
+    else if(mp[x].ff == mp[y].ss){
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[y].ff);
+    }
+    else if(mp[x].ss == mp[y].ff){
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[y].ss);
+    }
+    else{
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[y].ff);
+    }
+
+
+
+
+
+
+
+
+    cout<<"? 4 5"<<endl;
+    cin>>x;
+    cout<<"? 5 6"<<endl;
+    cin>>y;
+
+    // cout<<mp[x].ff<<" "<<mp[x].ss<<" "<<mp[y].ff<<" "<<mp[y].ss<<endl;
+
+    if(mp[x].ff == mp[y].ff){
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[y].ss);
+    }
+    else if(mp[x].ff == mp[y].ss){
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[y].ff);
+    }
+    else if(mp[x].ss == mp[y].ff){
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[y].ss);
+    }
+    else{
+        ans.push_back(mp[x].ff);
+        ans.push_back(mp[x].ss);
+        ans.push_back(mp[y].ff);
+    }
+
+
     cout<<"! ";
     for(int i=0 ; i<ans.size() ; i++){
         cout<<ans[i]<<" ";
