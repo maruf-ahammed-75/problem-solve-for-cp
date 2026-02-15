@@ -66,7 +66,7 @@ int32_t main() {
     #endif
 
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int T = 1; T <= t; T++) {
         I_Am_Here();
     }

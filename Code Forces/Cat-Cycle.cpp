@@ -10,18 +10,18 @@
 using namespace std;
 
 void I_Am_Here() {
-    int n;
-    cin>>n;
-    vector<int>a(n+1);
-    for(int i=1 ; i<=n ; i++)cin>>a[i];
-    int ans =0 ;
-    for(int i=2 ; i<=n ; i++){
-        if(a[i]==a[i-1] || (a[i]+a[i-1])==7){
-            a[i]=0;
-            ans++;
-        }
+    int n,h;
+    cin>>n>>h;
+    h--;
+    if(n%2 == 0){
+        int ans = h%n;
+        cout<<ans+1<<endl;
     }
-    cout<<ans<<endl;
+    else{
+        int ans = h/(n/2) + h;
+        ans = ans%n;
+        cout<<ans+1<<endl;
+    }
 }
 
 int32_t main() {
