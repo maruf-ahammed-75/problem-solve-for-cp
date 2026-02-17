@@ -1,4 +1,4 @@
-" "<<bb[i]<<endl;
-        // cout<<ma[aa[i]]<<" "<<mb[bb[i]]<<" "<<mab[{aa[i],bb[i]}]<<endl;
-        // cout<<total<< " "<<n-total<<endl;
-        // cout<<endl;
+ ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
