@@ -1,7 +1,7 @@
 int connected_components;
 int maximum_size;
 struct DSU {  
-vector<int> parent, component_size,rank;
+    vector<int> parent, component_size,rank;
     // O(N)
     DSU(int _n) {
         connected_components = _n;
