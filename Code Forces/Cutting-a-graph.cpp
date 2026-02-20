@@ -44,38 +44,54 @@ struct DSU {
 };
 
 void I_Am_Here() {
-    int n,m;
-    cin>>n>>m;
+    int n,m,q;
+    cin>>n>>m>>q;
+    DSU dsu(n+1);
+    
     vector<pair<int,int>>a(m);
+    
     for(int i=0 ; i<m ; i++){
         cin>>a[i].ff>>a[i].ss;
     }
-
-    int q;
-    cin>>q;
-    vector<int>remo(q);
-    vector<int>order(m+1,0);
+    
+    vector<string>s(q);
+    vector<pair<int,int>>qu(q);
+    
+    map<pair<int,int>,int>mp;
+    
     for(int i=0 ; i<q ; i++){
-        cin>>remo[i];
-        remo[i]--;
-        order[remo[i]]=1;
+        string c;
+        int x,y;
+        cin>>s[i]>>qu[i].ff>>qu[i].ss;
+        if(s[i] == "cut"){
+            mp[{qu[i].ff,qu[i].ss}]=1;
+        }
     }
-
-    DSU dsu(n+1);
+    
     for(int i=0 ; i<m ; i++){
-        if(order[i]==0){
+        if(!mp[{a[i].ff,a[i].ss}] && !mp[{a[i].ss,a[i].ff}]){
             dsu.unite(a[i].ff,a[i].ss);
         }
     }
-    vector<int>ans(q);
-    for(int i= q-1 ; i>=0 ; i--){
-        ans[i]=dsu.com-1;
-        dsu.unite(a[remo[i]].ff,a[remo[i]].ss);
-    }
-    for(int i=0 ; i<q ; i++){
-        cout<<ans[i]<<"\n";
-    }
     
+    vector<string>ans;
+    
+    for(int i=q-1 ; i>=0 ; i--){
+        if(s[i]=="cut"){
+            dsu.unite(qu[i].ff,qu[i].ss);
+        }
+        else{
+            if(dsu.findParent(qu[i].ff) == dsu.findParent(qu[i].ss)){
+                ans.push_back("YES");
+            }
+            else{
+                ans.push_back("NO");
+            }
+        }
+    }
+    for(int i = ans.size() -1 ; i>=0 ; i--){
+        cout<<ans[i]<<endl;
+    }
 }
 
 int32_t main() {
@@ -83,10 +99,10 @@ int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    // #ifndef ONLINE_JUDGE
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-    // #endif
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
 
     int t = 1;
     // cin >> t;
