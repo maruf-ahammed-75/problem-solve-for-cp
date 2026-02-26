@@ -12,16 +12,10 @@ using namespace std;
 void I_Am_Here() {
     int n;
     cin>>n;
-    vector<int>a(n+1);
-    for(int i=1 ; i<=n ; i++)cin>>a[i];
-    int ans =0 ;
-    for(int i=2 ; i<=n ; i++){
-        if(a[i]==a[i-1] || (a[i]+a[i-1])==7){
-            a[i]=0;
-            ans++;
-        }
+    vector<int>a(n);
+    for(int i=0 ; i<n ; i++){
+        cin>>a[i];
     }
-    cout<<ans<<endl;
 }
 
 int32_t main() {
