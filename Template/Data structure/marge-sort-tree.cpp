@@ -13,7 +13,7 @@ struct Marge_Sort{
     
     void build(vector<int>& arr, int node, int start, int end) {
         if (start == end) {
-            tree[node] = {arr[start]};
+            tree[node].push_back(arr[start]);
             return;
         }
 
