@@ -17,7 +17,7 @@
 //                 cout<<endl;
 //                 return true;
 //             }
-//             s.insert(temp->next);
+//             s.insert(temp);
 //             temp = temp->next;
 //         }
 //         for(auto i:s)cout<<i<<' ';
