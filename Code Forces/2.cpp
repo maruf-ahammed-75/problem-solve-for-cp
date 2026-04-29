@@ -1,54 +1,47 @@
-#include <bits/stdc++.h>
-#define ll long long
-#define int long long
-#define ff first
-#define ss second
-#define full(a) a.begin(), a.end()
-#define endl "\n"
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
-
-using namespace std;
-
-void I_Am_Here() {
     int n;
-    cin>>n;
-    int sum=0;
-    if(n!=1)sum=1;
-    
-    for(int i=2 ; i*i<=n ; i++){
-        if(n%i==0){
-            sum+=i;
-            if(i!=(n/i)){
-                sum+=(n/i);
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    sort(a.begin(), a.end());
+
+    int l = 0, h = n, mexwf = 0;
+
+    while (l <= h) {
+        int m = l + (h - l) / 2;
+        vector<bool> u(m, false);
+        vector<int> r;
+
+        for (int x : a) {
+            if (x < m && !u[x]) {
+                u[x] = true;
+            } else {
+                r.push_back(x);
             }
         }
-    }
-    if(sum==n){
-        cout<<"perfect"<<endl;
-    }
-    else if(sum>n){
-        cout<<"abundant"<<endl;
-    }
-    else{
-        cout<<"deficient"<<endl;
-    }
-}
 
-int32_t main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+        int p = 0;
+        bool ok = true;
 
+        for (int i = 0; i < m; ++i) {
+            if (!u[i]) {
+                while (p < r.size() && r[p] < 2 * i + 1) {
+                    p++;
+                }
+                if (p == r.size()) {
+                    ok = false;
+                    break;
+                }
+                p++;
+            }
+        }
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-
-    int t = 1;
-    cin >> t;
-    for (int T = 1; T <= t; T++) {
-        I_Am_Here();
+        if (ok) {
+            mexwf = m;
+            l = m + 1;
+        } else {
+            h = m - 1;
+        }
     }
-    return 0;
-}
+    cout << mexwf << "\n";
