@@ -7,35 +7,39 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-string a,b;
-int n;
-vector<int>dp;
-int totalcost(int i){
-    if(i>=n)return 0;
-    if(dp[i]!=-1)return dp[i];
 
-
-    //virtical
-    int cost = (a[i]!=b[i]);
-    int ans = cost + totalcost(i+1);
-
-    //horizontal
-    if(i+1<n){
-        int cost2=0;
-        if(a[i]!=a[i+1])cost2++;
-        if(b[i]!=b[i+1])cost2++;
-
-        ans = min(ans,cost2 + totalcost(i+2) );
-    }
-
-    return dp[i]=ans; 
-}
 void I_Am_Here() {
-    
+    int n;
     cin>>n;
-    cin>>a>>b;
-    dp = vector<int>(n+10,-1);
-    cout<<totalcost(0)<<"\n";
+    vector<int> a(n),b(n);
+    int sum=0;
+
+    for(int i=0; i<n; i++){
+        cin>>a[i];
+        sum+=a[i];
+    }
+    int cur=INT_MAX;
+    int notMove =0 ;
+    map<int,int> mp;
+    for(int i=n-1 ; i>=0; i--){
+        cur = min(cur,a[i]);
+        b[i]=cur;
+        mp[b[i]]++;
+    }
+    for(int i=0 ; i<n ; i++){
+        notMove+=b[i];
+    }
+    // cout<<sum<<" "<<notMove<<"\n"; 
+    int valid_move = sum-notMove;
+    int x = valid_move;
+    for(auto i:mp){
+        // cout<<i.ff<<" "<<i.ss;
+        valid_move = max(x,x+(i.ss-1));
+        // cout<<" "<<valid_move<<"\n";
+    }
+    cout<<valid_move<<"\n";
+
+
 
     
 }

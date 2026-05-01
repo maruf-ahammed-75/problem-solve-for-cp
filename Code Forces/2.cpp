@@ -1,47 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+int get_mex(int l, int r, const vector<int>& a, int n) {
+    int sz = a.size();
+    while (l >= 0 && r < sz && a[l] == a[r]) {
+        l--;
+        r++;
+    }
+    l++;
+    r--;
+
+    if (l > r) return 0;
+
+    vector<int> c(n + 1, 0);
+    for (int k = l; k <= r; k++) {
+        if (a[k] < n) {
+            c[a[k]] = 1;
+        }
+    }
+
+    int m = 0;
+    while (c[m]) {
+        m++;
+    }
+
+    return m;
+}
+
+void solve() {
     int n;
     cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; ++i) {
+    int sz = 2 * n;
+    vector<int> a(sz);
+    int p1 = -1, p2 = -1;
+
+    for (int i = 0; i < sz; i++) {
         cin >> a[i];
-    }
-    sort(a.begin(), a.end());
-
-    int l = 0, h = n, mexwf = 0;
-
-    while (l <= h) {
-        int m = l + (h - l) / 2;
-        vector<bool> u(m, false);
-        vector<int> r;
-
-        for (int x : a) {
-            if (x < m && !u[x]) {
-                u[x] = true;
-            } else {
-                r.push_back(x);
-            }
-        }
-
-        int p = 0;
-        bool ok = true;
-
-        for (int i = 0; i < m; ++i) {
-            if (!u[i]) {
-                while (p < r.size() && r[p] < 2 * i + 1) {
-                    p++;
-                }
-                if (p == r.size()) {
-                    ok = false;
-                    break;
-                }
-                p++;
-            }
-        }
-
-        if (ok) {
-            mexwf = m;
-            l = m + 1;
-        } else {
-            h = m - 1;
+        if (a[i] == 0) {
+            if (p1 == -1) p1 = i;
+            else p2 = i;
         }
     }
-    cout << mexwf << "\n";
+    cout<<p1<<' '<<p2<<endl;
+    int ans = 0;
+    int ans1 = max(ans, get_mex(p1, p1, a, n));
+    int ans2 = max(ans, get_mex(p2, p2, a, n));
+    int ans3 = max(ans, get_mex((p1 + p2) / 2, (p1 + p2 + 1) / 2, a, n));
+    cout<<ans1<<' '<<ans2<<' '<<ans3<<endl;
+    cout << max({ans1, ans2, ans3}) << "\n";
+}
+int main(){
+    // ios_base::sync_with_stdio(false);
+    // cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    
+    while(t--) {
+        solve();
+    }
+    
+    return 0;
+}

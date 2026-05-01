@@ -8,56 +8,40 @@
 #define N cout<<"NO\n"
 using namespace std;
 
-
 void I_Am_Here() {
     int n;
     cin>>n;
-    vector<int> a(n);
-    for(int i=0; i<n; i++) {
+    vector<int> a(n),b(n);
+    int sum=0;
+
+    for(int i=0; i<n; i++){
         cin>>a[i];
+        sum+=a[i];
     }
-    sort(full(a));
-
-    int low = 0, high = n, mex = 0;
-
-    while (low <= high) {
-        int mid = (low+high)/2;
-        
-        vector<bool>flag(mid+1000, false);
-        vector<int> avi;
-
-        for (int i : a) {
-            if (i < mid && !flag[i]) {
-                flag[i] = true;
-            } else {
-                avi.push_back(i);
-            }
-        }
-
-        int id = 0;
-        bool isok = true;
-
-        for (int i = 0; i < mid ; ++i) {
-            if (!flag[i]) {
-                while (id < avi.size() && avi[id] < 2 * i + 1) {
-                    id++;
-                }
-                if (id == avi.size()) {
-                    isok = false;
-                    break;
-                }
-                id++;
-            }
-        }
-
-        if (isok) {
-            mex = mid;
-            low = mid + 1;
-        } else {
-            high = mid - 1;
-        }
+    int cur=INT_MAX;
+    int notMove =0 ;
+    map<int,int> mp;
+    for(int i=n-1 ; i>=0; i--){
+        cur = min(cur,a[i]);
+        b[i]=cur;
+        mp[b[i]]++;
     }
-    cout << mex << "\n";
+    for(int i=0 ; i<n ; i++){
+        notMove+=b[i];
+    }
+    // cout<<sum<<" "<<notMove<<"\n"; 
+    int valid_move = sum-notMove;
+    int x = valid_move;
+    for(auto i:mp){
+        // cout<<i.ff<<" "<<i.ss;
+        valid_move = max(valid_move,x+(i.ss-1));
+        // cout<<" "<<valid_move<<"\n";
+    }
+    cout<<valid_move<<"\n";
+
+
+
+    
 }
 
 int32_t main() {
