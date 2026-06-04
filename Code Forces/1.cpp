@@ -11,36 +11,27 @@ using namespace std;
 void I_Am_Here() {
     int n;
     cin>>n;
-    vector<int> a(n),b(n);
-    int sum=0;
-
-    for(int i=0; i<n; i++){
-        cin>>a[i];
-        sum+=a[i];
-    }
-    int cur=INT_MAX;
-    int notMove =0 ;
-    map<int,int> mp;
-    for(int i=n-1 ; i>=0; i--){
-        cur = min(cur,a[i]);
-        b[i]=cur;
-        mp[b[i]]++;
-    }
+    vector<int>a(n);
     for(int i=0 ; i<n ; i++){
-        notMove+=b[i];
+        cin>>a[i];
     }
-    // cout<<sum<<" "<<notMove<<"\n"; 
-    int valid_move = sum-notMove;
-    int x = valid_move;
-    for(auto i:mp){
-        // cout<<i.ff<<" "<<i.ss;
-        valid_move = max(valid_move,x+(i.ss-1));
-        // cout<<" "<<valid_move<<"\n";
+    bool flag = 1;
+    vector<int>ans;
+    for(int i=n-1 ; i>=0 ; i--){
+        if(flag && a[i]>0){
+            ans.push_back(i+1);
+            flag=0;
+        }
+        if(!flag && a[i]<0){
+            ans.push_back(i+1);
+            flag=1;
+        }
     }
-    cout<<valid_move<<"\n";
-
-
-
+    cout<<ans.size()<<"\n";
+    for(auto i:ans){
+        cout<<i<<" ";
+    }
+    cout<<"\n";
     
 }
 
