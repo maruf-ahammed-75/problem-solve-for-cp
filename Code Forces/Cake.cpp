@@ -7,7 +7,7 @@
 #define Y cout<<"YES\n"
 #define N cout<<"NO\n"
 using namespace std;
-
+//
 void I_Am_Here() {
     int n;
     cin>>n;
